@@ -1,9 +1,9 @@
-# Experimentally defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection
+# Experimentally Defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-Developed using Python 2.7, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org),
+Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org),
 
-![Examples](https://github.com/atharva333/fire-detection/Images/SP_1.png)
-[](https://github.com/atharva333/fire-detection/Images/SP_Partial.png)
+![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)
+[](https://github.com/atharva333/fire-detection/blob/master/Images/SP_Partial.png)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -63,10 +63,10 @@ $ python binary.py models/test.mp4
 ```
 ---
 
-* The main directory contains the binary and superpixel python files
-* Both files take a video file as argument to run the models on, therefore a filepath to a video must be provided
-* The preloaded models will be downloaded using the shell script 'download-models.sh' which will create a models directory that contains the data
-* The TensorFlow models are in the Code/Application/tflearn directory
+* The main directory contains the binary.py and superpixel.py files
+* To run the models you require a video file as argument - for example 'python binary.py test.mp4'
+* The pretrained models will be downloaded using the shell script 'download-models.sh' which will create a models directory that contains the data
+* The TensorFlow code for the FireNet and InceptionV1-OnFire are in the Code/Application/tflearn directory
 * binary.py file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen respectively
 
 ---
