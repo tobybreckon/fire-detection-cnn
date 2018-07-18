@@ -1,9 +1,9 @@
-# EXPERIMENTALLY DEFINED CONVOLUTIONAL NEURAL NETWORK ARCHITECTURE VARIANTS FOR NON-TEMPORAL REAL-TIME FIRE DETECTION
+# Experimentally defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection
 
 Developed using Python 2.7, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org),
 
-![Examples](https://github.com/atharva333/fire-detection/images/SP_1.png)
-[](https://github.com/atharva333/fire-detection/images/SP_Partial.png)
+![Examples](https://github.com/atharva333/fire-detection/Images/SP_1.png)
+[](https://github.com/atharva333/fire-detection/Images/SP_Partial.png)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -52,7 +52,7 @@ Produces a depth map output image based on a monocular color image input.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example of the results of the approach
 
 ---
-## Instructions to run the inference code using PyTorch 0.3.1:
+## Instructions to run the code:
 
 ```
 $ git clone https://github.com/atharva333/fire-detection.git
@@ -63,12 +63,11 @@ $ python binary.py models/test.mp4
 ```
 ---
 
-The output results are written in a directory taken as an argument to the test harness ('./results' by default):
-* the script entitled "download_pretrained_models.sh" will download the required pre-trained models and checks the downloaded file integrity using MD5 checksum.
-* the checkpoints that are available for direct download were created using pyTorch 0.3.1 and will not work if you are using pyTorch 0.4.0. The provided python script named ' remove_running_stats.py' will remedy the situation.
-* the file with the suffix "_original" is the original input image.
-* the file with the suffix "_restyled" is the style transferred image.
-* the file with the suffix "_depth" is the output depth image.
+* The main directory contains the binary and superpixel python files
+* Both files take a video file as argument to run the models on, therefore a filepath to a video must be provided
+* The preloaded models will be downloaded using the shell script 'download-models.sh' which will create a models directory that contains the data
+* The TensorFlow models are in the Code/Application/tflearn directory
+* binary.py file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen respectively
 
 ---
 
@@ -86,19 +85,17 @@ The output results are written in a directory taken as an argument to the test h
 
 ## Reference:
 
-[Real-Time Monocular Depth Estimation using Synthetic Data with Domain Adaptation via Image Style Transfer](http://breckon.eu/toby/publications/papers/abarghouei18monocular.pdf)
-(A. Atapour-Abarghouei, T.P. Breckon), In Proc. Conf. Computer Vision and Pattern Recognition, 2018. [[pdf](http://breckon.eu/toby/publications/papers/abarghouei18monocular.pdf)] [[demo](https://vimeo.com/260393753)]
-
+[Experimentally defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection](http://breckon.eu/toby/publications/papers/dunnings18fire.pdf)
+(Dunnings and Breckon), In Proc. International Conference on Image Processing IEEE, 2018.
 ```
-@InProceedings{abarghouei18monocular,
-  author = 		{Atapour-Abarghouei, A. and Breckon, T.P.},
-  title = 		{Real-Time Monocular Depth Estimation using Synthetic Data with Domain Adaptation},
-  booktitle = 	{Proc. Computer Vision and Pattern Recognition},
-  pages =		{1-8},
+@InProceedings{dunnings18fire,
+  author = 		{Dunnings, A. and Breckon, T.P.},
+  title = 		{Experimentally defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection},
+  booktitle = 	{Proc. International Conference on Image Processing},
+  pages =		{1-5},
   year = 		{2018},
-  month = 		{June},
   publisher = 	{IEEE},
-  keywords = 		{monocular depth, generative adversarial network, GAN, depth map, disparity, depth from single image},
+  keywords = 		{simplified CNN, fire detection, real-time, non-temporal, non-stationary visual fire detetction},
 }
 
 ```
