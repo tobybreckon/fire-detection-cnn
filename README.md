@@ -1,14 +1,10 @@
-# Experimentally Defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection
+# Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
 Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org),
 
-![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)
-[](https://github.com/atharva333/fire-detection/blob/master/Images/SP_Partial.png)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+## Architecture:
+![FireNet](https://github.com/atharva333/fire-detection/blob/master/Images/FireNet.png)
+![InceptionV1-onFire](https://github.com/atharva333/fire-detection/blob/master/Images/InceptionV1-OnFire.png)
 
 ## Abstract:
 
@@ -52,7 +48,7 @@ Produces a depth map output image based on a monocular color image input.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example of the results of the approach
 
 ---
-## Instructions to run the code:
+## Instructions to test pretrained models:
 
 ```
 $ git clone https://github.com/atharva333/fire-detection.git
@@ -72,20 +68,21 @@ $ python binary.py models/test.mp4
 ---
 
 
-## Example:
-[![Video Example](https://github.com/atapour/styleDepth-Inference/blob/master/imgs/thumbnail.jpg)](https://vimeo.com/260393753 "Video Example - Click to Play")
-
+## Example video:
+![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)
+![](https://github.com/atharva333/fire-detection/blob/master/Images/SP_Partial.png)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Video Example - click image above to play.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Video Example - click image above to play.
 
 ---
 
 ## Reference:
 
-[Experimentally defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection](http://breckon.eu/toby/publications/papers/dunnings18fire.pdf)
+[Experimentally defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection](http://breckon.eu/toby/publications/papers/dunnings18fire.pdf)
 (Dunnings and Breckon), In Proc. International Conference on Image Processing IEEE, 2018.
 ```
 @InProceedings{dunnings18fire,
@@ -94,6 +91,7 @@ $ python binary.py models/test.mp4
   booktitle = 	{Proc. International Conference on Image Processing},
   pages =		{1-5},
   year = 		{2018},
+  month = 	 {September},
   publisher = 	{IEEE},
   keywords = 		{simplified CNN, fire detection, real-time, non-temporal, non-stationary visual fire detetction},
 }
