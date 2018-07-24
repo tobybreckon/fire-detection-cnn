@@ -8,7 +8,7 @@ Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/ins
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FireNet architecture (above)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FireNet architecture (above)
 ![InceptionV1-onFire](https://github.com/atharva333/fire-detection/blob/master/Images/InceptionV1-OnFire.png)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -50,12 +50,8 @@ Produces a depth map output image based on a monocular color image input.
 * The training was in part performed based on the code from [https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix), and we would like to thank the authors and contributors.
 
 
-![](https://github.com/atapour/styleDepth-Inference/blob/master/imgs/sample.png)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Example of the results of the approach
+![](https://github.com/atharva333/fire-detection/blob/master/Images/slic-stages.png)
+Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
 
 ---
 ## Instructions to test pretrained models:
@@ -73,13 +69,13 @@ $ python binary.py models/test.mp4
 * To run the models you require a video file as argument - for example 'python binary.py test.mp4'
 * The pretrained models will be downloaded using the shell script 'download-models.sh' which will create a models directory that contains the data
 * The TensorFlow code for the FireNet and InceptionV1-OnFire are in the Code/Application/tflearn directory
-* binary.py file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen respectively
+* binary.py file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen accordingly
 
 ---
 
 
 ## Example video:
-[![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)] (https://vimeo.com/260393753)
+[![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)](https://vimeo.com/260393753)
 Video Example - click image above to play.
 
 ---
@@ -95,7 +91,7 @@ Video Example - click image above to play.
   booktitle = 	{Proc. International Conference on Image Processing},
   pages =		{1-5},
   year = 		{2018},
-  month = 	 {September},
+  month = 		{September},
   publisher = 	{IEEE},
   keywords = 		{simplified CNN, fire detection, real-time, non-temporal, non-stationary visual fire detetction},
 }
