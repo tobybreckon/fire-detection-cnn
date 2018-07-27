@@ -41,14 +41,15 @@ fire region detection."_
 ---
 
 ## Reference implementation:
-Produces a depth map output image based on a monocular color image input.
-* The input RGB image will first be transformed into the style of the images captured from a highly realistic synthetic virtual environment, on which the depth prediction network is trained.
-* The provided color image is used as the input to [CycleGAN](https://junyanz.github.io/CycleGAN/), which transforms the style of the image. Image style transfer is used as a method of domain adaptation.
-* The style transferred image is used as the input to a model trained on synthetic images and can produce pixel-perfect depth outputs.
-* The code provides an inference pipeline and can be run using the test harness: run_test.py
-* Example images are provided in the 'Examples' directory.
-* The training was in part performed based on the code from [https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix), and we would like to thank the authors and contributors.
-
+Binary file shows whether frame contains fire, superpixel breaks down the frame into segments and performs classification on each segment
+* The binary classifier was trained in order to achieve fire detection in a given frame
+  * The dataset used contained popular datasets and additional pictures taken from online fire videos
+  * The two convolutional neural network architectures FireNet and InceptionV1-OnFire were based on existing architectures and were experimentally tweaked to achieve real-time performance
+* The superpixel classifier was trained for fire detection and localization within a given frame
+  * The frame is split into segments using SLIC superpixel segmentation technique
+  * The classifier is trained on detecting fire given a superpixel segment
+  * The segments can then be used to show regions containing fire
+  * SP-InceptionV1-OnFire convolutional architecture was developed based on Inception module from the GoogLeNet architecture
 
 ![](https://github.com/atharva333/fire-detection/blob/master/Images/slic-stages.png)
 Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
@@ -75,7 +76,7 @@ $ python binary.py models/test.mp4
 
 
 ## Example video:
-[![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)](https://vimeo.com/260393753)
+[![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)](https://youtu.be/RcNj8aMDer4)
 Video Example - click image above to play.
 
 ---
