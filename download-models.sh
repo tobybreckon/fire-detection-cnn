@@ -19,7 +19,7 @@ echo "Unpacking the zip file..."
 
 unzip -q checkpoints.zip
 
-cp -R dunnings-2018-fire-detection-pretrained-models/ ../Models/ 
+cp -R dunnings-2018-fire-detection-pretrained-models/. . 
 
 rm checkpoints.zip && rm -r dunnings-2018-fire-detection-pretrained-models/
 
