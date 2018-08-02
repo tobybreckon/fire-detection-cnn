@@ -1,23 +1,23 @@
 echo "Downloading pretrained models..."
 
-mkdir models
+mkdir Models
 
-MODELS=./models/checkpoints.zip
-URL_MODELS=https://community.dur.ac.uk/atharva.s.deshmukh/test/Localisation_Demo.mp4
+MODELS=./Models/checkpoints.zip
+URL_MODELS=https://collections.durham.ac.uk/downloads/r19880vq98m
 
 wget --quiet --show-progress $URL_MODELS -O $MODELS
 
-# echo "checking the MD5 checksum for downloaded models..."
+echo "checking the MD5 checksum for downloaded models..."
 
 cd models
 
-# CHECK_SUM_CHECKPOINTS='b176b00450ce9aaf3ef812087ed3ef49  checkpoints.zip'
+CHECK_SUM_CHECKPOINTS='dunnings-2018-fire-detection-pretrained-models  checkpoints.zip'
 
-# echo $CHECK_SUM_CHECKPOINTS | md5sum -c
+echo $CHECK_SUM_CHECKPOINTS | md5sum -c
 
-# echo "Unpacking the zip file..."
+echo "Unpacking the zip file..."
 
-# unzip -q checkpoints.zip && rm checkpoints.zip && rm README.txt
+unzip -q checkpoints.zip && rm checkpoints.zip && rm README.txt
 
 echo "All Done!!"
 
