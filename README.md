@@ -1,6 +1,6 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org),
+Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org) (requires ximgproc module for superpixel segmentation),
 
 ## Architecture:
 ![FireNet](https://github.com/atharva333/fire-detection/blob/master/Images/FireNet.png)
@@ -50,6 +50,8 @@ Binary file shows whether frame contains fire, superpixel breaks down the frame 
   * The classifier is trained on detecting fire given a superpixel segment
   * The segments can then be used to show regions containing fire
   * SP-InceptionV1-OnFire convolutional architecture was developed based on Inception module from the GoogLeNet architecture
+* Custom dataset used for training can be found on [Durham Collections](https://collections.durham.ac.uk/files/r2d217qp536)
+* Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training
 
 ![](https://github.com/atharva333/fire-detection/blob/master/Images/slic-stages.png)
 Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
