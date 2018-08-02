@@ -17,7 +17,11 @@ echo $CHECK_SUM_CHECKPOINTS | md5sum -c
 
 echo "Unpacking the zip file..."
 
-unzip -q checkpoints.zip && rm checkpoints.zip && rm README.txt
+unzip -q checkpoints.zip
+
+cp -R dunnings-2018-fire-detection-pretrained-models/ ../Models/ 
+
+rm checkpoints.zip && rm -r dunnings-2018-fire-detection-pretrained-models/
 
 echo "All Done!!"
 
