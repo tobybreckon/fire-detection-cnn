@@ -1,4 +1,4 @@
-''' App for localization, supply video as argument 
+''' App for localization, supply video as argument
     Runs superpixel fire detection script using models'''
 
 import cv2
@@ -12,7 +12,7 @@ import time
 #from skimage.util import img_as_float
 
 # Insert filepath of tflearn folder which contains cnn architecture files
-sys.path.insert(0, 'Code/Application/tflearn')
+sys.path.insert(0, 'tflearn')
 
 from firenet import *
 from inceptionv1onfire import *
@@ -67,12 +67,12 @@ if len(sys.argv) == 2:
         # sigma = GaussianBlur kernel, n_segments = number of superpxiels
         #segments = slic(img_as_float(small_frame), n_segments = 100, sigma = 5)
 
-        # OpenCV imgproc SLIC implementation below 
-        
+        # OpenCV imgproc SLIC implementation below
+
         #small_frame = cv2.GaussianBlur(small_frame, (3,3), 5)
         slic = cv2.ximgproc.createSuperpixelSLIC(small_frame, region_size=22)
         slic.iterate(10)
-        
+
 
         # getLabels method returns the different superpixel segments
         segments = slic.getLabels()

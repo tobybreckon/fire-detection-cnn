@@ -5,7 +5,7 @@ import os
 import sys
 import time
 
-sys.path.insert(0, 'Code/Application/tflearn')
+sys.path.insert(0, 'tflearn')
 
 from firenet import *
 from inceptionv1onfire import *
