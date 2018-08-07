@@ -42,22 +42,19 @@ fire region detection."_
 ---
 
 ## Reference implementation:
-The binary detection approach shows whether frame contains fire, wheras the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment:
+The binary detection approach shows whether frame contains fire globally, wheras the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment.
 
-* The binary classifier was trained in order to achieve fire detection in a given frame globally.
-  * The dataset used contained popular datasets and additional pictures taken from online fire videos.
-  * The two convolutional neural network architectures FireNet and InceptionV1-OnFire were based on existing architectures and were experimentally tweaked to achieve real-time performance.
+The two convolutional neural network architectures FireNet and InceptionV1-OnFire were based on existing architectures and were experimentally tweaked to achieve real-time performance on the global full-frame fire detection task. Full details are presented in the accompanying research paper.
   
-* The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
+The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
   * The frame is split into segments using SLIC superpixel segmentation technique.
-  * The classifier is trained on detecting fire given a superpixel segment.
-  * The segments can then be used to show regions containing fire.
-  * SP-InceptionV1-OnFire convolutional architecture was developed based on Inception module from the GoogLeNet architecture.
+  * The SP-InceptionV1-OnFire convolutional architecture is trained to detect fire in a given superpixel segment.
+  * At run-time, the SP-InceptionV1-OnFire network is run on every superpixel from the SLIC segmentation output.
  
 Training datasets:
   
-* The custom dataset used for training can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497)
-* Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training.
+* The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497)
+* Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
 ![](https://github.com/atharva333/fire-detection/blob/master/Images/slic-stages.png)
 Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
@@ -76,7 +73,7 @@ $ python binary.py models/test.mp4
 
 * The main directory contains the ```binary.py``` and ```superpixel.py``` files
 * To run the models you require a video file as argument - for example ```python binary.py test.mp4```
-* The pretrained models will be downloaded using the shell script 'download-models.sh' which will create a models directory that contains the data
+* The pretrained models will be downloaded using the shell script ```download-models.sh``` which will create a models directory that contains the data
 * The TensorFlow code for the FireNet and InceptionV1-OnFire are in the ```tflearn``` directory
 * ```binary.py``` file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen accordingly
 
