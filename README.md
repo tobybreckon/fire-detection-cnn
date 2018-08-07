@@ -1,6 +1,7 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
 Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org) 
+
 (requires opencv extra modules - ximgproc module for superpixel segmentation)
 
 ## Architecture:
