@@ -1,6 +1,6 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org) (requires ximgproc module for superpixel segmentation),
+Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org) (requires opencv extra modules - ximgproc module for superpixel segmentation),
 
 ## Architecture:
 ![FireNet](https://github.com/atharva333/fire-detection/blob/master/Images/FireNet.png)
@@ -41,17 +41,19 @@ fire region detection."_
 ---
 
 ## Reference implementation:
-Binary file shows whether frame contains fire, superpixel breaks down the frame into segments and performs classification on each segment
-* The binary classifier was trained in order to achieve fire detection in a given frame
-  * The dataset used contained popular datasets and additional pictures taken from online fire videos
-  * The two convolutional neural network architectures FireNet and InceptionV1-OnFire were based on existing architectures and were experimentally tweaked to achieve real-time performance
-* The superpixel classifier was trained for fire detection and localization within a given frame
-  * The frame is split into segments using SLIC superpixel segmentation technique
-  * The classifier is trained on detecting fire given a superpixel segment
-  * The segments can then be used to show regions containing fire
-  * SP-InceptionV1-OnFire convolutional architecture was developed based on Inception module from the GoogLeNet architecture
-* Custom dataset used for training can be found on [Durham Collections](https://collections.durham.ac.uk/files/r2d217qp536)
-* Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training
+The binary detection approach shows whether frame contains fire, wheras the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment:
+
+* The binary classifier was trained in order to achieve fire detection in a given frame globally.
+  * The dataset used contained popular datasets and additional pictures taken from online fire videos.
+  * The two convolutional neural network architectures FireNet and InceptionV1-OnFire were based on existing architectures and were experimentally tweaked to achieve real-time performance.
+  
+* The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
+  * The frame is split into segments using SLIC superpixel segmentation technique.
+  * The classifier is trained on detecting fire given a superpixel segment.
+  * The segments can then be used to show regions containing fire.
+  * SP-InceptionV1-OnFire convolutional architecture was developed based on Inception module from the GoogLeNet architecture.
+* The custom dataset used for training can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497)
+* Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training.
 
 ![](https://github.com/atharva333/fire-detection/blob/master/Images/slic-stages.png)
 Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
@@ -60,22 +62,21 @@ Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after 
 ## Instructions to test pretrained models:
 
 ```
-$ git clone https://github.com/atharva333/fire-detection.git
-$ cd fire-detection
+$ git clone https://github.com/tobybreckon/fire-detection-cnn.git
+$ cd fire-detection-cnn
 $ chmod +x ./download-models.sh
 $ ./download-models.sh
 $ python binary.py models/test.mp4
 ```
 ---
 
-* The main directory contains the binary.py and superpixel.py files
-* To run the models you require a video file as argument - for example 'python binary.py test.mp4'
+* The main directory contains the ```binary.py``` and ```superpixel.py``` files
+* To run the models you require a video file as argument - for example ```python binary.py test.mp4```
 * The pretrained models will be downloaded using the shell script 'download-models.sh' which will create a models directory that contains the data
-* The TensorFlow code for the FireNet and InceptionV1-OnFire are in the Code/Application/tflearn directory
-* binary.py file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen accordingly
+* The TensorFlow code for the FireNet and InceptionV1-OnFire are in the ```tflearn``` directory
+* ```binary.py``` file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen accordingly
 
 ---
-
 
 ## Example video:
 [![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)](https://youtu.be/RcNj8aMDer4)
@@ -89,14 +90,14 @@ Video Example - click image above to play.
 (Dunnings and Breckon), In Proc. International Conference on Image Processing IEEE, 2018.
 ```
 @InProceedings{dunnings18fire,
-  author = 		{Dunnings, A. and Breckon, T.P.},
-  title = 		{Experimentally defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection},
-  booktitle = 	{Proc. International Conference on Image Processing},
-  pages =		{1-5},
-  year = 		{2018},
-  month = 		{September},
-  publisher = 	{IEEE},
-  keywords = 		{simplified CNN, fire detection, real-time, non-temporal, non-stationary visual fire detetction},
+  author =     {Dunnings, A. and Breckon, T.P.},
+  title =      {Experimentally defined Convolutional Nerual Network Architecture Variants for Non-temporal Real-time Fire Detection},
+  booktitle =  {Proc. International Conference on Image Processing},
+  pages =      {1-5},
+  year =       {2018},
+  month =      {September},
+  publisher =  {IEEE},
+  keywords =   {simplified CNN, fire detection, real-time, non-temporal, non-stationary visual fire detection},
 }
 
 ```
