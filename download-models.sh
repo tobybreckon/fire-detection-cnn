@@ -7,7 +7,7 @@ URL_MODELS=https://collections.durham.ac.uk/downloads/r19880vq98m
 
 curl --progress-bar $URL_MODELS > $MODELS
 
-cd $MODELS
+cd models
 
 echo "Unpacking the zip file..."
 
