@@ -52,6 +52,9 @@ The binary detection approach shows whether frame contains fire, wheras the supe
   * The classifier is trained on detecting fire given a superpixel segment.
   * The segments can then be used to show regions containing fire.
   * SP-InceptionV1-OnFire convolutional architecture was developed based on Inception module from the GoogLeNet architecture.
+ 
+Training datasets:
+  
 * The custom dataset used for training can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497)
 * Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training.
 
