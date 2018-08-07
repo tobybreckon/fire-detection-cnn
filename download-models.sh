@@ -1,19 +1,13 @@
 echo "Downloading pretrained models..."
 
-mkdir Models
+mkdir models
 
-MODELS=./Models/checkpoints.zip
+MODELS=./models/checkpoints.zip
 URL_MODELS=https://collections.durham.ac.uk/downloads/r19880vq98m
 
 curl --progress-bar $URL_MODELS > $MODELS
 
-echo "checking the MD5 checksum for downloaded models..."
-
-cd Models
-
-CHECK_SUM_CHECKPOINTS='dunnings-2018-fire-detection-pretrained-models  checkpoints.zip'
-
-echo $CHECK_SUM_CHECKPOINTS | md5sum -c
+cd $MODELS
 
 echo "Unpacking the zip file..."
 
