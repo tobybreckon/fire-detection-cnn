@@ -1,6 +1,6 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org) 
+Developed using Python 2.7.12, [TensorFlow 1.8.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org)
 
 (requires opencv extra modules - ximgproc module for superpixel segmentation)
 
@@ -46,14 +46,14 @@ fire region detection."_
 The binary detection approach shows whether frame contains fire globally, wheras the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment.
 
 The two convolutional neural network architectures FireNet and InceptionV1-OnFire were based on existing architectures and were experimentally tweaked to achieve real-time performance on the global full-frame fire detection task. Full details are presented in the accompanying research paper.
-  
+
 The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
   * The frame is split into segments using SLIC superpixel segmentation technique.
   * The SP-InceptionV1-OnFire convolutional architecture is trained to detect fire in a given superpixel segment.
   * At run-time, the SP-InceptionV1-OnFire network is run on every superpixel from the SLIC segmentation output.
- 
+
 Training datasets:
-  
+
 * The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497)
 * Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
@@ -66,8 +66,7 @@ Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after 
 ```
 $ git clone https://github.com/tobybreckon/fire-detection-cnn.git
 $ cd fire-detection-cnn
-$ chmod +x ./download-models.sh
-$ ./download-models.sh
+$ sh ./download-models.sh
 $ python binary.py models/test.mp4
 ```
 ---
