@@ -81,7 +81,7 @@ def construct_inceptionv1onfire (x,y):
     network = regression(loss, optimizer='momentum',
                          loss='categorical_crossentropy',
                          learning_rate=0.001)
-    model = tflearn.DNN(network, checkpoint_path='googlenetv2',
+    model = tflearn.DNN(network, checkpoint_path='inceptiononv1onfire',
                         max_checkpoints=1, tensorboard_verbose=2)
 
     return model
@@ -94,7 +94,7 @@ def construct_inceptionv1onfire (x,y):
 model = construct_inceptionv1onfire (224, 224)
 print("Constructed InceptionV1-OnFire ...")
 
-model.load(os.path.join("models/InceptionV1-OnFire", "googlenetv2-7600"),weights_only=True)
+model.load(os.path.join("models/InceptionV1-OnFire", "inceptiononv1onfire"),weights_only=True)
 print("Loaded CNN network weights ...")
 
 ################################################################################

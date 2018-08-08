@@ -55,7 +55,7 @@ def construct_firenet (x,y):
     network = regression(network, optimizer='momentum',
                          loss='categorical_crossentropy',
                          learning_rate=0.001)
-    model = tflearn.DNN(network, checkpoint_path='alexnet-v4',
+    model = tflearn.DNN(network, checkpoint_path='firenet',
                         max_checkpoints=1, tensorboard_verbose=2)
 
     return model
