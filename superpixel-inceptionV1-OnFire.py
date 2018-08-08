@@ -28,7 +28,7 @@ from tflearn.layers.estimator import regression
 
 def construct_inceptionv1onfire (x,y):
 
-    # Build network as per arhcitecture in [Dunnings/Breckon, 2018]
+    # Build network as per architecture in [Dunnings/Breckon, 2018]
 
     network = input_data(shape=[None, y, x, 3])
 
@@ -156,7 +156,7 @@ if len(sys.argv) == 2:
 
         # getLabels method returns the different superpixel segments
         segments = slic.getLabels()
-        
+
         # print(len(np.unique(segments)))
 
         # loop over the unique segment values

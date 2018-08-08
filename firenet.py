@@ -25,7 +25,7 @@ from tflearn.layers.estimator import regression
 
 def construct_firenet (x,y):
 
-    # Build network as per arhcitecture in [Dunnings/Breckon, 2018]
+    # Build network as per architecture in [Dunnings/Breckon, 2018]
 
     network = tflearn.input_data(shape=[None, y, x, 3], dtype=tf.float32)
 

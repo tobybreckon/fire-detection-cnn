@@ -20,23 +20,14 @@ Developed using Python 3.4.6, [TensorFlow 1.9.0](https://www.tensorflow.org/inst
 
 ## Abstract:
 
-_"In  this  work  we  investigate  the  automatic  detection  of  fire
-pixel  regions  in  video  (or  still)  imagery  within  real-time
-bounds without reliance on temporal scene information.  As
-an extension to prior work in the field, we consider the perfor-
-mance  of  experimentally  defined,  reduced  complexity  deep
-convolutional neural network architectures for this task. Con-
-trary to contemporary trends in the field, our work illustrates
-maximal accuracy of 0.93 for whole image binary fire detec-
-tion,  with  0.89  accuracy  within  our  superpixel  localization
-framework  can  be  achieved,  via  a  network  architecture  of
-signficantly reduced complexity. These reduced architectures
-additionally  offer  a  3-4  fold  increase  in  computational  per-
-formance offering up to 17 fps processing on contemporary
-hardware  independent  of  temporal  information.    We  show
-the  relative  performance  achieved  against  prior  work  using
-benchmark datasets to illustrate maximally robust real-time
-fire region detection."_
+_"In  this  work  we  investigate  the  automatic  detection  of  fire pixel  regions  in  video  (or  still)  imagery  within  real-time
+bounds without reliance on temporal scene information.  As an extension to prior work in the field, we consider the performance  of  
+experimentally  defined,  reduced  complexity  deep convolutional neural network architectures for this task. Contrary to contemporary trends in the field, our work illustrates
+maximal accuracy of 0.93 for whole image binary fire detection,  with  0.89  accuracy  within  our  superpixel  localization
+framework  can  be  achieved,  via  a  network  architecture  of significantly reduced complexity. These reduced architectures
+additionally  offer  a  3-4  fold  increase  in  computational  performance offering up to 17 fps processing on contemporary
+hardware  independent  of  temporal  information.    We  show the  relative  performance  achieved  against  prior  work  using
+benchmark datasets to illustrate maximally robust real-time fire region detection."_
 
 [[Dunnings and Breckon, In Proc. International Conference on Image Processing IEEE, 2018](http://breckon.eu/toby/publications/papers/dunnings18fire.pdf)]
 
@@ -58,7 +49,7 @@ Training datasets:
 * Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
 ![](https://github.com/atharva333/fire-detection/blob/master/Images/slic-stages.png)
-Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
+Original frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
 
 ---
 ## Instructions to test pre-trained models:
@@ -76,7 +67,7 @@ $ python superpixels-inceptionV1-OnFire.py models/test.mp4
 * The main directory contains the ```firenet.py``` and ```inceptionV1-OnFire.py``` files corresponding to the two binary (full-frame) detection models from the paper.
 * The additional ```superpixels-inceptionV1-OnFire.py``` file correspondes to the superpixel based in-frame fire localization from the paper.
 
-* The pre-trained models can be downloaded using the shell script ```download-models.sh``` which will create a models directory to contains the network weights data
+* The pre-trained models can be downloaded using the shell script ```download-models.sh``` which will create a models directory to contains the network weights data.
 
 ---
 

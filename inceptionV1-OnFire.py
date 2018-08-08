@@ -26,7 +26,7 @@ from tflearn.layers.estimator import regression
 
 def construct_inceptionv1onfire (x,y):
 
-    # Build network as per arhcitecture in [Dunnings/Breckon, 2018]
+    # Build network as per architecture in [Dunnings/Breckon, 2018]
 
     network = input_data(shape=[None, y, x, 3])
 
