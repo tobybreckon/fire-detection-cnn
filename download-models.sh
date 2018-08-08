@@ -17,7 +17,7 @@ MODELS_MD5_SUM=98815a8594a18f1cafb3e87af8f9b0f1
 
 set -e
 
-# check for required commands to cpwnload and md5 check
+# check for required commands to download and md5 check
 
 (command -v curl | grep curl > /dev/null) ||
   (echo "Error: curl command not found, cannot download!")
@@ -31,7 +31,7 @@ set -e
 
 echo "Downloading pretrained models..."
 
-mkdir $MODEL_DIR_LOCAL_TARGET
+mkdir -p $MODEL_DIR_LOCAL_TARGET
 
 MODELS=./$MODEL_DIR_LOCAL_TARGET/$MODELS_FILE_NAME
 
