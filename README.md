@@ -1,6 +1,6 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-Developed using Python 3.4.6, [TensorFlow 1.9.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org)
+Tested using Python 3.4.6, [TensorFlow 1.9.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org)
 
 (requires opencv extra modules - ximgproc module for superpixel segmentation)
 
@@ -34,7 +34,7 @@ benchmark datasets to illustrate maximally robust real-time fire region detectio
 ---
 
 ## Reference implementation:
-The binary detection approach shows whether frame contains fire globally, wheras the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment.
+The binary detection approach shows whether frame contains fire globally, whereas the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment.
 
 The two convolutional neural network architectures FireNet and InceptionV1-OnFire were based on existing architectures and were experimentally tweaked to achieve real-time performance on the global full-frame fire detection task. Full details are presented in the accompanying research paper.
 
@@ -45,11 +45,11 @@ The superpixel based approach was trained to perform superpixel based fire detec
 
 Training datasets:
 
-* The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497)
+* The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497) together with the trained network models.
 * Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
 ![](https://github.com/atharva333/fire-detection/blob/master/Images/slic-stages.png)
-Original frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
+Original frame (left), Frame after superpixel segmentation (middle), Frame after superpixel fire prediction (right)
 
 ---
 ## Instructions to test pre-trained models:
@@ -67,7 +67,7 @@ $ python superpixels-inceptionV1-OnFire.py models/test.mp4
 * The main directory contains the ```firenet.py``` and ```inceptionV1-OnFire.py``` files corresponding to the two binary (full-frame) detection models from the paper.
 * The additional ```superpixels-inceptionV1-OnFire.py``` file correspondes to the superpixel based in-frame fire localization from the paper.
 
-* The pre-trained models can be downloaded using the shell script ```download-models.sh``` which will create a models directory to contains the network weights data.
+* To use these scripts the pre-trained network models must be first downloaded using the shell script ```download-models.sh``` which will create a models directory to contain the network weight data.
 
 ---
 
