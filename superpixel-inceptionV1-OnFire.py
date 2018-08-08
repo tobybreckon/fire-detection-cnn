@@ -146,13 +146,12 @@ if len(sys.argv) == 2:
 
         # re-size image to network input size and perform prediction
 
-        small_frame = cv2.resize(frame, (rows, cols), cv2.INTER_AREA)
+        small_frame = cv2.resize(frame, (rows, cols), cv2.INTER_AREA);
 
         # OpenCV imgproc SLIC superpixels implementation below
 
         slic = cv2.ximgproc.createSuperpixelSLIC(small_frame, region_size=22)
         slic.iterate(10)
-
 
         # getLabels method returns the different superpixel segments
         segments = slic.getLabels()
@@ -173,14 +172,18 @@ if len(sys.argv) == 2:
             # use loaded model to make prediction on given superpixel segments
             output = model.predict([superpixel])
 
+            # we know the green/red label seems back-to-front here (i.e.
+            # green means fire, red means no fire) but this is how we did it
+            # in the paper (?!) so we'll just keep the same crazyness for
+            # consistency with the paper figures
 
             if round(output[0][0]) == 1:
                 # draw the contour
-                # if prediction for fire was true (round to 1), draw green contour for superpixel
+                # if prediction for FIRE was TRUE (round to 1), draw GREEN contour for superpixel
                 cv2.drawContours(small_frame, contours, -1, (0,255,0), 1)
 
             else:
-                # if prediction for fire was false, draw red contour for superpixel
+                # if prediction for FIRE was FALSE, draw RED contour for superpixel
                 cv2.drawContours(small_frame, contours, -1, (0,0,255), 1)
 
         # stop the timer and convert to ms. (to see how long processing and display takes)
