@@ -72,7 +72,7 @@ $ python superpixel-inceptionV1-OnFire.py models/test.mp4
 ---
 
 ## Example video:
-[![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)](https://youtu.be/RcNj8aMDer4)
+[![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/slic-ex.png)](https://youtu.be/RcNj8aMDer4)
 Video Example - click image above to play.
 
 ---
