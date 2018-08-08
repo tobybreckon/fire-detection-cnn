@@ -1,22 +1,66 @@
+################################################################################
+
+# model downloader / unpacker - (c) 2018 Toby Breckon, Durham University, UK
+
+################################################################################
+
+URL_MODELS=https://collections.durham.ac.uk/downloads/r19880vq98m
+MODEL_DIR_LOCAL_TARGET=models
+
+MODELS_FILE_NAME=dunnings-2018-fire-detection-pretrained-models.zip
+MODELS_DIR_NAME_UNZIPPED=dunnings-2018-fire-detection-pretrained-models
+MODELS_MD5_SUM=98815a8594a18f1cafb3e87af8f9b0f1
+
+################################################################################
+
+# set this scrpt to fail on error
+
+set -e
+
+# check for required commands to cpwnload and md5 check
+
+(command -v curl | grep curl > /dev/null) ||
+  (echo "Error: curl command not found, cannot download!")
+
+(command -v md5sum | grep md5sum > /dev/null) ||
+  (echo "Error: md5sum command not found, md5sum check will fail!")
+
+################################################################################
+
+# perform download
+
 echo "Downloading pretrained models..."
 
-mkdir models
+mkdir $MODEL_DIR_LOCAL_TARGET
 
-MODELS=./models/checkpoints.zip
-URL_MODELS=https://collections.durham.ac.uk/downloads/r19880vq98m
+MODELS=./$MODEL_DIR_LOCAL_TARGET/$MODELS_FILE_NAME
 
 curl --progress-bar $URL_MODELS > $MODELS
 
-cd models
+################################################################################
+
+# perform md5 check and move to required local target directory
+
+cd $MODEL_DIR_LOCAL_TARGET
+
+echo "checking the MD5 checksum for downloaded models..."
+
+CHECK_SUM_CHECKPOINTS="$MODELS_MD5_SUM  $MODELS_FILE_NAME"
+
+echo $CHECK_SUM_CHECKPOINTS | md5sum -c
 
 echo "Unpacking the zip file..."
 
-unzip -q checkpoints.zip
+unzip -q $MODELS_FILE_NAME
 
-cp -R dunnings-2018-fire-detection-pretrained-models/. . 
+echo "Tidying up..."
 
-rm checkpoints.zip && rm -r dunnings-2018-fire-detection-pretrained-models/
+mv $MODELS_DIR_NAME_UNZIPPED/* .
 
-echo "All Done!!"
+rm $MODELS_FILE_NAME && rm -r $MODELS_DIR_NAME_UNZIPPED
 
+################################################################################
 
+echo "... completed -> required models are in $MODEL_DIR_LOCAL_TARGET/"
+
+################################################################################
