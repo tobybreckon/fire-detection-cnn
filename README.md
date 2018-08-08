@@ -79,7 +79,7 @@ Video Example - click image above to play.
 
 ## Reference:
 
-[Experimentally defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection](http://breckon.eu/toby/publications/papers/dunnings18fire.pdf)
+[Experimentally defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)
 (Dunnings and Breckon), In Proc. International Conference on Image Processing IEEE, 2018.
 ```
 @InProceedings{dunnings18fire,
