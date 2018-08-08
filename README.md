@@ -57,7 +57,7 @@ Training datasets:
 * The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497)
 * Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
-![](https://github.com/atharva333/fire-detection/blob/master/images/slic-stages.png)
+![](https://github.com/atharva333/fire-detection/tree/master/images/slic-stages.png)
 Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
 
 ---
