@@ -69,12 +69,14 @@ $ cd fire-detection-cnn
 $ sh ./download-models.sh
 $ python firenet.py models/test.mp4
 $ python inceptionV1-OnFire.py models/test.mp4
+$ python superpixels-inceptionV1-OnFire.py models/test.mp4
 ```
 ---
 
-* The main directory contains the ```firenet.py``` and ```inceptionV1-OnFire.py``` files corresponding to the two binary (full-frame) detection models in the paper.
+* The main directory contains the ```firenet.py``` and ```inceptionV1-OnFire.py``` files corresponding to the two binary (full-frame) detection models from the paper.
+* The additional ```superpixels-inceptionV1-OnFire.py``` file correspondes to the superpixel based in-frame fire localization from the paper.
+
 * The pre-trained models can be downloaded using the shell script ```download-models.sh``` which will create a models directory to contains the network weights data
-* ```binary.py``` file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen accordingly
 
 ---
 
@@ -104,6 +106,6 @@ Video Example - click image above to play.
 
 ### Acknowledgements:
 
-Atharva (Art) Deshmukh (github and data set collation for publication).
+Atharva (Art) Deshmukh (Durham University, _github and data set collation for publication_).
 
 ---
