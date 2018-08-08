@@ -5,13 +5,13 @@ Developed using Python 3.4.6, [TensorFlow 1.9.0](https://www.tensorflow.org/inst
 (requires opencv extra modules - ximgproc module for superpixel segmentation)
 
 ## Architecture:
-![FireNet](https://github.com/atharva333/fire-detection/blob/master/Images/FireNet.png)
+![FireNet](https://github.com/atharva333/fire-detection/blob/master/images/FireNet.png)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FireNet architecture (above)
-![InceptionV1-onFire](https://github.com/atharva333/fire-detection/blob/master/Images/InceptionV1-OnFire.png)
+![InceptionV1-onFire](https://github.com/atharva333/fire-detection/blob/master/images/InceptionV1-OnFire.png)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -57,7 +57,7 @@ Training datasets:
 * The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497)
 * Standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
-![](https://github.com/atharva333/fire-detection/blob/master/Images/slic-stages.png)
+![](https://github.com/atharva333/fire-detection/blob/master/images/slic-stages.png)
 Vanilla frame (left), Frame after superpixel segmentation (middle), Frame after superpixel prediction (right)
 
 ---
@@ -72,16 +72,13 @@ $ python inceptionV1-OnFire.py models/test.mp4
 ```
 ---
 
-* The main directory contains the ```binary.py``` and ```superpixel.py``` files
-* To run the models you require a video file as argument - for example ```python binary.py test.mp4```
-* The pretrained models will be downloaded using the shell script ```download-models.sh``` which will create a models directory that contains the data
-* The TensorFlow code for the FireNet and InceptionV1-OnFire are in the ```tflearn``` directory
-* ```binary.py``` file can be run with both with FireNet and InceptionV1-OnFire, the model filepath should be chosen accordingly
+* The main directory contains the ```firenet.py``` and ```inceptionV1-OnFire.py``` files corresponding to the two binary (full-frame) detection models in the paper.
+* The pre-trained models can be downloaded using the shell script ```download-models.sh``` which will create a models directory to contains the network weights data
 
 ---
 
 ## Example video:
-[![Examples](https://github.com/atharva333/fire-detection/blob/master/Images/binary-ex.png)](https://youtu.be/RcNj8aMDer4)
+[![Examples](https://github.com/atharva333/fire-detection/blob/master/images/binary-ex.png)](https://youtu.be/RcNj8aMDer4)
 Video Example - click image above to play.
 
 ---
@@ -106,6 +103,6 @@ Video Example - click image above to play.
 
 ### Acknowledgements:
 
-Atharva (Art) Deshmukh (github and data set collation for publications)
+Atharva (Art) Deshmukh (github and data set collation for publication).
 
 ---
