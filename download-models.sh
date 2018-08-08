@@ -13,7 +13,7 @@ MODELS_MD5_SUM=98815a8594a18f1cafb3e87af8f9b0f1
 
 ################################################################################
 
-# set this scrpt to fail on error
+# set this script to fail on error
 
 set -e
 
