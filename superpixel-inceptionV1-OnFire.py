@@ -167,8 +167,17 @@ if len(sys.argv) == 2:
             im2, contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
             # create the superpixel by applying the mask
+            
+            # N.B. this creates an image of the full frame with this superpixel being the only non-zero
+            # (i.e. not black) region. CNN training/testing classification is performed using these
+            # full frame size images, rather than isolated small superpixel images.
+            # Using the approach, we re-use the same InceptionV1-OnFire architecture as described in 
+            # the paper [Dunnings / Breckon, 2018] with no changes trained on full frame images each
+            # containing an isolated superpixel with the rest of the image being zero/black.
+            
             superpixel = cv2.bitwise_and(small_frame, small_frame, mask = mask)
-
+            # cv2.imshow("superpixel", superpixel);
+            
             # use loaded model to make prediction on given superpixel segments
             output = model.predict([superpixel])
 
