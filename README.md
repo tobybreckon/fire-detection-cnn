@@ -50,7 +50,8 @@ The superpixel based approach was trained to perform superpixel based fire detec
 
 Training datasets:
 
-* The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497) (together with the trained network models).
+* The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497) (together with the trained network models). **As a temporary measure (as of March 2019)**, please download the full dataset from https://durhamuniversity.box.com/s/bxp9bvfcz3anb3lk2f4f3z3rtqyug5b1 _(no login required, we have updated the record on Durham Collections to reflect this)_.
+
 * In addition, standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
 ![](https://github.com/tobybreckon/fire-detection-cnn/blob/master/images/slic-stages.png)
