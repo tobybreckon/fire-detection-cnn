@@ -1,6 +1,6 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-Tested using Python 3.4.6, [TensorFlow 1.9.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1](http://www.opencv.org)
+Tested using Python 3.4.6, [TensorFlow 1.13.0](https://www.tensorflow.org/install/), and [OpenCV 3.3.1 / 4.0.x](http://www.opencv.org)
 
 (requires opencv extra modules - ximgproc module for superpixel segmentation)
 
