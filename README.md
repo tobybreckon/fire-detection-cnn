@@ -41,7 +41,7 @@ Our binary detection (FireNet / InceptionV1-OnFire) architectures determine whet
 
 This respository contains the ```firenet.py``` and ```inceptionV1-OnFire.py``` files corresponding to the two binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionV1-OnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper.
 
- To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data.
+ To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data (on Linux/MacOS). Alternatively, you can manually download the pre-trained network models from [http://dx.doi.org/10.15128/r19880vq98m](http://dx.doi.org/10.15128/r19880vq98m) and unzip them to a directory called  ```models``` in the same place as the python files.
 
 The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
   * image frame is split into segments using SLIC superpixel segmentation technique.
@@ -78,6 +78,8 @@ Video Example - click image above to play.
 ---
 
 ## Reference:
+
+If making use of this work in any way (including our [pretrained models](http://dx.doi.org/10.15128/r19880vq98m) or [dataset](http://dx.doi.org/10.15128/r2d217qp536)), please reference the following work:
 
 [Experimentally defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)
 (Dunnings and Breckon), In Proc. International Conference on Image Processing IEEE, 2018.
