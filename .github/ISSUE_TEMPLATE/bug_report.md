@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: report a functional issue with the software, model or data download
 title: ''
 labels: ''
 assignees: ''
