@@ -8,16 +8,16 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+< insert a clear and concise description of what the bug is >.
 
 **To Reproduce: (please complete the following information):**
-Steps to reproduce the behavior in the Linux terminal:
+< insert steps to reproduce the behavior in the Linux/Unix terminal >
 ```
 user@hostname[~] ....
 ```
 
 **Error output received**
-A clear and concise description of what you expected to happen.
+< insert a clear and concise description of what you expected to happen/see >
 
 **Computing Environment (please complete the following information):**
  - OS: [e.g. Linux Ubuntu 18.... LTS ]
@@ -25,4 +25,4 @@ A clear and concise description of what you expected to happen.
  - OpenCV Version: [e.g. 3.4.x]
 
 **Additional context**
-Add any other context about the problem here.
+< insert any other context about the problem here >.
