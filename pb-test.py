@@ -1,7 +1,7 @@
 ################################################################################
 
 # Example : perform conversion of FireNet and InceptionV1-OnFire tflearn models to
-# TensorFlow .pb format files (for import into other tools, example OpenCV DNN)
+# TensorFlow protocol buffer (.pb) format files (for import into other tools, example OpenCV DNN)
 
 # Copyright (c) 2019 Toby Breckon, Durham University, UK
 
