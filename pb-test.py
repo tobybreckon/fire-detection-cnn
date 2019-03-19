@@ -1,7 +1,63 @@
-import os, argparse
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+################################################################################
+
+import os
 import tensorflow as tf
 from tensorflow.python.framework import graph_util
+
+################################################################################
+
+import tflearn
+from tflearn.layers.core import *
+from tflearn.layers.conv import *
+from tflearn.layers.normalization import *
+from tflearn.layers.estimator import regression
+
+################################################################################
+
+def construct_firenet (x,y, training=False):
+
+    # Build network as per architecture in [Dunnings/Breckon, 2018]
+
+    network = tflearn.input_data(shape=[None, y, x, 3], dtype=tf.float32)
+
+    network = conv_2d(network, 64, 5, strides=4, activation='relu')
+
+    network = max_pool_2d(network, 3, strides=2)
+    network = local_response_normalization(network)
+
+    network = conv_2d(network, 128, 4, activation='relu')
+
+    network = max_pool_2d(network, 3, strides=2)
+    network = local_response_normalization(network)
+
+    network = conv_2d(network, 256, 1, activation='relu')
+
+    network = max_pool_2d(network, 3, strides=2)
+    network = local_response_normalization(network)
+
+    network = fully_connected(network, 4096, activation='tanh')
+    network = dropout(network, 0.5)
+
+    network = fully_connected(network, 4096, activation='tanh')
+    network = dropout(network, 0.5)
+
+    network = fully_connected(network, 2, activation='softmax')
+
+    # if training then add training hyper-parameters
+
+    if(training):
+        network = regression(network, optimizer='momentum',
+                            loss='categorical_crossentropy',
+                            learning_rate=0.001)
+
+    # constuct final model
+
+    model = tflearn.DNN(network, checkpoint_path='firenet',
+                        max_checkpoints=1, tensorboard_verbose=2)
+
+    return model
+
+################################################################################
 
 def freeze_graph(model_folder,output_graph="frozen_model.pb"):
     # We retrieve our checkpoint fullpath
@@ -15,7 +71,8 @@ def freeze_graph(model_folder,output_graph="frozen_model.pb"):
 
     # Before exporting our graph, we need to precise what is our output node
     # This is how TF decides what part of the Graph he has to keep and what part it can dump
-    output_node_names = "InputData,FullyConnected" # NOTE: Change here
+
+    output_node_names = "FullyConnected_2/Softmax"
 
     # We clear devices to allow TensorFlow to control on which device it will load operations
     clear_devices = True
@@ -49,14 +106,21 @@ def freeze_graph(model_folder,output_graph="frozen_model.pb"):
         print("[INFO] output_graph:",output_graph)
         print("[INFO] all done")
 
+################################################################################
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Tensorflow graph freezer\nConverts trained models to .pb file",
-                                     prefix_chars='-')
-    parser.add_argument("--mfolder", type=str, help="model folder to export")
-    parser.add_argument("--ograph", type=str, help="output graph name", default="frozen_model.pb")
 
-    args = parser.parse_args()
-    print(args,"\n")
+    # construct and re-export model
 
-    freeze_graph(args.mfolder,args.ograph)
+    model = construct_firenet (224, 224)
+    print("[INFO] Constructed FireNet ...")
+
+    model.load(os.path.join("models/FireNet", "firenet"),weights_only=True)
+    print("[INFO]  Loaded CNN network weights ...")
+
+    print("[INFO] Re-export FireNet model ...")
+    model.save("/tmp/firenet-tmp.tfl")
+
+    freeze_graph("/tmp/firenet-tmp.tfl", "firenet.pb")
+
+################################################################################
