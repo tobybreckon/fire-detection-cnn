@@ -36,7 +36,7 @@ from firenet import construct_firenet
 
 ################################################################################
 
-def freeze_graph(model_folder,output_graph="frozen_model.pb"):
+def freeze_graph(model_folder,output_graph="frozen_model.pb",verbose_layers=False):
     # We retrieve our checkpoint fullpath
     try:
         checkpoint = tf.train.get_checkpoint_state(model_folder)
@@ -65,10 +65,11 @@ def freeze_graph(model_folder,output_graph="frozen_model.pb"):
     with tf.Session() as sess:
         saver.restore(sess, input_checkpoint)
 
-        # add in as vernose mode - TODO
+        # print out all layers and their names if in verbose mode
 
-        op = sess.graph.get_operations()
-        [print(m.values()) for m in op][1]
+        if verbose_layers:
+            op = sess.graph.get_operations()
+            [print(m.values()) for m in op][1]
 
         # We use a built-in TF helper to export variables to constants
         output_graph_def = graph_util.convert_variables_to_constants(
@@ -89,7 +90,7 @@ def freeze_graph(model_folder,output_graph="frozen_model.pb"):
 
 if __name__ == '__main__':
 
-    # construct and re-export model to /tmp (so that is excludes the training layers)
+    # construct and re-export model (so that is excludes the training layers)
 
     model = construct_firenet (224, 224)
     print("[INFO] Constructed FireNet ...")
