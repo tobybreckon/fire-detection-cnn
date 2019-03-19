@@ -102,6 +102,8 @@ def freeze_graph(model_folder,output_graph="frozen_model.pb"):
     with tf.Session() as sess:
         saver.restore(sess, input_checkpoint)
 
+        # add in as vernose mode - TODO
+
         op = sess.graph.get_operations()
         [print(m.values()) for m in op][1]
 
