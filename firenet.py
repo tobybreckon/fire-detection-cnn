@@ -23,7 +23,7 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 
-def construct_firenet (x,y):
+def construct_firenet (x,y, training=False):
 
     # Build network as per architecture in [Dunnings/Breckon, 2018]
 
@@ -52,9 +52,15 @@ def construct_firenet (x,y):
 
     network = fully_connected(network, 2, activation='softmax')
 
-    #network = regression(network, optimizer='momentum',
-    #                     loss='categorical_crossentropy',
-    #                     learning_rate=0.001)
+    # if training then add training hyperparameters
+
+    if(training):
+        network = regression(network, optimizer='momentum',
+                            loss='categorical_crossentropy',
+                            learning_rate=0.001)
+
+    # constuct final model
+
     model = tflearn.DNN(network, checkpoint_path='firenet',
                         max_checkpoints=1, tensorboard_verbose=2)
 
@@ -69,8 +75,6 @@ print("Constructed FireNet ...")
 
 model.load(os.path.join("models/FireNet", "firenet"),weights_only=True)
 print("Loaded CNN network weights ...")
-
-model.save("model.tfl")
 
 ################################################################################
 
