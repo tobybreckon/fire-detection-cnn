@@ -1,6 +1,20 @@
 ################################################################################
 
+# Example : perform conversion of FireNet and InceptionV1-OnFire tflearn models to
+# TensorFlow .pb format files (for import into other tools, example OpenCV DNN)
+
+# Copyright (c) 2019 Toby Breckon, Durham University, UK
+
+# License : https://github.com/tobybreckon/fire-detection-cnn/blob/master/LICENSE
+
+# Acknowledgements: some portions - tensorflow tutorial examples and derivatives
+
+################################################################################
+
 import os
+
+################################################################################
+
 import tensorflow as tf
 from tensorflow.python.framework import graph_util
 
@@ -72,7 +86,7 @@ def freeze_graph(model_folder,output_graph="frozen_model.pb"):
     # Before exporting our graph, we need to precise what is our output node
     # This is how TF decides what part of the Graph he has to keep and what part it can dump
 
-    output_node_names = "FullyConnected_2/Softmax"
+    output_node_names = "FullyConnected_2/Softmax" # for firenet
 
     # We clear devices to allow TensorFlow to control on which device it will load operations
     clear_devices = True
@@ -110,17 +124,31 @@ def freeze_graph(model_folder,output_graph="frozen_model.pb"):
 
 if __name__ == '__main__':
 
-    # construct and re-export model
+    # construct and re-export model to /tmp (so that is excludes the training layers)
 
     model = construct_firenet (224, 224)
     print("[INFO] Constructed FireNet ...")
 
     model.load(os.path.join("models/FireNet", "firenet"),weights_only=True)
-    print("[INFO]  Loaded CNN network weights ...")
+    print("[INFO] Loaded CNN network weights for FireNet ...")
 
     print("[INFO] Re-export FireNet model ...")
-    model.save("/tmp/firenet-tmp.tfl")
+    model.save("firenet-tmp.tfl")
 
-    freeze_graph("/tmp/firenet-tmp.tfl", "firenet.pb")
+    # convert the model to tensorflow pb format
+
+    freeze_graph("firenet-tmp.tfl", "firenet.pb")
+
+    # repeat for other models
+
+    # TODO
+
+    # perform test inference using OpenCV
+
+    # TODO
+
+    # clean up temp files
+
+    # TODO
 
 ################################################################################
