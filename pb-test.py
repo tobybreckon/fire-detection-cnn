@@ -15,10 +15,14 @@ import os
 
 ################################################################################
 
+# import tensorflow api
+
 import tensorflow as tf
 from tensorflow.python.framework import graph_util
 
 ################################################################################
+
+# import tflearn api
 
 import tflearn
 from tflearn.layers.core import *
@@ -28,48 +32,7 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 
-def construct_firenet (x,y, training=False):
-
-    # Build network as per architecture in [Dunnings/Breckon, 2018]
-
-    network = tflearn.input_data(shape=[None, y, x, 3], dtype=tf.float32)
-
-    network = conv_2d(network, 64, 5, strides=4, activation='relu')
-
-    network = max_pool_2d(network, 3, strides=2)
-    network = local_response_normalization(network)
-
-    network = conv_2d(network, 128, 4, activation='relu')
-
-    network = max_pool_2d(network, 3, strides=2)
-    network = local_response_normalization(network)
-
-    network = conv_2d(network, 256, 1, activation='relu')
-
-    network = max_pool_2d(network, 3, strides=2)
-    network = local_response_normalization(network)
-
-    network = fully_connected(network, 4096, activation='tanh')
-    network = dropout(network, 0.5)
-
-    network = fully_connected(network, 4096, activation='tanh')
-    network = dropout(network, 0.5)
-
-    network = fully_connected(network, 2, activation='softmax')
-
-    # if training then add training hyper-parameters
-
-    if(training):
-        network = regression(network, optimizer='momentum',
-                            loss='categorical_crossentropy',
-                            learning_rate=0.001)
-
-    # constuct final model
-
-    model = tflearn.DNN(network, checkpoint_path='firenet',
-                        max_checkpoints=1, tensorboard_verbose=2)
-
-    return model
+from firenet import construct_firenet
 
 ################################################################################
 
