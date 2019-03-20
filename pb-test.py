@@ -82,6 +82,8 @@ def freeze_graph(model_folder,output_graph="frozen_model.pb",verbose_layers=Fals
         with tf.gfile.GFile(output_graph, "wb") as f:
             f.write(output_graph_def.SerializeToString())
         print("%d ops in the final graph." % len(output_graph_def.node))
+        tf.train.write_graph(sess.graph_def, './', 'firenet.pbtxt')
+
 
         print("[INFO] output_graph:",output_graph)
         print("[INFO] all done")
