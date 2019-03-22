@@ -101,7 +101,9 @@ if __name__ == '__main__':
     print("[INFO] Loaded CNN network weights for FireNet ...")
 
     print("[INFO] Re-export FireNet model ...")
+    del tf.get_collection_ref(tf.GraphKeys.TRAIN_OPS)[:]
     model.save("firenet-tmp.tfl")
+    # os.remove("firenet-tmp.tfl.data-00000-of-00001")
 
     # convert the model to tensorflow pb format
 
@@ -113,7 +115,10 @@ if __name__ == '__main__':
 
     # perform test inference using OpenCV
 
-    # TODO
+    import cv2
+
+    # Load a model imported from Tensorflow
+    tensorflowNet = cv2.dnn.readNetFromTensorflow('firenet.pb');
 
     # clean up temp files
 

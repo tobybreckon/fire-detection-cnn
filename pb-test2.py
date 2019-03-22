@@ -47,7 +47,9 @@ if __name__ == '__main__':
     print("[INFO] Loaded CNN network weights for FireNet ...")
 
     print("[INFO] Re-export FireNet model ...")
+    del tf.get_collection_ref(tf.GraphKeys.TRAIN_OPS)[:]
     model.save("firenet-tmp.tfl")
+    # os.remove("firenet-tmp.tfl.data-00000-of-00001")
 
     # hack 2 - from https://stackoverflow.com/questions/34343259/is-there-an-example-on-how-to-generate-protobuf-files-holding-trained-tensorflow
 
