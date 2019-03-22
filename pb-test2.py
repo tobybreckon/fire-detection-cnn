@@ -1,6 +1,6 @@
 ################################################################################
 
-# Example : perform conversion of FireNet and InceptionV1-OnFire tflearn models to
+# Hacky Example : perform conversion of FireNet and InceptionV1-OnFire tflearn models to
 # TensorFlow protocol buffer (.pb) format files (for import into other tools, example OpenCV DNN)
 
 # Copyright (c) 2019 Toby Breckon, Durham University, UK
@@ -61,22 +61,49 @@ if __name__ == '__main__':
 
     # print out all layers to find name of output
 
-    # op = sess.graph.get_operations()
-    # [print(m.values()) for m in op][1]
+    op = sess.graph.get_operations()
+    [print(m.values()) for m in op][1]
 
     # freeze and removes nodes which are not related to feedforward prediction
 
     minimal_graph = convert_variables_to_constants(sess, sess.graph_def, ["FullyConnected_2/Softmax"])
 
-    tf.train.write_graph(minimal_graph, '.', 'minimal_graph.proto', as_text=False)
-    tf.train.write_graph(minimal_graph, '.', 'minimal_graph.txt', as_text=True)
+    from tensorflow.tools.graph_transforms import TransformGraph
+    from tensorflow.python.tools import optimize_for_inference_lib
+
+    #tf.train.write_graph(minimal_graph, '.', 'minimal_graph.proto', as_text=False)
+    #tf.train.write_graph(minimal_graph, '.', 'minimal_graph.txt', as_text=True)
+
+    inp_node = 'InputData/X'
+    out_node = 'FullyConnected_2/Softmax'
+    graph_def = optimize_for_inference_lib.optimize_for_inference(minimal_graph, [inp_node], [out_node], tf.float32.as_datatype_enum)
+    graph_def = TransformGraph(graph_def, [inp_node], [out_node], ["sort_by_execution_order"])
+    with tf.gfile.FastGFile('frozen_inference_graph_opt.pb', 'wb') as f:
+        f.write(graph_def.SerializeToString())
+
+
+    # this bit from https://github.com/opencv/opencv/issues/12715
+
+    #graph = 'minimal_graph.proto'
+    #with tf.gfile.FastGFile(graph) as f:
+    #    graph_def = tf.GraphDef()
+    #    graph_def.ParseFromString(f.read())
+    #    tf.summary.FileWriter('logs', graph_def)
+#
+    #    inp_node = 'InputData'
+    #    out_node = 'FullyConnected_2/Softmax_1'
+    #    graph_def = optimize_for_inference_lib.optimize_for_inference(graph_def, [inp_node], [out_node], tf.float32.as_datatype_enum)
+    #    graph_def = TransformGraph(graph_def, [inp_node], [out_node], ["sort_by_execution_order"])
+    #    with tf.gfile.FastGFile('frozen_inference_graph_opt.pb', 'wb') as f:
+    #        f.write(graph_def.SerializeToString())
 
     # perform test inference using OpenCV
 
     import cv2
 
     # Load a model imported from Tensorflow
-    tensorflowNet = cv2.dnn.readNetFromTensorflow('minimal_graph.proto', 'minimal_graph.txt');
+    #tensorflowNet = cv2.dnn.readNetFromTensorflow('minimal_graph.proto', 'minimal_graph.txt');
+    tensorflowNet = cv2.dnn.readNetFromTensorflow('frozen_inference_graph_opt.pb');
 
     # Input image
     img = cv2.imread('/tmp/fire.jpg')
