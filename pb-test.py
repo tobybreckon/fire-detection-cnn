@@ -36,65 +36,11 @@ from firenet import construct_firenet
 
 ################################################################################
 
-def freeze_graph(model_folder,output_graph="frozen_model.pb",verbose_layers=False):
-    # We retrieve our checkpoint fullpath
-    try:
-        checkpoint = tf.train.get_checkpoint_state(model_folder)
-        input_checkpoint = checkpoint.model_checkpoint_path
-        print("[INFO] input_checkpoint:", input_checkpoint)
-    except:
-        input_checkpoint = model_folder
-        print("[INFO] Model folder", model_folder)
-
-    # Before exporting our graph, we need to precise what is our output node
-    # This is how TF decides what part of the Graph he has to keep and what part it can dump
-
-    output_node_names = "FullyConnected_2/Softmax" # for firenet
-
-    # We clear devices to allow TensorFlow to control on which device it will load operations
-    clear_devices = True
-
-    # We import the meta graph and retrieve a Saver
-    saver = tf.train.import_meta_graph(input_checkpoint + '.meta', clear_devices=clear_devices)
-
-    # We retrieve the protobuf graph definition
-    graph = tf.get_default_graph()
-    input_graph_def = graph.as_graph_def()
-
-    # We start a session and restore the graph weights
-    with tf.Session() as sess:
-        saver.restore(sess, input_checkpoint)
-
-        # print out all layers and their names if in verbose mode
-
-        if verbose_layers:
-            op = sess.graph.get_operations()
-            [print(m.values()) for m in op][1]
-
-        # We use a built-in TF helper to export variables to constants
-        output_graph_def = graph_util.convert_variables_to_constants(
-            sess,                        # The session is used to retrieve the weights
-            input_graph_def,             # The graph_def is used to retrieve the nodes
-            output_node_names.split(",") # The output node names are used to select the usefull nodes
-        )
-
-        # Finally we serialize and dump the output graph to the filesystem
-        with tf.gfile.GFile(output_graph, "wb") as f:
-            f.write(output_graph_def.SerializeToString())
-        print("%d ops in the final graph." % len(output_graph_def.node))
-        tf.train.write_graph(sess.graph_def, './', 'firenet.pbtxt')
-
-
-        print("[INFO] output_graph:",output_graph)
-        print("[INFO] all done")
-
-################################################################################
-
 if __name__ == '__main__':
 
     # construct and re-export model (so that is excludes the training layers)
 
-    model = construct_firenet (224, 224)
+    model = construct_firenet (224, 224, False)
     print("[INFO] Constructed FireNet ...")
 
     model.load(os.path.join("models/FireNet", "firenet"),weights_only=True)
@@ -103,17 +49,50 @@ if __name__ == '__main__':
     print("[INFO] Re-export FireNet model ...")
     model.save("firenet-tmp.tfl")
 
-    # convert the model to tensorflow pb format
+    # hack 2 - from https://stackoverflow.com/questions/34343259/is-there-an-example-on-how-to-generate-protobuf-files-holding-trained-tensorflow
 
-    freeze_graph("firenet-tmp.tfl", "firenet.pb")
+    input_checkpoint = "firenet-tmp.tfl"
+    saver = tf.train.import_meta_graph(input_checkpoint + '.meta', True)
+    sess = tf.Session();
+    saver.restore(sess, input_checkpoint)
+    from tensorflow.python.framework.graph_util import convert_variables_to_constants
 
-    # repeat for other models
+    # print out all layers to find name of output
 
-    # TODO
+    # op = sess.graph.get_operations()
+    # [print(m.values()) for m in op][1]
+
+    # freeze and removes nodes which are not related to feedforward prediction
+
+    minimal_graph = convert_variables_to_constants(sess, sess.graph_def, ["FullyConnected_2/Softmax"])
+
+    tf.train.write_graph(minimal_graph, '.', 'minimal_graph.proto', as_text=False)
+    tf.train.write_graph(minimal_graph, '.', 'minimal_graph.txt', as_text=True)
 
     # perform test inference using OpenCV
 
-    # TODO
+    import cv2
+
+    # Load a model imported from Tensorflow
+    tensorflowNet = cv2.dnn.readNetFromTensorflow('minimal_graph.proto', 'minimal_graph.txt');
+
+    # Input image
+    img = cv2.imread('/tmp/fire.jpg')
+
+    # Use the given image as input, which needs to be blob(s).
+    tensorflowNet.setInput(cv2.dnn.blobFromImage(img, size=(224, 224), swapRB=False, crop=False))
+
+    # Runs a forward pass to compute the net output
+    networkOutput = tensorflowNet.forward()
+
+    # Loop on the outputs
+    for detection in networkOutput[0,0]:
+        print(detection)
+
+    # Show the image with a rectagle surrounding the detected objects
+    cv2.imshow('Image', img)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
 
     # clean up temp files
 
