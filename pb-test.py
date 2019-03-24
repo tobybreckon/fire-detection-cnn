@@ -71,7 +71,14 @@ if __name__ == '__main__':
 
     # perform test inference using OpenCV
 
+<<<<<<< HEAD
     import cv2
+=======
+    print("[INFO] Re-export FireNet model ...")
+    del tf.get_collection_ref(tf.GraphKeys.TRAIN_OPS)[:]
+    model.save("firenet-tmp.tfl")
+    # os.remove("firenet-tmp.tfl.data-00000-of-00001")
+>>>>>>> 42493ee2c4314e1207344760172a35864b696144
 
     # Load a model imported from Tensorflow
     tensorflowNet = cv2.dnn.readNetFromTensorflow('minimal_graph.proto', 'minimal_graph.txt');
@@ -89,10 +96,17 @@ if __name__ == '__main__':
     for detection in networkOutput[0,0]:
         print(detection)
 
+<<<<<<< HEAD
     # Show the image with a rectagle surrounding the detected objects
     cv2.imshow('Image', img)
     cv2.waitKey()
     cv2.destroyAllWindows()
+=======
+    import cv2
+
+    # Load a model imported from Tensorflow
+    tensorflowNet = cv2.dnn.readNetFromTensorflow('firenet.pb');
+>>>>>>> 42493ee2c4314e1207344760172a35864b696144
 
     # clean up temp files
 
