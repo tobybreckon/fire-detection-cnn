@@ -47,7 +47,9 @@ if __name__ == '__main__':
     print("[INFO] Loaded CNN network weights for FireNet ...")
 
     print("[INFO] Re-export FireNet model ...")
+    del tf.get_collection_ref(tf.GraphKeys.TRAIN_OPS)[:]
     model.save("firenet-tmp.tfl")
+    # os.remove("firenet-tmp.tfl.data-00000-of-00001")
 
     # hack 2 - from https://stackoverflow.com/questions/34343259/is-there-an-example-on-how-to-generate-protobuf-files-holding-trained-tensorflow
 
@@ -69,16 +71,15 @@ if __name__ == '__main__':
     tf.train.write_graph(minimal_graph, '.', 'minimal_graph.proto', as_text=False)
     tf.train.write_graph(minimal_graph, '.', 'minimal_graph.txt', as_text=True)
 
+    # write model to logs dir so we can visualize it as:
+    # tensorboard --logdir="logs"
+
+    writer = tf.summary.FileWriter('logs', graph_def)
+    writer.close()
+
     # perform test inference using OpenCV
 
-<<<<<<< HEAD
     import cv2
-=======
-    print("[INFO] Re-export FireNet model ...")
-    del tf.get_collection_ref(tf.GraphKeys.TRAIN_OPS)[:]
-    model.save("firenet-tmp.tfl")
-    # os.remove("firenet-tmp.tfl.data-00000-of-00001")
->>>>>>> 42493ee2c4314e1207344760172a35864b696144
 
     # Load a model imported from Tensorflow
     tensorflowNet = cv2.dnn.readNetFromTensorflow('minimal_graph.proto', 'minimal_graph.txt');
@@ -96,17 +97,11 @@ if __name__ == '__main__':
     for detection in networkOutput[0,0]:
         print(detection)
 
-<<<<<<< HEAD
-    # Show the image with a rectagle surrounding the detected objects
+    # Show the image
+
     cv2.imshow('Image', img)
     cv2.waitKey()
     cv2.destroyAllWindows()
-=======
-    import cv2
-
-    # Load a model imported from Tensorflow
-    tensorflowNet = cv2.dnn.readNetFromTensorflow('firenet.pb');
->>>>>>> 42493ee2c4314e1207344760172a35864b696144
 
     # clean up temp files
 

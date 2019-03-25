@@ -81,6 +81,11 @@ if __name__ == '__main__':
     with tf.gfile.FastGFile('frozen_inference_graph_opt.pb', 'wb') as f:
         f.write(graph_def.SerializeToString())
 
+    # write model to logs dir so we can visualize it as:
+    # tensorboard --logdir="logs"
+
+    writer = tf.summary.FileWriter('logs', graph_def)
+    writer.close()
 
     # this bit from https://github.com/opencv/opencv/issues/12715
 
@@ -89,7 +94,7 @@ if __name__ == '__main__':
     #    graph_def = tf.GraphDef()
     #    graph_def.ParseFromString(f.read())
     #    tf.summary.FileWriter('logs', graph_def)
-#
+    #
     #    inp_node = 'InputData'
     #    out_node = 'FullyConnected_2/Softmax_1'
     #    graph_def = optimize_for_inference_lib.optimize_for_inference(graph_def, [inp_node], [out_node], tf.float32.as_datatype_enum)
