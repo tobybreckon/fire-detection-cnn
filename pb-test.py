@@ -68,13 +68,13 @@ if __name__ == '__main__':
 
     minimal_graph = convert_variables_to_constants(sess, sess.graph_def, ["FullyConnected_2/Softmax"])
 
-    tf.train.write_graph(minimal_graph, '.', 'minimal_graph.proto', as_text=False)
+    tf.train.write_graph(minimal_graph, '.', 'minimal_graph.pb', as_text=False)
     tf.train.write_graph(minimal_graph, '.', 'minimal_graph.txt', as_text=True)
 
     # write model to logs dir so we can visualize it as:
     # tensorboard --logdir="logs"
 
-    writer = tf.summary.FileWriter('logs', graph_def)
+    writer = tf.summary.FileWriter('logs', minimal_graph)
     writer.close()
 
     # perform test inference using OpenCV
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     import cv2
 
     # Load a model imported from Tensorflow
-    tensorflowNet = cv2.dnn.readNetFromTensorflow('minimal_graph.proto', 'minimal_graph.txt');
+    tensorflowNet = cv2.dnn.readNetFromTensorflow('minimal_graph.pb', 'minimal_graph.txt');
 
     # Input image
     img = cv2.imread('/tmp/fire.jpg')
