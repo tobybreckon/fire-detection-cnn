@@ -63,14 +63,14 @@ rm $MODELS_FILE_NAME && rm -r $MODELS_DIR_NAME_UNZIPPED
 
 # tlearn format specific - create checkpoint path files to enable conversion to pb format
 
-echo "model_checkpoint_path: \"firenet\"" >> $MODELS_DIR_NAME_UNZIPPED/FireNet/checkpoint
-echo "all_model_checkpoint_paths: \"firenet\"" >> $MODELS_DIR_NAME_UNZIPPED/FireNet/checkpoint
+echo "model_checkpoint_path: \"firenet\"" >> $MODEL_DIR_LOCAL_TARGET/FireNet/checkpoint
+echo "all_model_checkpoint_paths: \"firenet\"" >> $MODEL_DIR_LOCAL_TARGET/FireNet/checkpoint
 
-echo "model_checkpoint_path: \"inceptionv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/InceptionV1-OnFire/checkpoint
-echo "all_model_checkpoint_paths: \"inceptionv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/InceptionV1-OnFire/checkpoint
+echo "model_checkpoint_path: \"inceptiononv1onfire\"" >> $MODEL_DIR_LOCAL_TARGET/InceptionV1-OnFire/checkpoint
+echo "all_model_checkpoint_paths: \"inceptiononv1onfire\"" >> $MODEL_DIR_LOCAL_TARGET/InceptionV1-OnFire/checkpoint
 
-echo "model_checkpoint_path: \"sp-inceptionv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/SP-InceptionV1-OnFire/checkpoint
-echo "all_model_checkpoint_paths: \"sp-inceptionv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/SP-InceptionV1-OnFire/checkpoint
+echo "model_checkpoint_path: \"sp-inceptionv1onfire\"" >> $MODEL_DIR_LOCAL_TARGET/SP-InceptionV1-OnFire/checkpoint
+echo "all_model_checkpoint_paths: \"sp-inceptionv1onfire\"" >> $MODEL_DIR_LOCAL_TARGET/SP-InceptionV1-OnFire/checkpoint
 
 ################################################################################
 
