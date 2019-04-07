@@ -66,11 +66,11 @@ rm $MODELS_FILE_NAME && rm -r $MODELS_DIR_NAME_UNZIPPED
 echo "model_checkpoint_path: \"firenet\"" >> $MODELS_DIR_NAME_UNZIPPED/FireNet/checkpoint
 echo "all_model_checkpoint_paths: \"firenet\"" >> $MODELS_DIR_NAME_UNZIPPED/FireNet/checkpoint
 
-echo "model_checkpoint_path: \"inceptiononv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/InceptionV1-OnFire/checkpoint
-echo "all_model_checkpoint_paths: \"inceptiononv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/InceptionV1-OnFire/checkpoint
+echo "model_checkpoint_path: \"inceptionv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/InceptionV1-OnFire/checkpoint
+echo "all_model_checkpoint_paths: \"inceptionv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/InceptionV1-OnFire/checkpoint
 
-echo "model_checkpoint_path: \"sp-inceptiononv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/SP-InceptionV1-OnFire/checkpoint
-echo "all_model_checkpoint_paths: \"sp-inceptiononv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/SP-InceptionV1-OnFire/checkpoint
+echo "model_checkpoint_path: \"sp-inceptionv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/SP-InceptionV1-OnFire/checkpoint
+echo "all_model_checkpoint_paths: \"sp-inceptionv1onfire\"" >> $MODELS_DIR_NAME_UNZIPPED/SP-InceptionV1-OnFire/checkpoint
 
 ################################################################################
 
