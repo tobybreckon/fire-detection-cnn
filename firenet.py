@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     # construct and display model
 
-    model = construct_firenet (224, 224)
+    model = construct_firenet (224, 224, training=False)
     print("Constructed FireNet ...")
 
     model.load(os.path.join("models/FireNet", "firenet"),weights_only=True)
