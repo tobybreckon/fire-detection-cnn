@@ -66,6 +66,8 @@ def construct_firenet (x,y, training=False):
 
     return model
 
+################################################################################
+
 if __name__ == '__main__':
 
 ################################################################################
@@ -156,5 +158,5 @@ if __name__ == '__main__':
                 cv2.setWindowProperty(windowName, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN);
     else:
         print("usage: python firenet.py videofile.ext");
-        
+
 ################################################################################
