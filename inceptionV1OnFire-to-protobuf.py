@@ -88,7 +88,7 @@ if __name__ == '__main__':
     out_node = 'FullyConnected/Softmax'        # output layer of inceptionv1onfire
     graph_def = optimize_for_inference_lib.optimize_for_inference(minimal_graph, [inp_node], [out_node], tf.float32.as_datatype_enum)
     graph_def = TransformGraph(graph_def, [inp_node], [out_node], ["sort_by_execution_order"])
-    with tf.gfile.FastGFile('inceptionv1onfire.pb', 'wb') as f:
+    with tf.gfile.GFile('inceptionv1onfire.pb', 'wb') as f:
         f.write(graph_def.SerializeToString())
 
     # write model to logs dir so we can visualize it as:
