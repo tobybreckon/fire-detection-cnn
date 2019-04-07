@@ -45,7 +45,7 @@ from inceptionV1OnFire import construct_inceptionv1onfire
 
 ################################################################################
 
-verbose = True; # set to true to output all layer names and logs for tensorboard
+verbose = False; # set to true to output all layer names and logs for tensorboard
 
 ################################################################################
 
