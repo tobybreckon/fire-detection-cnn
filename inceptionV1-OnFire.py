@@ -24,7 +24,7 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 
-def construct_inceptionv1onfire (x,y):
+def construct_inceptionv1onfire (x,y, training=False):
 
     # Build network as per architecture in [Dunnings/Breckon, 2018]
 
@@ -78,102 +78,112 @@ def construct_inceptionv1onfire (x,y):
     pool5_7_7 = avg_pool_2d(inception_4a_output, kernel_size=5, strides=1)
     pool5_7_7 = dropout(pool5_7_7, 0.4)
     loss = fully_connected(pool5_7_7, 2,activation='softmax')
-    network = regression(loss, optimizer='momentum',
-                         loss='categorical_crossentropy',
-                         learning_rate=0.001)
+
+    # if training then add training hyperparameters
+
+    if(training):
+        network = regression(loss, optimizer='momentum',
+                            loss='categorical_crossentropy',
+                            learning_rate=0.001)
+    else:
+        network = loss;
+
     model = tflearn.DNN(network, checkpoint_path='inceptiononv1onfire',
                         max_checkpoints=1, tensorboard_verbose=2)
 
     return model
 
+################################################################################
+
+if __name__ == '__main__':
 
 ################################################################################
 
-# construct and display model
+    #   construct and display model
 
-model = construct_inceptionv1onfire (224, 224)
-print("Constructed InceptionV1-OnFire ...")
+    model = construct_inceptionv1onfire (224, 224, training=False)
+    print("Constructed InceptionV1-OnFire ...")
 
-model.load(os.path.join("models/InceptionV1-OnFire", "inceptiononv1onfire"),weights_only=True)
-print("Loaded CNN network weights ...")
-
-################################################################################
-
-# network input sizes
-
-rows = 224
-cols = 224
-
-# display and loop settings
-
-windowName = "Live Fire Detection - InceptionV1-OnFire";
-keepProcessing = True;
+    model.load(os.path.join("models/InceptionV1-OnFire", "inceptiononv1onfire"),weights_only=True)
+    print("Loaded CNN network weights ...")
 
 ################################################################################
 
-if len(sys.argv) == 2:
+    # network input sizes
 
-    # load video file from first command line argument
+    rows = 224
+    cols = 224
 
-    video = cv2.VideoCapture(sys.argv[1])
-    print("Loaded video ...")
+    # display and loop settings
 
-    # create window
+    windowName = "Live Fire Detection - InceptionV1-OnFire";
+    keepProcessing = True;
 
-    cv2.namedWindow(windowName, cv2.WINDOW_NORMAL);
+################################################################################
 
-    # get video properties
+    if len(sys.argv) == 2:
 
-    width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH));
-    height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    fps = video.get(cv2.CAP_PROP_FPS)
-    frame_time = round(1000/fps);
+        # load video file from first command line argument
 
-    while (keepProcessing):
+        video = cv2.VideoCapture(sys.argv[1])
+        print("Loaded video ...")
 
-        # start a timer (to see how long processing and display takes)
+        # create window
 
-        start_t = cv2.getTickCount();
+        cv2.namedWindow(windowName, cv2.WINDOW_NORMAL);
 
-        # get video frame from file, handle end of file
+        # get video properties
 
-        ret, frame = video.read()
-        if not ret:
-            print("... end of video file reached");
-            break;
+        width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH));
+        height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fps = video.get(cv2.CAP_PROP_FPS)
+        frame_time = round(1000/fps);
 
-        # re-size image to network input size and perform prediction
+        while (keepProcessing):
 
-        small_frame = cv2.resize(frame, (rows, cols), cv2.INTER_AREA)
-        output = model.predict([small_frame])
+            # start a timer (to see how long processing and display takes)
 
-        # label image based on prediction
+            start_t = cv2.getTickCount();
 
-        if round(output[0][0]) == 1:
-            cv2.rectangle(frame, (0,0), (width,height), (0,0,255), 50)
-            cv2.putText(frame,'FIRE',(int(width/16),int(height/4)),
-                cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
-        else:
-            cv2.rectangle(frame, (0,0), (width,height), (0,255,0), 50)
-            cv2.putText(frame,'CLEAR',(int(width/16),int(height/4)),
-                cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
+            # get video frame from file, handle end of file
 
-        # stop the timer and convert to ms. (to see how long processing and display takes)
+            ret, frame = video.read()
+            if not ret:
+                print("... end of video file reached");
+                break;
 
-        stop_t = ((cv2.getTickCount() - start_t)/cv2.getTickFrequency()) * 1000;
+            # re-size image to network input size and perform prediction
 
-        # image display and key handling
+            small_frame = cv2.resize(frame, (rows, cols), cv2.INTER_AREA)
+            output = model.predict([small_frame])
 
-        cv2.imshow(windowName, frame);
+            # label image based on prediction
 
-        # wait fps time or less depending on processing time taken (e.g. 1000ms / 25 fps = 40 ms)
+            if round(output[0][0]) == 1:
+                cv2.rectangle(frame, (0,0), (width,height), (0,0,255), 50)
+                cv2.putText(frame,'FIRE',(int(width/16),int(height/4)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
+            else:
+                cv2.rectangle(frame, (0,0), (width,height), (0,255,0), 50)
+                cv2.putText(frame,'CLEAR',(int(width/16),int(height/4)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
 
-        key = cv2.waitKey(max(2, frame_time - int(math.ceil(stop_t)))) & 0xFF;
-        if (key == ord('x')):
-            keepProcessing = False;
-        elif (key == ord('f')):
-            cv2.setWindowProperty(windowName, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN);
-else:
-    print("usage: python inceptionV1-OnFire.py videofile.ext");
+            # stop the timer and convert to ms. (to see how long processing and display takes)
+
+            stop_t = ((cv2.getTickCount() - start_t)/cv2.getTickFrequency()) * 1000;
+
+            # image display and key handling
+
+            cv2.imshow(windowName, frame);
+
+            # wait fps time or less depending on processing time taken (e.g. 1000ms / 25 fps = 40 ms)
+
+            key = cv2.waitKey(max(2, frame_time - int(math.ceil(stop_t)))) & 0xFF;
+            if (key == ord('x')):
+                keepProcessing = False;
+            elif (key == ord('f')):
+                cv2.setWindowProperty(windowName, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN);
+    else:
+        print("usage: python inceptionV1-OnFire.py videofile.ext");
 
 ################################################################################
