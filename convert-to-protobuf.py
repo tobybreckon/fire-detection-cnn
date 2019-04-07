@@ -103,6 +103,8 @@ if __name__ == '__main__':
     for f in glob.glob("firenet-tmp.tfl*"):
         os.remove(f)
 
+    os.remove('checkpoint')
+
     ##############################
 
     # perform test inference using OpenCV
@@ -124,6 +126,7 @@ if __name__ == '__main__':
     # Runs a forward pass to compute the net output
     networkOutput = tensorflowNet.forward()
     print("[INFO] example image - Fire: " + str(networkOutput[0][0]) + " Not Fire: " + str(networkOutput[0][1]))
+    print("[INFO] - press any key to exit")
 
     # Show the image with a rectagle surrounding the detected objects
     cv2.imshow('Example Detection', img)
