@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     # perform test inference using OpenCV
 
-    print("[INFO] test FireNet model firenet.pb with OpenCV ...")
+    print("[INFO] test FireNet model " + pbfilename + " with OpenCV ...")
 
     # Load a model imported from Tensorflow
 
