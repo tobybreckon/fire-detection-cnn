@@ -30,7 +30,7 @@ if __name__ == '__main__':
 
     # construct and re-export model (so that is excludes the training layers)
 
-    model = construct_inceptionv1onfire (224, 224, True)
+    model = construct_inceptionv1onfire (224, 224, False)
     print("[INFO] Constructed InceptionV1-OnFire ...")
 
     path = "models/InceptionV1-OnFire/inceptiononv1onfire"; # path to tflearn checkpoint including filestem
