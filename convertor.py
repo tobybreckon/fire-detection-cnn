@@ -56,7 +56,7 @@ def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename,
 
   # taken from: https://stackoverflow.com/questions/34343259/is-there-an-example-on-how-to-generate-protobuf-files-holding-trained-tensorflow
 
-  print("[INFO] Re-omport model ...")
+  print("[INFO] Re-import model ...")
 
   input_checkpoint = "model-tmp.tfl"
   saver = tf.train.import_meta_graph(input_checkpoint + '.meta', True)
