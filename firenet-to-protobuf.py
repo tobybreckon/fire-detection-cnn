@@ -26,10 +26,6 @@ from convertor import convert_to_pb
 
 ################################################################################
 
-verbose = False; # set to true to output all layer names and logs for tensorboard
-
-################################################################################
-
 if __name__ == '__main__':
 
     # construct and re-export model (so that is excludes the training layers)
