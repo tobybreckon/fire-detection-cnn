@@ -1,7 +1,7 @@
 ################################################################################
 
 # Example : perform conversion of FireNet tflearn model to TensorFlow protocol
-# buffer (.pb) format files (for import into other tools, example OpenCV DNN)
+# buffer (.pb) binary format files (for import into other tools, example OpenCV)
 
 # Copyright (c) 2019 Toby Breckon, Durham University, UK
 
@@ -15,26 +15,6 @@ import glob,os
 
 ################################################################################
 
-# import tensorflow api
-
-import tensorflow as tf
-from tensorflow.python.framework import graph_util
-from tensorflow.python.framework.graph_util import convert_variables_to_constants
-from tensorflow.tools.graph_transforms import TransformGraph
-from tensorflow.python.tools import optimize_for_inference_lib
-
-################################################################################
-
-# import tflearn api
-
-import tflearn
-from tflearn.layers.core import *
-from tflearn.layers.conv import *
-from tflearn.layers.normalization import *
-from tflearn.layers.estimator import regression
-
-################################################################################
-
 # import opencv
 
 import cv2
@@ -42,6 +22,7 @@ import cv2
 ################################################################################
 
 from firenet import construct_firenet
+from convertor import convert_to_pb
 
 ################################################################################
 
@@ -56,56 +37,12 @@ if __name__ == '__main__':
     model = construct_firenet (224, 224, False)
     print("[INFO] Constructed FireNet ...")
 
-    model.load("models/FireNet/firenet",weights_only=True)
-    print("[INFO] Loaded CNN network weights for FireNet ...")
+    path = "models/FireNet/firenet"; # path to tflearn checkpoint including filestem
+    input_layer_name = 'InputData/X'                  # input layer of network
+    output_layer_name= 'FullyConnected_2/Softmax'     # output layer of network
+    pbfilename = "firenet.pb"        # output pb format filename
 
-    print("[INFO] Re-export FireNet model ...")
-    del tf.get_collection_ref(tf.GraphKeys.TRAIN_OPS)[:]
-    model.save("firenet-tmp.tfl")
-
-    # taken from: https://stackoverflow.com/questions/34343259/is-there-an-example-on-how-to-generate-protobuf-files-holding-trained-tensorflow
-
-    print("[INFO] Import FireNet model ...")
-
-    input_checkpoint = "firenet-tmp.tfl"
-    saver = tf.train.import_meta_graph(input_checkpoint + '.meta', True)
-    sess = tf.Session();
-    saver.restore(sess, input_checkpoint)
-
-    # print out all layers to find name of output
-
-    if (verbose):
-        op = sess.graph.get_operations()
-        [print(m.values()) for m in op][1]
-
-    print("[INFO] Freeze FireNet model to firenet.pb ...")
-
-    # freeze and removes nodes which are not related to feedforward prediction
-
-    minimal_graph = convert_variables_to_constants(sess, sess.graph_def, ["FullyConnected_2/Softmax"])
-
-    inp_node = 'InputData/X'                   # input layer of firenet
-    out_node = 'FullyConnected_2/Softmax'      # output layer of firenet
-    graph_def = optimize_for_inference_lib.optimize_for_inference(minimal_graph, [inp_node], [out_node], tf.float32.as_datatype_enum)
-    graph_def = TransformGraph(graph_def, [inp_node], [out_node], ["sort_by_execution_order"])
-    with tf.gfile.GFile('firenet.pb', 'wb') as f:
-        f.write(graph_def.SerializeToString())
-
-    # write model to logs dir so we can visualize it as:
-    # tensorboard --logdir="logs"
-
-    if (verbose):
-        writer = tf.summary.FileWriter('logs', graph_def)
-        writer.close()
-
-    # tidy up tmp files
-
-    for f in glob.glob("firenet-tmp.tfl*"):
-        os.remove(f)
-
-    os.remove('checkpoint')
-
-    ##############################
+    convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename)
 
     # perform test inference using OpenCV
 
@@ -113,7 +50,7 @@ if __name__ == '__main__':
 
     # Load a model imported from Tensorflow
 
-    tensorflowNet = cv2.dnn.readNetFromTensorflow('firenet.pb');
+    tensorflowNet = cv2.dnn.readNetFromTensorflow(pbfilename);
 
     # Input image
 
