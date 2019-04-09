@@ -15,12 +15,6 @@ import glob,os
 
 ################################################################################
 
-# import opencv
-
-import cv2
-
-################################################################################
-
 from firenet import construct_firenet
 from convertor import convert_to_pb
 
@@ -39,35 +33,5 @@ if __name__ == '__main__':
     pbfilename = "firenet.pb"        # output pb format filename
 
     convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename)
-
-    # perform test inference using OpenCV
-
-    print("[INFO] test FireNet model " + pbfilename + " with OpenCV ...")
-
-    # Load a model imported from Tensorflow
-
-    tensorflowNet = cv2.dnn.readNetFromTensorflow(pbfilename);
-
-    # Input image
-
-    img = cv2.imread('images/slic-stages.png')
-    img = img[0:600,0:396]; # extract left part of example containing fire
-
-    # Use the given image as input, which needs to be blob(s).
-    tensorflowNet.setInput(cv2.dnn.blobFromImage(img, size=(224, 224), swapRB=False, crop=False))
-
-    # Runs a forward pass to compute the net output
-    networkOutput = tensorflowNet.forward()
-    print("[INFO] example image - Fire: " + str(networkOutput[0][0]) + " Not Fire: " + str(networkOutput[0][1]))
-    print("[INFO] - press any key to exit")
-
-    # Show the image with a rectagle surrounding the detected objects
-    cv2.imshow('Example Detection', img)
-    cv2.waitKey()
-    cv2.destroyAllWindows()
-
-    # clean up temp files
-
-    # TODO
 
 ################################################################################
