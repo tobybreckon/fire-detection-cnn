@@ -30,7 +30,7 @@ for pbfilename in glob.glob("*.pb"):
 
     # Input image
 
-    img = cv2.imread('images/slic-stages.png')
+    img = cv2.imread('../images/slic-stages.png')
     img = img[0:600,0:396]; # extract left part of example containing fire
 
     # Use the given image as input, which needs to be blob(s).
