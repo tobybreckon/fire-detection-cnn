@@ -82,7 +82,7 @@ $ python firenet-to-protobuf.py
 $ python inceptionV1OnFire-to-protobuf.py
 ```
 
-This creates three ```.pb``` files (```firenet.pb``` / ```inceptionv1onfire.pb```/```sp-inceptionv1onfire.pb```) which can then be tested with the  [OpenCV](http://www.opencv.org) DNN module (for example, using OpenCV > 4.1.0-pre) from within the same directory:
+This creates three ```.pb``` files inside the ```converter``` directory (```firenet.pb``` / ```inceptionv1onfire.pb```/```sp-inceptionv1onfire.pb```) which can then be tested with the  [OpenCV](http://www.opencv.org) DNN module (for example, using OpenCV > 4.1.0-pre) from within the same directory:
 
 ```
 $ python test-pb-opencv.py
