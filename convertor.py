@@ -69,7 +69,7 @@ def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename,
       op = sess.graph.get_operations()
       [print(m.values()) for m in op][1]
 
-  print("[INFO] Freeze model to" +  pbfilename + " ...")
+  print("[INFO] Freeze model to " +  pbfilename + " ...")
 
   # freeze and removes nodes whichFalse are not related to feedforward prediction
 
