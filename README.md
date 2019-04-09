@@ -71,6 +71,27 @@ $ python superpixel-inceptionV1OnFire.py models/test.mp4
 
 ---
 
+## Instructions to use pre-trained models with other frameworks:
+
+To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) carry out the following:
+
+
+```
+$ cd converter
+$ python firenet-to-protobuf.py
+$ python inceptionV1OnFire-to-protobuf.py
+```
+
+This creates three ```.pb``` files (```firenet.pb``` / ```inceptionv1onfire.pb```/```sp-inceptionv1onfire.pb```) which can then be tested with the  [OpenCV](http://www.opencv.org) DNN module (for example, using OpenCV > 4.1.0-pre) from within the same directory:
+
+```
+$ python test-pb-opencv.py
+```
+
+(N.B. for the superpixel network, the test script just checks loading and inference with the ```.pb``` loaed model but does not supply an actual superpixel image - just any test image, hence inference fails to detect the fire correctly for the example only).
+
+---
+
 ## Example video:
 [![Examples](https://github.com/tobybreckon/fire-detection-cnn/blob/master/images/slic-ex.png)](https://youtu.be/RcNj8aMDer4)
 Video Example - click image above to play.
