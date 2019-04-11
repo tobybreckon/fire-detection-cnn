@@ -39,7 +39,7 @@ benchmark datasets to illustrate maximally robust real-time fire region detectio
 ## Reference implementation:
 Our binary detection (FireNet / InceptionV1-OnFire) architectures determine whether an image frame contains fire globally, whereas the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment to provide in-frame localization.
 
-This respository contains the ```firenet.py``` and ```inceptionV1-OnFire.py``` files corresponding to the two binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionV1-OnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper.
+This respository contains the ```firenet.py``` and ```inceptionV1OnFire.py``` files corresponding to the two binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionV1OnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper.
 
  To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data (on Linux/MacOS). Alternatively, you can manually download the pre-trained network models from [http://dx.doi.org/10.15128/r19880vq98m](http://dx.doi.org/10.15128/r19880vq98m) and unzip them to a directory called  ```models``` in the same place as the python files.
 
@@ -65,9 +65,30 @@ $ git clone https://github.com/tobybreckon/fire-detection-cnn.git
 $ cd fire-detection-cnn
 $ sh ./download-models.sh
 $ python firenet.py models/test.mp4
-$ python inceptionV1-OnFire.py models/test.mp4
-$ python superpixel-inceptionV1-OnFire.py models/test.mp4
+$ python inceptionV1OnFire.py models/test.mp4
+$ python superpixel-inceptionV1OnFire.py models/test.mp4
 ```
+
+---
+
+## Instructions to use pre-trained models with other frameworks:
+
+To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) carry out the following:
+
+
+```
+$ cd converter
+$ python firenet-to-protobuf.py
+$ python inceptionV1OnFire-to-protobuf.py
+```
+
+This creates three ```.pb``` files inside the ```converter``` directory (```firenet.pb``` / ```inceptionv1onfire.pb```/```sp-inceptionv1onfire.pb```) which can then be tested with the  [OpenCV](http://www.opencv.org) DNN module (for example, using OpenCV > 4.1.0-pre) from within the same directory:
+
+```
+$ python test-pb-opencv.py
+```
+
+(N.B. for the superpixel network, the test script just checks loading and inference with the ```.pb``` loaed model but does not supply an actual superpixel image - just any test image, hence inference fails to detect the fire correctly for the example only).
 
 ---
 

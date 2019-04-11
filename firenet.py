@@ -23,7 +23,7 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 
-def construct_firenet (x,y):
+def construct_firenet (x,y, training=False):
 
     # Build network as per architecture in [Dunnings/Breckon, 2018]
 
@@ -52,9 +52,15 @@ def construct_firenet (x,y):
 
     network = fully_connected(network, 2, activation='softmax')
 
-    network = regression(network, optimizer='momentum',
-                         loss='categorical_crossentropy',
-                         learning_rate=0.001)
+    # if training then add training hyperparameters
+
+    if(training):
+        network = regression(network, optimizer='momentum',
+                            loss='categorical_crossentropy',
+                            learning_rate=0.001)
+
+    # constuct final model
+
     model = tflearn.DNN(network, checkpoint_path='firenet',
                         max_checkpoints=1, tensorboard_verbose=2)
 
@@ -62,91 +68,95 @@ def construct_firenet (x,y):
 
 ################################################################################
 
-# construct and display model
-
-model = construct_firenet (224, 224)
-print("Constructed FireNet ...")
-
-model.load(os.path.join("models/FireNet", "firenet"),weights_only=True)
-print("Loaded CNN network weights ...")
+if __name__ == '__main__':
 
 ################################################################################
 
-# network input sizes
+    # construct and display model
 
-rows = 224
-cols = 224
+    model = construct_firenet (224, 224, training=False)
+    print("Constructed FireNet ...")
 
-# display and loop settings
-
-windowName = "Live Fire Detection - FireNet CNN";
-keepProcessing = True;
+    model.load(os.path.join("models/FireNet", "firenet"),weights_only=True)
+    print("Loaded CNN network weights ...")
 
 ################################################################################
 
-if len(sys.argv) == 2:
+    # network input sizes
 
-    # load video file from first command line argument
+    rows = 224
+    cols = 224
 
-    video = cv2.VideoCapture(sys.argv[1])
-    print("Loaded video ...")
+    # display and loop settings
 
-    # create window
+    windowName = "Live Fire Detection - FireNet CNN";
+    keepProcessing = True;
 
-    cv2.namedWindow(windowName, cv2.WINDOW_NORMAL);
+################################################################################
 
-    # get video properties
+    if len(sys.argv) == 2:
 
-    width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH));
-    height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    fps = video.get(cv2.CAP_PROP_FPS)
-    frame_time = round(1000/fps);
+        # load video file from first command line argument
 
-    while (keepProcessing):
+        video = cv2.VideoCapture(sys.argv[1])
+        print("Loaded video ...")
 
-        # start a timer (to see how long processing and display takes)
+        # create window
 
-        start_t = cv2.getTickCount();
+        cv2.namedWindow(windowName, cv2.WINDOW_NORMAL);
 
-        # get video frame from file, handle end of file
+        # get video properties
 
-        ret, frame = video.read()
-        if not ret:
-            print("... end of video file reached");
-            break;
+        width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH));
+        height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fps = video.get(cv2.CAP_PROP_FPS)
+        frame_time = round(1000/fps);
 
-        # re-size image to network input size and perform prediction
+        while (keepProcessing):
 
-        small_frame = cv2.resize(frame, (rows, cols), cv2.INTER_AREA)
-        output = model.predict([small_frame])
+            # start a timer (to see how long processing and display takes)
 
-        # label image based on prediction
+            start_t = cv2.getTickCount();
 
-        if round(output[0][0]) == 1:
-            cv2.rectangle(frame, (0,0), (width,height), (0,0,255), 50)
-            cv2.putText(frame,'FIRE',(int(width/16),int(height/4)),
-                cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
-        else:
-            cv2.rectangle(frame, (0,0), (width,height), (0,255,0), 50)
-            cv2.putText(frame,'CLEAR',(int(width/16),int(height/4)),
-                cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
+            # get video frame from file, handle end of file
 
-        # stop the timer and convert to ms. (to see how long processing and display takes)
+            ret, frame = video.read()
+            if not ret:
+                print("... end of video file reached");
+                break;
 
-        stop_t = ((cv2.getTickCount() - start_t)/cv2.getTickFrequency()) * 1000;
+            # re-size image to network input size and perform prediction
 
-        # image display and key handling
+            small_frame = cv2.resize(frame, (rows, cols), cv2.INTER_AREA)
+            output = model.predict([small_frame])
 
-        cv2.imshow(windowName, frame);
+            # label image based on prediction
 
-        # wait fps time or less depending on processing time taken (e.g. 1000ms / 25 fps = 40 ms)
+            if round(output[0][0]) == 1:
+                cv2.rectangle(frame, (0,0), (width,height), (0,0,255), 50)
+                cv2.putText(frame,'FIRE',(int(width/16),int(height/4)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
+            else:
+                cv2.rectangle(frame, (0,0), (width,height), (0,255,0), 50)
+                cv2.putText(frame,'CLEAR',(int(width/16),int(height/4)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
 
-        key = cv2.waitKey(max(2, frame_time - int(math.ceil(stop_t)))) & 0xFF;
-        if (key == ord('x')):
-            keepProcessing = False;
-        elif (key == ord('f')):
-            cv2.setWindowProperty(windowName, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN);
-else:
-    print("usage: python firenet.py videofile.ext");
+            # stop the timer and convert to ms. (to see how long processing and display takes)
+
+            stop_t = ((cv2.getTickCount() - start_t)/cv2.getTickFrequency()) * 1000;
+
+            # image display and key handling
+
+            cv2.imshow(windowName, frame);
+
+            # wait fps time or less depending on processing time taken (e.g. 1000ms / 25 fps = 40 ms)
+
+            key = cv2.waitKey(max(2, frame_time - int(math.ceil(stop_t)))) & 0xFF;
+            if (key == ord('x')):
+                keepProcessing = False;
+            elif (key == ord('f')):
+                cv2.setWindowProperty(windowName, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN);
+    else:
+        print("usage: python firenet.py videofile.ext");
 
 ################################################################################

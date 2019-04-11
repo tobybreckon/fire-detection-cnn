@@ -59,6 +59,21 @@ mv $MODELS_DIR_NAME_UNZIPPED/* .
 
 rm $MODELS_FILE_NAME && rm -r $MODELS_DIR_NAME_UNZIPPED
 
+cd ..
+
+################################################################################
+
+# tlearn format specific - create checkpoint path files to enable conversion to pb format
+
+echo "model_checkpoint_path: \"firenet\"" > $MODEL_DIR_LOCAL_TARGET/FireNet/checkpoint
+echo "all_model_checkpoint_paths: \"firenet\"" >> $MODEL_DIR_LOCAL_TARGET/FireNet/checkpoint
+
+echo "model_checkpoint_path: \"inceptiononv1onfire\"" > $MODEL_DIR_LOCAL_TARGET/InceptionV1-OnFire/checkpoint
+echo "all_model_checkpoint_paths: \"inceptiononv1onfire\"" >> $MODEL_DIR_LOCAL_TARGET/InceptionV1-OnFire/checkpoint
+
+echo "model_checkpoint_path: \"sp-inceptionv1onfire\"" > $MODEL_DIR_LOCAL_TARGET/SP-InceptionV1-OnFire/checkpoint
+echo "all_model_checkpoint_paths: \"sp-inceptionv1onfire\"" >> $MODEL_DIR_LOCAL_TARGET/SP-InceptionV1-OnFire/checkpoint
+
 ################################################################################
 
 echo "... completed -> required models are in $MODEL_DIR_LOCAL_TARGET/"
