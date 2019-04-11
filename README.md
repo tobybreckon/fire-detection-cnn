@@ -60,6 +60,8 @@ Original frame (left), Frame after superpixel segmentation (middle), Frame after
 ---
 ## Instructions to test pre-trained models:
 
+To download and test the supplied code and pre-trained models (with TFLean/OpenCV installed) do:
+
 ```
 $ git clone https://github.com/tobybreckon/fire-detection-cnn.git
 $ cd fire-detection-cnn
@@ -73,7 +75,7 @@ $ python superpixel-inceptionV1OnFire.py models/test.mp4
 
 ## Instructions to use pre-trained models with other frameworks:
 
-To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) carry out the following:
+To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) do:
 
 
 ```
