@@ -18,6 +18,8 @@ import cv2
 
 # perform test inference using OpenCV
 
+print("Using OpenCV: " + cv2.__version__ + " (requires version > 4.1.0-pre)");
+
 print();
 
 for pbfilename in glob.glob("*.pb"):
