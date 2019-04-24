@@ -8,7 +8,7 @@ assignees: ''
 
 ---
 
-**Describe the issue**
+**Describe the issue or your query**
 Insert a clear and concise description of what the issue is.
 
 **Computing Environment (please complete the following information):**
