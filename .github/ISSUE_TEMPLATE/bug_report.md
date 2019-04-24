@@ -23,6 +23,9 @@ user@hostname[~] ....
  - OS: [e.g. Linux Ubuntu 18.... LTS ]
  - Tensorflow Version:  [e.g. 1.x]
  - OpenCV Version: [e.g. 3.4.x]
+ 
+ - alternative machine learning environment / toolkit (if applicable): [e.g. keras, pytorch + version]
+
 
 **Additional context**
 < insert any other context about the problem here >.
