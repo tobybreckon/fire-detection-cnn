@@ -48,6 +48,8 @@ The superpixel based approach was trained to perform superpixel based fire detec
   * the SP-InceptionV1-OnFire convolutional architecture, trained to detect fire in a given superpixel segment, is used on each superpixel.
   * at run-time, this SP-InceptionV1-OnFire, network is run on every superpixel from the SLIC segmentation output.
 
+_Which model should I use ?_ : for the best detection performance (i.e. true positive rate) and throughtput (speed, frames per second) use the FireNet model (example: ```firenet.py```); for a slighly lower false alarm rate (i.e. false positive rate, but only by 1%) but much lower throughtput (speed, frames per second) use the InceptionV1-OnFire model (example: ```inceptionV1OnFire.py```); for localization of the fire within the image use the superpixel InceptionV1-OnFire model (example: ```superpixel-inceptionV1OnFire.py```). For full details see paper - [[Dunnings and Breckon, 2018](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)]
+
 Training datasets:
 
 * The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497) (together with the trained network models). **As a temporary measure (as of March 2019)**, please download the full dataset from https://durhamuniversity.box.com/s/bxp9bvfcz3anb3lk2f4f3z3rtqyug5b1 _(no login required, we have updated the record on Durham Collections to reflect this)_.
