@@ -71,7 +71,7 @@ def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename,
 
   print("[INFO] Freeze model to " +  pbfilename + " ...")
 
-  # freeze and removes nodes whichFalse are not related to feedforward prediction
+  # freeze and removes nodes which are not related to feedforward prediction
 
   minimal_graph = convert_variables_to_constants(sess, sess.graph_def, [output_layer_name])
 
