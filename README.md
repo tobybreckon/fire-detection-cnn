@@ -52,7 +52,8 @@ _Which model should I use ?_ : for the best detection performance (i.e. true pos
 
 Training datasets:
 
-* The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497) (together with the trained network models). **As a temporary measure (as of March 2019)**, please download the full dataset from https://durhamuniversity.box.com/s/bxp9bvfcz3anb3lk2f4f3z3rtqyug5b1 _(no login required, we have updated the record on Durham Collections to reflect this)_.
+* The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497) (together with the trained network models). A direct download link for the dataset is [https://collections.durham.ac.uk/downloads/r2d217qp536](https://collections.durham.ac.uk/downloads/r2d217qp536).
+Datsaet DOI - [http://doi.org/10.15128/r2d217qp536](http://doi.org/10.15128/r2d217qp536). A download script ```download-dataset.sh``` is also provided which will create an additional ```dataset``` directory containing the training dataset (10.5Gb in size, works on Linux/MacOS).
 
 * In addition, standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
