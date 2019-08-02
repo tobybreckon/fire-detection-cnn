@@ -35,7 +35,7 @@ mkdir -p $MODEL_DIR_LOCAL_TARGET
 
 MODELS=./$MODEL_DIR_LOCAL_TARGET/$MODELS_FILE_NAME
 
-curl --progress-bar $URL_MODELS > $MODELS
+curl -k --progress-bar $URL_MODELS > $MODELS
 
 ################################################################################
 
