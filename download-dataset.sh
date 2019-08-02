@@ -5,7 +5,7 @@
 ################################################################################
 
 URL=https://collections.durham.ac.uk/downloads/r2d217qp536
-DIR_LOCAL_TARGET=data
+DIR_LOCAL_TARGET=dataset
 
 FILE_NAME=fire-dataset-dunnings-r2d217qp536-version1.zip
 DIR_NAME_UNZIPPED=fire-dataset-dunnings
