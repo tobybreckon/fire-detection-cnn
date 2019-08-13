@@ -93,7 +93,7 @@ This creates three ```.pb``` files inside the ```converter``` directory (```fire
 $ python test-pb-opencv.py
 ```
 
-(N.B. for the superpixel network, the test script just checks loading and inference with the ```.pb``` loaed model but does not supply an actual superpixel image - just any test image, hence inference fails to detect the fire correctly for the example only).
+(N.B. for the superpixel network, the test script just checks loading and inference with the ```.pb``` loaded model but does not supply an actual superpixel image - just any test image, hence inference fails to detect the fire correctly for the example only).
 
 **To convert to to other frameworks** (such as PyTorch, MXNet, Keras, ...) from this tensorflow format (protocol buffer, .pb): - please see the extensive deep neural network model conversion tools offered by the [MMdnn](https://github.com/Microsoft/MMdnn) project.
 
