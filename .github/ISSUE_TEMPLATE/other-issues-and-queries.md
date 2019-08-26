@@ -9,7 +9,7 @@ assignees: ''
 ---
 
 **Describe the issue or your query**
-Insert a clear and concise description of what the issue is.
+Insert a clear and concise description of what the issue is including any steps to reproduce and/or relevant script output.
 
 **Computing Environment (please complete the following information):**
  - OS: [e.g. Linux Ubuntu 18.... LTS ]
