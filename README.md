@@ -107,7 +107,8 @@ Video Example - click image above to play.
 
 ## Reference:
 
-If making use of this work in any way (including our [pretrained models](http://dx.doi.org/10.15128/r19880vq98m) or [dataset](http://dx.doi.org/10.15128/r2d217qp536)), please reference the following:
+If making use of this work in any way (including our [pretrained models](http://dx.doi.org/10.15128/r19880vq98m) or [dataset](http://dx.doi.org/10.15128/r2d217qp536)), _you must_ reference the following article in any report, publication, presentation, software release
+or any other materials:
 
 [Experimentally defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)
 (Dunnings and Breckon), In Proc. International Conference on Image Processing IEEE, 2018.
@@ -124,6 +125,8 @@ If making use of this work in any way (including our [pretrained models](http://
   keywords =   {simplified CNN, deep learning, fire detection, real-time, non-temporal, non-stationary visual fire detection},
 }
 ```
+
+In addition the terms of the [LICENSE](LICENSE) must be adhered to.
 
 ### Acknowledgements:
 
