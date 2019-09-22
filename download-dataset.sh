@@ -39,7 +39,7 @@ mkdir -p $DIR_LOCAL_TARGET
 
 TARGET=./$DIR_LOCAL_TARGET/$FILE_NAME
 
-curl -k $URL > $TARGET
+curl -L -k $URL > $TARGET
 
 ################################################################################
 
