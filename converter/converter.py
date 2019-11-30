@@ -81,7 +81,7 @@ def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename,
   with tf.gfile.GFile(pbfilename, 'wb') as f:
       f.write(graph_def.SerializeToString())
 
-  # convert also to tflite format
+  # convert also to tflite format (taken from: https://www.tensorflow.org/lite/guide/inference)
 
   img = tf.placeholder(name=input_layer_name, dtype=tf.float32, shape=(1, 224, 224, 3))
   val = img + tf.constant([1., 2., 3.]) + tf.constant([1., 4., 4.])
