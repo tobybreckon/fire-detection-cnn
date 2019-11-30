@@ -1,7 +1,7 @@
 ################################################################################
 
 # Example : perform conversion from tflearn checkpoint format to TensorFlow
-# protocol buffer (.pb) binary format files (for import into other tools)
+# protocol buffer (.pb) binary format and also .tflite files (for import into other tools)
 
 # Copyright (c) 2019 Toby Breckon, Durham University, UK
 
@@ -37,14 +37,14 @@ from tflearn.layers.estimator import regression
 ################################################################################
 # convert a loaded model definition by loading a checkpoint from a given path
 # retaining the network between the specified input and output layers
-# outputs to pbfilename as a binary .pb protocol buffer format files
+# outputs to pbfilename as a binary .pb protocol buffer format file
 
 # e.g. for FireNet
 #    model = construct_firenet (224, 224, False)
 #    path = "models/FireNet/firenet"; # path to tflearn checkpoint including filestem
 #    input_layer_name = 'InputData/X'                  # input layer of network
 #    output_layer_name= 'FullyConnected_2/Softmax'     # output layer of network
-#    pbfilename = "firenet.pb"        # output pb format filename
+#    filename = "firenet.pb"                              # output filename
 
 def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename, verbose=False):
 
@@ -74,22 +74,12 @@ def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename,
 
   # freeze and removes nodes which are not related to feedforward prediction
 
-  minimal_graph = tf.compat.v1.graph_util.convert_variables_to_constants(sess, sess.graph_def, [output_layer_name])
+  minimal_graph = convert_variables_to_constants(sess, sess.graph_def, [output_layer_name])
 
   graph_def = optimize_for_inference_lib.optimize_for_inference(minimal_graph, [input_layer_name], [output_layer_name], tf.float32.as_datatype_enum)
   graph_def = TransformGraph(graph_def, [input_layer_name], [output_layer_name], ["sort_by_execution_order"])
   with tf.gfile.GFile(pbfilename, 'wb') as f:
       f.write(graph_def.SerializeToString())
-
-  # convert also to tflite format (taken from: https://www.tensorflow.org/lite/guide/inference)
-
-  img = tf.placeholder(name=input_layer_name, dtype=tf.float32, shape=(1, 224, 224, 3))
-  val = img + tf.constant([1., 2., 3.]) + tf.constant([1., 4., 4.])
-  out = tf.identity(val, name=output_layer_name)
-
-  converter = TFLiteConverter.from_session(sess, input_tensors=[img], output_tensors=[out])
-  tflite_model = converter.convert()
-  open("converted_model.tflite", "wb").write(tflite_model)
 
   # write model to logs dir so we can visualize it as:
   # tensorboard --logdir="logs"
@@ -104,5 +94,23 @@ def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename,
       os.remove(f)
 
   os.remove('checkpoint')
+
+################################################################################
+# convert a  binary .pb protocol buffer format model to tflite format
+
+# e.g. for FireNet
+#    pbfilename = "firenet.pb"
+#    input_layer_name = 'InputData/X'                  # input layer of network
+#    output_layer_name= 'FullyConnected_2/Softmax'     # output layer of network
+
+def convert_to_tflite(pbfilename, input_layer_name,  output_layer_name):
+
+  input_tensor={input_layer_name:[1,224,224,3]}
+
+  print("[INFO] tflite model to " +  pbfilename.replace(".pb",".tflite") + " ...")
+
+  converter = tf.lite.TFLiteConverter.from_frozen_graph(pbfilename, [input_layer_name], [output_layer_name], input_tensor)
+  tflite_model = converter.convert()
+  open(pbfilename.replace(".pb",".tflite"), "wb").write(tflite_model)
 
 ################################################################################
