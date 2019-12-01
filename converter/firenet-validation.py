@@ -86,12 +86,12 @@ while (keepProcessing):
 
     # re-size image to network input size and perform prediction
 
+    # input to networks is: 224x224x3 colour image with channel ordering as {B,G,R}
+    # as is the opencv norm, not {R,G,B} and pixel value range 0->255 for each channel
+
     small_frame = cv2.resize(frame, (224, 224), cv2.INTER_AREA)
 
     ############################################################################
-
-    # input to networks is: 224x224x3 colour image with channel ordering as {B,G,R}
-    # as is the opencv norm, not {R,G,B} and pixel value range 0->255 for each channel
 
     np.set_printoptions(precision=6)
 
@@ -120,12 +120,11 @@ while (keepProcessing):
     print("\t: TFLite (via tensorflow): ", end = '')
     print(output_tflite, end = '')
 
-    print()
-
     try:
         np.testing.assert_almost_equal(output_tflearn, output_tensorflow_pb, 7)
         np.testing.assert_almost_equal(output_tflearn, output_tflite, 7)
+        print(": all equal test - PASS")
     except AssertionError:
-        print("Warning: not equal to 7 decimal places");
+        print(" all equal test - FAIL")
 
 ################################################################################
