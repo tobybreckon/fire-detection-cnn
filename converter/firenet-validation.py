@@ -73,6 +73,7 @@ width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 frame_counter = 0
+fail_counter = 0
 
 while (True):
 
@@ -128,5 +129,8 @@ while (True):
         print(": all equal test - PASS")
     except AssertionError:
         print(" all equal test - FAIL")
+        fail_counter = fail_counter +1;
 
+################################################################################
+print("*** FINAL cross-model validation FAILS (for precision of " + VALIDATE_TO_PRECISION_N + ") = " + fail_counter);
 ################################################################################
