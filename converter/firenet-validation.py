@@ -23,6 +23,10 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 
+VALIDATE_TO_PRECISION_N = 5
+
+################################################################################
+
 sys.path.append('..')
 from firenet import construct_firenet
 
@@ -40,7 +44,7 @@ print("OK")
 # tf protocol buffer - load model (into opencv)
 
 print("Load protocolbuf (pb) model from: firenet.pb ...", end = '')
-tensorflow_pb_model = cv2.dnn.readNetFromTensorflow('firenet.pb');
+tensorflow_pb_model = cv2.dnn.readNetFromTensorflow('firenet.pb')
 print("OK")
 
 ################################################################################
@@ -65,20 +69,19 @@ print("Load test video from ../models/test.mp4 ...")
 
 # get video properties
 
-width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH));
+width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-frame_counter = 0;
-keepProcessing = True;
+frame_counter = 0
 
-while (keepProcessing):
+while (True):
 
     # get video frame from file, handle end of file
 
     ret, frame = video.read()
     if not ret:
-        print("... end of video file reached");
-        keepProcessing = False;
+        print("... end of video file reached")
+        break
 
     print("frame: " + str(frame_counter),  end = '')
     frame_counter = frame_counter + 1
@@ -120,8 +123,8 @@ while (keepProcessing):
     print(output_tflite, end = '')
 
     try:
-        np.testing.assert_almost_equal(output_tflearn, output_tensorflow_pb, 7)
-        np.testing.assert_almost_equal(output_tflearn, output_tflite, 7)
+        np.testing.assert_almost_equal(output_tflearn, output_tensorflow_pb, VALIDATE_TO_PRECISION_N)
+        np.testing.assert_almost_equal(output_tflearn, output_tflite, 3)
         print(": all equal test - PASS")
     except AssertionError:
         print(" all equal test - FAIL")
