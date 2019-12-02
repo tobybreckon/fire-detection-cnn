@@ -55,7 +55,6 @@ print("OK")
 # Get input and output tensors.
 tflife_input_details = tflife_model.get_input_details()
 tflife_output_details = tflife_model.get_output_details()
-print(tflife_input_details[0]['shape'])
 
 ################################################################################
 
