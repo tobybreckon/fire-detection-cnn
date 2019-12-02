@@ -102,7 +102,7 @@ In addition it creates one ```.tflite``` file is created (at present) for FireNe
 $ python firenet-validation.py
 Load tflearn model from: ../models/FireNet ...OK
 Load protocolbuf (pb) model from: firenet.pb ...OK
-Load protocolbuf (pb) model from: firenet.tflite ...OK
+Load tflite model from: firenet.tflite ...OK
 Load test video from ../models/test.mp4 ...
 frame: 0        : TFLearn (original): [[9.999914e-01 8.576833e-06]]     : Tensorflow .pb (via opencv): [[9.999914e-01 8.576866e-06]]    : TFLite (via tensorflow): [[9.999914e-01 8.576899e-06]]: all equal test - PASS
 frame: 1        : TFLearn (original): [[9.999924e-01 7.609045e-06]]     : Tensorflow .pb (via opencv): [[9.999924e-01 7.608987e-06]]    : TFLite (via tensorflow): [[9.999924e-01 7.608980e-06]]: all equal test - PASS

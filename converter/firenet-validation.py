@@ -51,7 +51,7 @@ print("OK")
 
 # tflite - load model
 
-print("Load protocolbuf (pb) model from: firenet.tflite ...", end = '')
+print("Load tflite model from: firenet.tflite ...", end = '')
 tflife_model = tf.lite.Interpreter(model_path="firenet.tflite")
 tflife_model.allocate_tensors()
 print("OK")
