@@ -129,8 +129,8 @@ while (True):
         print(": all equal test - PASS")
     except AssertionError:
         print(" all equal test - FAIL")
-        fail_counter = fail_counter +1;
+        fail_counter = fail_counter +1
 
 ################################################################################
-print("*** FINAL cross-model validation FAILS (for precision of " + str(VALIDATE_TO_PRECISION_N) + ") = " + str(fail_counter));
+print("*** FINAL cross-model validation FAILS (for precision of " + str(VALIDATE_TO_PRECISION_N) + ") = " + str(fail_counter))
 ################################################################################
