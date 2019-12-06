@@ -22,8 +22,8 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 from padding_images import *
-from inceptionv4_j_tflearn import *
-from inceptionv3_i_tflearn import *
+from inceptionV4OnFire import *
+from inceptionV3OnFire import *
 from PIL import Image
 
 ################################################################################
@@ -174,7 +174,7 @@ if len(sys.argv) == 2:
 
         cv2.imshow(windowName, small_frame);
         count+=1
-        
+
         # wait fps time or less depending on processing time taken (e.g. 1000ms / 25 fps = 40 ms)
 
         key = cv2.waitKey(max(2, frame_time - int(math.ceil(stop_t)))) & 0xFF;
