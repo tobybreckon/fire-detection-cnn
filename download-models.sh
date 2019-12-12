@@ -151,6 +151,7 @@ $UNCOMPRESS_COMMAND $FILE_NAME
 echo "Tidying up..."
 
 mv $DIR_NAME_UNZIPPED/[SI]* .
+echo >> README.txt
 cat $DIR_NAME_UNZIPPED/README.txt >> README.txt
 
 rm $FILE_NAME && rm -r $DIR_NAME_UNZIPPED
