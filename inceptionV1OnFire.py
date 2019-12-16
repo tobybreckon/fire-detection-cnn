@@ -76,7 +76,8 @@ def construct_inceptionv1onfire (x,y, training=False):
     inception_4a_output = merge([inception_4a_1_1, inception_4a_3_3, inception_4a_5_5, inception_4a_pool_1_1], mode='concat', axis=3, name='inception_4a_output')
 
     pool5_7_7 = avg_pool_2d(inception_4a_output, kernel_size=5, strides=1)
-    pool5_7_7 = dropout(pool5_7_7, 0.4)
+    if(training):
+        pool5_7_7 = dropout(pool5_7_7, 0.4)
     loss = fully_connected(pool5_7_7, 2,activation='softmax')
 
     # if training then add training hyperparameters

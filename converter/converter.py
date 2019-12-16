@@ -1,7 +1,7 @@
 ################################################################################
 
 # Example : perform conversion from tflearn checkpoint format to TensorFlow
-# protocol buffer (.pb) binary format files (for import into other tools)
+# protocol buffer (.pb) binary format and also .tflite files (for import into other tools)
 
 # Copyright (c) 2019 Toby Breckon, Durham University, UK
 
@@ -19,9 +19,10 @@ import glob,os
 
 import tensorflow as tf
 from tensorflow.python.framework import graph_util
-from tensorflow.python.framework.graph_util import convert_variables_to_constants
+from tensorflow.compat.v1.graph_util import convert_variables_to_constants
 from tensorflow.tools.graph_transforms import TransformGraph
 from tensorflow.python.tools import optimize_for_inference_lib
+from tensorflow.compat.v1.lite import TFLiteConverter
 
 ################################################################################
 
@@ -36,14 +37,14 @@ from tflearn.layers.estimator import regression
 ################################################################################
 # convert a loaded model definition by loading a checkpoint from a given path
 # retaining the network between the specified input and output layers
-# outputs to pbfilename as a binary .pb protocol buffer format files
+# outputs to pbfilename as a binary .pb protocol buffer format file
 
 # e.g. for FireNet
 #    model = construct_firenet (224, 224, False)
 #    path = "models/FireNet/firenet"; # path to tflearn checkpoint including filestem
 #    input_layer_name = 'InputData/X'                  # input layer of network
 #    output_layer_name= 'FullyConnected_2/Softmax'     # output layer of network
-#    pbfilename = "firenet.pb"        # output pb format filename
+#    filename = "firenet.pb"                              # output filename
 
 def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename, verbose=False):
 
@@ -93,5 +94,23 @@ def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename,
       os.remove(f)
 
   os.remove('checkpoint')
+
+################################################################################
+# convert a  binary .pb protocol buffer format model to tflite format
+
+# e.g. for FireNet
+#    pbfilename = "firenet.pb"
+#    input_layer_name = 'InputData/X'                  # input layer of network
+#    output_layer_name= 'FullyConnected_2/Softmax'     # output layer of network
+
+def convert_to_tflite(pbfilename, input_layer_name,  output_layer_name):
+
+  input_tensor={input_layer_name:[1,224,224,3]}
+
+  print("[INFO] tflite model to " +  pbfilename.replace(".pb",".tflite") + " ...")
+
+  converter = tf.lite.TFLiteConverter.from_frozen_graph(pbfilename, [input_layer_name], [output_layer_name], input_tensor)
+  tflite_model = converter.convert()
+  open(pbfilename.replace(".pb",".tflite"), "wb").write(tflite_model)
 
 ################################################################################
