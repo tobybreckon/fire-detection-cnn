@@ -21,25 +21,16 @@ from tflearn.layers.merge_ops import merge
 from tflearn.layers.estimator import regression
 
 ################################################################################
-from padding_images import *
-from inceptionV4OnFire import *
-from inceptionV3OnFire import *
-from PIL import Image
+
+from inceptionV4OnFire import construct_inceptionv4onfire
+from inceptionV3OnFire import construct_inceptionv3onfire
 
 ################################################################################
 
 # construct and display model
-
-normalization='batch_normalization'
-optimizer='rmsprop'
-dropout=0.4
-activation='relu'
+model = construct_inceptionv3onfire(224,224, training=False)
 
 ################################################################################
-
-# To change the model replace the function construct_inceptionv3onfire with construct_inceptionv4onfire
-
-model = construct_inceptionv3onfire(224,224,normalization,optimizer,dropout,activation,training=False)
 
 # load the network weights
 model.load('inceptionv3_i_bn_rmsprop_d_relu.tflearn')
@@ -64,6 +55,22 @@ def centering_superpixels(superpixel_image):
 
     return output_image_size
 
+def resize_image(image,target_shape, pad_value = 0):
+    assert isinstance(target_shape, list) or isinstance(target_shape, tuple)
+    add_shape, subs_shape = [], []
+
+    image_shape = image.shape
+    shape_difference = np.asarray(target_shape, dtype=int) - np.asarray(image_shape,dtype=int)
+    for diff in shape_difference:
+        if diff < 0:
+            subs_shape.append(np.s_[int(np.abs(np.ceil(diff/2))):int(np.floor(diff/2))])
+            add_shape.append((0, 0))
+        else:
+            subs_shape.append(np.s_[:])
+            add_shape.append((int(np.ceil(1.0*diff/2)),int(np.floor(1.0*diff/2))))
+    output = np.pad(image, tuple(add_shape), 'constant', constant_values=(pad_value, pad_value))
+    output = output[subs_shape]
+    return output
 
 
 
@@ -141,9 +148,7 @@ if len(sys.argv) == 2:
             # containing an isolated superpixel with the rest of the image being zero/black.
 
             superpixel = cv2.bitwise_and(small_frame, small_frame, mask = mask)
-            superpixel_image=Image.fromarray(superpixel)
-            b, g, r = superpixel_image.split()
-            im = Image.merge("RGB", (r, g, b))
+            superpixel = cv2.cvtColor(superpixel, cv2.COLOR_RGB2BGR)
 
             superpixel=centering_superpixels(im)
 
@@ -187,6 +192,6 @@ if len(sys.argv) == 2:
     print(sum(stop_t_list[1:]) / (len(stop_t_list) - 1))
     print('its here')
 else:
-    print("usage: python superpixel-inceptionV1-OnFire.py videofile.ext");
+    print("usage: python superpixel-inceptionV3-OnFire.py videofile.ext");
 
 ################################################################################
