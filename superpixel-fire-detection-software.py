@@ -32,6 +32,7 @@ model = construct_inceptionv3onfire(224,224, training=False)
 
 ################################################################################
 
+
 # load the network weights
 model.load('inceptionv3_i_bn_rmsprop_d_relu.tflearn')
 
@@ -148,7 +149,9 @@ if len(sys.argv) == 2:
             # containing an isolated superpixel with the rest of the image being zero/black.
 
             superpixel = cv2.bitwise_and(small_frame, small_frame, mask = mask)
-            superpixel = cv2.cvtColor(superpixel, cv2.COLOR_RGB2BGR)
+            superpixel_image = Image.fromarray(superpixel)
+            b,g,r = superpixel_image.split()
+            im = Image.merge("RGB", (r, g, b))
 
             superpixel=centering_superpixels(im)
 
