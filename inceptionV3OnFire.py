@@ -1,7 +1,17 @@
 #################################################################################
 
-#InceptionV3OnFire stacked with one bloack each of Inception A, B and C with filters reduced
+# Example : perform live fire detection in video using InceptionV3-OnFire CNN
 
+# License : https://github.com/tobybreckon/fire-detection-cnn/blob/master/LICENSE
+
+
+
+#################################################################################
+
+import cv2
+import os
+import sys
+import math
 
 #################################################################################
 
@@ -15,20 +25,23 @@ from tflearn.layers.normalization import local_response_normalization, batch_nor
 from tflearn.layers.merge_ops import merge
 from tflearn.layers.estimator import regression
 
+################################################################################
 
 def construct_inceptionv3onfire(x,y, training=False):
-    # Build network
-    # 224 x 224 original size
+
+    # build network as per architecture
+
     network = input_data(shape=[None, y, x, 3])
-    conv1_3_3 =conv_2d(network, 32, 3, strides=2, activation='relu', name = 'conv1_3_3',padding='valid')
-    conv2_3_3 =conv_2d(conv1_3_3, 32, 3, strides=1, activation='relu', name = 'conv2_3_3',padding='valid')
-    conv3_3_3 =conv_2d(conv2_3_3, 64, 3, strides=2, activation='relu', name = 'conv3_3_3')
+
+    conv1_3_3 = conv_2d(network, 32, 3, strides=2, activation='relu', name = 'conv1_3_3',padding='valid')
+    conv2_3_3 = conv_2d(conv1_3_3, 32, 3, strides=1, activation='relu', name = 'conv2_3_3',padding='valid')
+    conv3_3_3 = conv_2d(conv2_3_3, 64, 3, strides=2, activation='relu', name = 'conv3_3_3')
 
     pool1_3_3 = max_pool_2d(conv3_3_3, 3,strides=2)
     pool1_3_3 = batch_normalization(pool1_3_3)
-    conv1_7_7 =conv_2d(pool1_3_3, 80,3, strides=1, activation='relu', name='conv2_7_7_s2',padding='valid')
-    conv2_7_7 =conv_2d(conv1_7_7, 96,3, strides=1, activation='relu', name='conv2_7_7_s2',padding='valid')
-    pool2_3_3=max_pool_2d(conv2_7_7,3,strides=2)
+    conv1_7_7 = conv_2d(pool1_3_3, 80,3, strides=1, activation='relu', name='conv2_7_7_s2',padding='valid')
+    conv2_7_7 = conv_2d(conv1_7_7, 96,3, strides=1, activation='relu', name='conv2_7_7_s2',padding='valid')
+    pool2_3_3= max_pool_2d(conv2_7_7,3,strides=2)
 
     inception_3a_1_1 = conv_2d(pool2_3_3,64, filter_size=1, activation='relu', name='inception_3a_1_1')
 
@@ -44,9 +57,9 @@ def construct_inceptionv3onfire(x,y, training=False):
     inception_3a_pool = avg_pool_2d(pool2_3_3, kernel_size=3, strides=1,  name='inception_3a_pool')
     inception_3a_pool_1_1 = conv_2d(inception_3a_pool, 32, filter_size=1, activation='relu', name='inception_3a_pool_1_1')
 
+    # merge the inception_3a
+
     inception_3a_output = merge([inception_3a_1_1, inception_3a_3_3, inception_3a_5_5, inception_3a_pool_1_1], mode='concat', axis=3, name='inception_3a_output')
-
-
 
 
     inception_5a_1_1 = conv_2d(inception_3a_output, 96, 1, activation='relu', name='inception_5a_1_1')

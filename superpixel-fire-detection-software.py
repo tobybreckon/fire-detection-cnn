@@ -1,7 +1,10 @@
 ################################################################################
 
 # Example : perform live fire detection in video using superpixel localization
+# and the superpixel trained version of the InceptionV1-OnFire CNN
 
+
+# License : https://github.com/tobybreckon/fire-detection-cnn/blob/master/LICENSE
 
 ################################################################################
 
@@ -29,13 +32,12 @@ from inceptionV3OnFire import construct_inceptionv3onfire
 
 # construct and display model
 model = construct_inceptionv3onfire(224,224, training=False)
+print("Constructed SP-InceptionV3-OnFire ...")
+
+model.load(os.path.join("models/SP-InceptionV3-OnFire", "sp-inceptiononv3onfire"),weights_only=True)
+print("Loaded CNN network weights ...")
 
 ################################################################################
-
-
-# load the network weights
-model.load('inceptionv3_i_bn_rmsprop_d_relu.tflearn')
-
 
 # network input sizes
 
@@ -48,13 +50,30 @@ windowName = "Live Fire Detection - Superpixels with SP-InceptionV1-OnFire";
 keepProcessing = True;
 
 ################################################################################
-def centering_superpixels(superpixel_image):
-    imageBox = superpixel_image.getbbox()
-    cropped = superpixel_image.crop(imageBox)
-    np_image = np.array(cropped)
-    output_image_size = resize_image(np_image, [224, 224, 3])
 
-    return output_image_size
+#determining the coordinates of the bounding box
+
+def getboundingbox(img):
+    a = np.where(img != 0)
+    bbox = np.min(a[0]), np.max(a[0]), np.min(a[1]), np.max(a[1])
+    return bbox
+
+################################################################################
+
+# centering superpixels
+
+def centering_superpixels(superpixel_image):
+
+	imageBox = getboundingbox(superpixel_image)
+	print(imageBox)
+	cropped = superpixel_image[imageBox[0]:imageBox[1],imageBox[2]:imageBox[3]]
+	np_image = np.array(cropped)
+	output_image_size = resize_image(np_image, [224, 224, 3])
+	return output_image_size
+
+################################################################################
+
+# resizing image to the required (224,224,3) size
 
 def resize_image(image,target_shape, pad_value = 0):
     assert isinstance(target_shape, list) or isinstance(target_shape, tuple)
@@ -73,6 +92,7 @@ def resize_image(image,target_shape, pad_value = 0):
     output = output[subs_shape]
     return output
 
+################################################################################
 
 
 if len(sys.argv) == 2:
@@ -149,10 +169,6 @@ if len(sys.argv) == 2:
             # containing an isolated superpixel with the rest of the image being zero/black.
 
             superpixel = cv2.bitwise_and(small_frame, small_frame, mask = mask)
-            superpixel_image = Image.fromarray(superpixel)
-            b,g,r = superpixel_image.split()
-            im = Image.merge("RGB", (r, g, b))
-
             superpixel=centering_superpixels(im)
 
             # use loaded model to make prediction on given superpixel segments
