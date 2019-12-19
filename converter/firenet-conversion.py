@@ -1,7 +1,7 @@
 ################################################################################
 
 # Example : perform conversion of FireNet tflearn model to TensorFlow protocol
-# buffer (.pb) binary format files (for import into other tools, example OpenCV)
+# buffer (.pb) binary format and tflife format files (for import into other tools, example OpenCV)
 
 # Copyright (c) 2019 Toby Breckon, Durham University, UK
 
@@ -19,6 +19,7 @@ sys.path.append('..')
 
 from firenet import construct_firenet
 from converter import convert_to_pb
+from converter import convert_to_tflite
 
 ################################################################################
 
@@ -32,8 +33,9 @@ if __name__ == '__main__':
     path = "../models/FireNet/firenet"; # path to tflearn checkpoint including filestem
     input_layer_name = 'InputData/X'                  # input layer of network
     output_layer_name= 'FullyConnected_2/Softmax'     # output layer of network
-    pbfilename = "firenet.pb"        # output pb format filename
+    filename = "firenet.pb"                           # output pb format filename
 
-    convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename)
+    convert_to_pb(model, path, input_layer_name,  output_layer_name, filename)
+    convert_to_tflite(filename, input_layer_name,  output_layer_name)
 
 ################################################################################

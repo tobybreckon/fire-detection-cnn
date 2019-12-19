@@ -78,24 +78,34 @@ $ python superpixel-inceptionV1OnFire.py models/test.mp4
 
 ## Instructions to use pre-trained models with other frameworks:
 
-To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) do:
+To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) and
+also tflite (used with [TensorFlow](https://www.tensorflow.org/)) do:
 
 
 ```
 $ cd converter
-$ python firenet-to-protobuf.py
-$ python inceptionV1OnFire-to-protobuf.py
+$ python firenet-conversion.py
+$ python inceptionV1OnFire-conversion.py
 ```
 
-This creates three ```.pb``` files inside the ```converter``` directory (```firenet.pb``` / ```inceptionv1onfire.pb```/```sp-inceptionv1onfire.pb```) which can then be tested with the  [OpenCV](http://www.opencv.org) DNN module (for example, using OpenCV > 4.1.0-pre) from within the same directory:
+This creates a set of six ```.pb``` and ```.tflite``` files inside the ```converter``` directory (```firenet.xxx``` / ```inceptionv1onfire.xxx```/```sp-inceptionv1onfire.xxx``` for ```xxx``` in ```[pb, tflite]```). These files can then be validated  with the [OpenCV](http://www.opencv.org) DNN module (OpenCV > 4.1.0-pre) and [TensorFlow](https://www.tensorflow.org/) against the original (tflearn) from within the same directory, as follows:
 
 ```
-$ python test-pb-opencv.py
+$ python firenet-validation.py
+Load tflearn model from: ../models/FireNet ...OK
+Load protocolbuf (pb) model from: firenet.pb ...OK
+Load tflite model from: firenet.tflite ...OK
+Load test video from ../models/test.mp4 ...
+frame: 0        : TFLearn (original): [[9.999914e-01 8.576833e-06]]     : Tensorflow .pb (via opencv): [[9.999914e-01 8.576866e-06]]    : TFLite (via tensorflow): [[9.999914e-01 8.576899e-06]]: all equal test - PASS
+frame: 1        : TFLearn (original): [[9.999924e-01 7.609045e-06]]     : Tensorflow .pb (via opencv): [[9.999924e-01 7.608987e-06]]    : TFLite (via tensorflow): [[9.999924e-01 7.608980e-06]]: all equal test - PASS
+frame: 2        : TFLearn (original): [[9.999967e-01 3.373572e-06]]     : Tensorflow .pb (via opencv): [[9.999967e-01 3.373559e-06]]    : TFLite (via tensorflow): [[9.999967e-01 3.373456e-06]]: all equal test - PASS
+frame: 3        : TFLearn (original): [[9.999968e-01 3.165212e-06]]     : Tensorflow .pb (via opencv): [[9.999968e-01 3.165221e-06]]    : TFLite (via tensorflow): [[9.999968e-01 3.165176e-06]]: all equal test - PASS
+...
 ```
 
-(N.B. for the superpixel network, the test script just checks loading and inference with the ```.pb``` loaded model but does not supply an actual superpixel image - just any test image, hence inference fails to detect the fire correctly for the example only).
+This can be similarly repeated with the ```inceptionV1OnFire-validation.py``` and ```sp-inceptionV1OnFire-validation.py``` validation scripts (N.B. here the superpixel inceptionV1OnFire network is being validated against the whole image frame rather than superpixels just for simply showing consistent output between the original and converted models).
 
-**To convert to to other frameworks** (such as PyTorch, MXNet, Keras, ...) from this tensorflow format (protocol buffer, .pb): - please see the extensive deep neural network model conversion tools offered by the [MMdnn](https://github.com/Microsoft/MMdnn) project.
+**To convert to to other frameworks** (such as PyTorch, MXNet, Keras, ...) from these tensorflow formats: - please see the extensive deep neural network model conversion tools offered by the [MMdnn](https://github.com/Microsoft/MMdnn) project.
 
 ---
 
