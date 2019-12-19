@@ -45,10 +45,12 @@ def construct_firenet (x,y, training=False):
     network = local_response_normalization(network)
 
     network = fully_connected(network, 4096, activation='tanh')
-    network = dropout(network, 0.5)
+    if(training):
+        network = dropout(network, 0.5)
 
     network = fully_connected(network, 4096, activation='tanh')
-    network = dropout(network, 0.5)
+    if(training):
+        network = dropout(network, 0.5)
 
     network = fully_connected(network, 2, activation='softmax')
 
