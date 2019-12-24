@@ -58,6 +58,7 @@ def getboundingbox(img):
     bbox = np.min(a[0]), np.max(a[0]), np.min(a[1]), np.max(a[1])
     return bbox
 
+
 ################################################################################
 
 # centering superpixels
