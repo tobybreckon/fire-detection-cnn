@@ -225,8 +225,7 @@ if __name__ == '__main__':
     model = construct_inceptionv4onfire (224, 224, training=False)
     print("Constructed InceptionV4-OnFire ...")
 
-    #model.load(os.path.join("models/InceptionV4-OnFire", "inceptiononv4onfire"),weights_only=True)
-    model.load('/home/capture/ganesh_new/weight_files/models_best_binary/inceptionv4_j/inceptionv4_j_bn_rmsprop_d_relu.tflearn')
+    model.load(os.path.join("models/InceptionV4-OnFire", "inceptiononv4onfire"),weights_only=True)
 
     print("Loaded CNN network weights ...")
 

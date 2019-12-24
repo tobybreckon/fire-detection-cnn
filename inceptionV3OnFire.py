@@ -134,8 +134,7 @@ if __name__ == '__main__':
     print("Constructed InceptionV3-OnFire ...")
 
     
-    #model.load(os.path.join("models/InceptionV3-OnFire", "inceptiononv3onfire"),weights_only=True)
-    model.load('/home/capture/ganesh_new/weight_files/models_best_binary/inceptionv3_i/inceptionv3_i_bn_rmsprop_d_relu.tflearn')
+    model.load(os.path.join("models/InceptionV3-OnFire", "inceptiononv3onfire"),weights_only=True)
     print("Loaded CNN network weights ...")
 
     ################################################################################
