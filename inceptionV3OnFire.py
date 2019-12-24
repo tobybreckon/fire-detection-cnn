@@ -8,6 +8,7 @@
 
 #################################################################################
 
+from __future__ import division, print_function, absolute_import
 import cv2
 import os
 import sys
@@ -15,7 +16,6 @@ import math
 
 #################################################################################
 
-from __future__ import division, print_function, absolute_import
 
 import tflearn
 import h5py
@@ -121,10 +121,6 @@ def construct_inceptionv3onfire(x,y, training=False):
 
     return model
 
-
-
-
-
 ################################################################################
 
 if __name__ == '__main__':
@@ -133,13 +129,16 @@ if __name__ == '__main__':
 
 #   construct and display model
 
+
     model = construct_inceptionv3onfire (224, 224, training=False)
     print("Constructed InceptionV3-OnFire ...")
 
-    model.load(os.path.join("models/InceptionV3-OnFire", "inceptiononv3onfire"),weights_only=True)
+    
+    #model.load(os.path.join("models/InceptionV3-OnFire", "inceptiononv3onfire"),weights_only=True)
+    model.load('/home/capture/ganesh_new/weight_files/models_best_binary/inceptionv3_i/inceptionv3_i_bn_rmsprop_d_relu.tflearn')
     print("Loaded CNN network weights ...")
 
-################################################################################
+    ################################################################################
 
     # network input sizes
 
@@ -151,7 +150,7 @@ if __name__ == '__main__':
     windowName = "Live Fire Detection - InceptionV3-OnFire";
     keepProcessing = True;
 
-################################################################################
+    ################################################################################
 
     if len(sys.argv) == 2:
 
@@ -218,4 +217,4 @@ if __name__ == '__main__':
     else:
         print("usage: python inceptionV3-OnFire.py videofile.ext");
 
-################################################################################
+    ################################################################################

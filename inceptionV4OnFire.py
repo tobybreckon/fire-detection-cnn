@@ -8,6 +8,7 @@
 
 
 #################################################################################
+from __future__ import division, print_function, absolute_import
 
 import cv2
 import os
@@ -17,7 +18,6 @@ import math
 #################################################################################
 
 
-from __future__ import division, print_function, absolute_import
 
 import tflearn
 import h5py
@@ -176,7 +176,7 @@ def construct_inceptionv4onfire(x,y, training=True):
 
     b_conv5_3_3 = conv_2d(b_conv_4,192,3,padding='valid',activation='relu',name='b_conv5_3_3',strides=2)
     b_pool5_3_3 = max_pool_2d(b_conv_4,kernel_size=3,padding='valid',strides=2,name='b_pool5_3_3')
-    b_pool5_3_3 = globals()[normalization](b_pool5_3_3)
+    b_pool5_3_3 = batch_normalization(b_pool5_3_3)
     b_conv_5 = merge([b_conv5_3_3,b_pool5_3_3],mode='concat',axis=3)
     net = b_conv_5
 
@@ -213,6 +213,7 @@ def construct_inceptionv4onfire(x,y, training=True):
 
 
 
+
 ################################################################################
 
 if __name__ == '__main__':
@@ -224,10 +225,12 @@ if __name__ == '__main__':
     model = construct_inceptionv4onfire (224, 224, training=False)
     print("Constructed InceptionV4-OnFire ...")
 
-    model.load(os.path.join("models/InceptionV4-OnFire", "inceptiononv4onfire"),weights_only=True)
+    #model.load(os.path.join("models/InceptionV4-OnFire", "inceptiononv4onfire"),weights_only=True)
+    model.load('/home/capture/ganesh_new/weight_files/models_best_binary/inceptionv4_j/inceptionv4_j_bn_rmsprop_d_relu.tflearn')
+
     print("Loaded CNN network weights ...")
 
-################################################################################
+    ################################################################################
 
     # network input sizes
 
@@ -239,7 +242,7 @@ if __name__ == '__main__':
     windowName = "Live Fire Detection - InceptionV1-OnFire";
     keepProcessing = True;
 
-################################################################################
+    ################################################################################
 
     if len(sys.argv) == 2:
 
@@ -306,4 +309,4 @@ if __name__ == '__main__':
     else:
         print("usage: python inceptionV4-OnFire.py videofile.ext");
 
-################################################################################
+    ################################################################################
