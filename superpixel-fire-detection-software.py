@@ -22,7 +22,6 @@ from tflearn.layers.conv import conv_2d, max_pool_2d, avg_pool_2d
 from tflearn.layers.normalization import local_response_normalization
 from tflearn.layers.merge_ops import merge
 from tflearn.layers.estimator import regression
-from PIL import Image
 
 ################################################################################
 
@@ -54,114 +53,48 @@ keepProcessing = True;
 ################################################################################
 
 # centering superpixels
-def centering_sp2(superpixel_image):
+
+def centering_superpixels(superpixel_image):
+
+    # converting the image into grayscale
+
     gray = cv2.cvtColor(superpixel_image,cv2.COLOR_RGB2GRAY)
+
+    # threshold the image and determine the contours
+
     thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU + cv2.THRESH_BINARY)[1]
+
     cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if len(cnts) ==2 else cnts[1]
+
     cnts = sorted(cnts, key = cv2.contourArea, reverse = True)
+
+
     for c in cnts:
+
+        # determining the coordinates of the bounding box rectangles
+
         x, y, w, h = cv2.boundingRect(c)
+
+        # cropping the superpixel image
+
         ROI = superpixel_image[y:y+h,x:x+w]
+
+        # converting the image into a numpy-array
+
         np_image2 = np.array(ROI)
+
+        # resizing the image into (224, 224, 3)
+
         ROI = resize_image(np_image2,[224,224,3])
         break
 
     return ROI
 
 
-
-
-
-
-
-
-
-
-
-def centering_superpixels(superpixel_image,superpixel_color):
-
-
-    # get the coordinates of the bounding box
-
-    x,y,w,h = cv2.boundingRect(superpixel_image)
-    
-
-    print([x,y,w,h])
-    # image cropped to the size of the bounding box
-
-    cropped = superpixel_color[x:x+w,y:y+h]
-    np_image = np.array(cropped)
-    print('Crop', len(superpixel_color), len(np_image))
-    # output image resized to a shape of [224, 224, 3]
-
-    output_image_size = resize_image(np_image, [224, 224, 3])
-
-    return output_image_size
-
 ################################################################################
 
 # resizing image to the required [224,224,3] size
-def preprocess_image(pil_im, resize_im=True):
-    """
-        Processes image for CNNs
-
-    Args:
-        PIL_img (PIL_img): Image to process
-        resize_im (bool): Resize to 224 or not
-    returns:
-        im_as_var (torch variable): Variable that contains processed float tensor
-    """
-
-    # very inefficient code ahead. Will refactor later.
-    #calculate bounding box for superpixel
-
-    coord = contours[0]
-    x_min, y_min, x_max, y_max = 1000, 1000, 0, 0
-
-    for coord_points in coord:
-        coordinate = coord_points[0]
-        x = coordinate[0]
-        y = coordinate[1]
-
-        if (x < x_min):
-            x_min = x
-
-        elif (x > x_max):
-            x_max = x
-
-        else:
-            None
-
-        if (y < y_min):
-            y_min = y
-
-        elif (y > y_max):
-            y_max = y
-
-        else:
-            None
-
-    #print(x_min, y_min)
-    #print(x_max, y_max)
-
-    pil_im = pil_im[y_min:y_max, x_min:x_max]
-
-    #pil_im = cv2.cvtColor(pil_im, cv2.COLOR_BGR2RGB)
-    
-    # mean and std list for channels (Imagenet)
-    mean = [0.485, 0.456, 0.406]
-    std = [0.229, 0.224, 0.225]
-    # Resize image
-    print('---->>', pil_im.shape)
-    #pil_im = ImageOps.fit(pil_im, (448, 448), Image.ANTIALIAS)
-    pil_im = cv2.resize(pil_im, (224, 224))
-    return pil_im
-
-    #cv2.imshow("", pil_im)
-
-    #cv2.waitKey(0)
-
 
 def resize_image(image,target_shape, pad_value = 0):
 
@@ -175,7 +108,7 @@ def resize_image(image,target_shape, pad_value = 0):
     # determine the difference in target shape and image shape
 
     shape_difference = np.asarray(target_shape, dtype=int) - np.asarray(image_shape,dtype=int)
-   
+
     for diff in shape_difference:
 
         # determine number of pixels to pad or remove based on difference
@@ -266,23 +199,23 @@ if len(sys.argv) == 2:
             # N.B. this creates an image of the full frame with this superpixel being the only non-zero
             # (i.e. not black) region. CNN training/testing classification is performed using these
             # full frame size images, rather than isolated small superpixel images.
-            # Using the approach, we re-use the same InceptionV1-OnFire architecture as described in
+            # Using the approach, we re-use the same InceptionV3-OnFire architecture as described in
             # the paper [Dunnings / Breckon, 2018] with no changes trained on full frame images each
             # containing an isolated superpixel with the rest of the image being zero/black.
 
             superpixel = cv2.bitwise_and(small_frame, small_frame, mask = mask)
+
+            # converting the superpixel_images from BGR to RGB space
+
             superpixel = cv2.cvtColor(superpixel, cv2.COLOR_BGR2RGB)
-            
-            #superpixels = centering_superpixels(thresh,superpixels_color)
-            superpixels = centering_sp2(superpixel)
-            np_image = Image.fromarray(superpixels)
-            #np_image.show()
-            #np_image.close()
-            #superpixels = preprocess_image(superpixel,contours)
+
+            # centering the superpixels before testing
+
+            superpixels = centering_superpixels(superpixel)
+
 
             # use loaded model to make prediction on given superpixel segments
             output = model.predict([superpixels])
-            print(output[0][0])
 
             # we know the green/red label seems back-to-front here (i.e.
             # green means fire, red means no fire) but this is how we did it
