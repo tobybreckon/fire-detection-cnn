@@ -35,7 +35,7 @@ from inceptionV3OnFire import construct_inceptionv3onfire
 model = construct_inceptionv3onfire(224,224, training=False)
 print("Constructed SP-InceptionV3-OnFire ...")
 
-model.load(os.path.join("models/SP-InceptionV3-OnFire", "sp-inceptiononv3onfire"),weights_only=True)
+model.load('/home/capture/ganesh_new/weight_files/models_best_superpixels/inceptionv3_i/inceptionv3_i_bn_rmsprop_d_relu_150epoch.tflearn')
 print("Loaded CNN network weights ...")
 
 ################################################################################
@@ -54,29 +54,114 @@ keepProcessing = True;
 ################################################################################
 
 # centering superpixels
+def centering_sp2(superpixel_image):
+    gray = cv2.cvtColor(superpixel_image,cv2.COLOR_RGB2GRAY)
+    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU + cv2.THRESH_BINARY)[1]
+    cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    cnts = cnts[0] if len(cnts) ==2 else cnts[1]
+    cnts = sorted(cnts, key = cv2.contourArea, reverse = True)
+    for c in cnts:
+        x, y, w, h = cv2.boundingRect(c)
+        ROI = superpixel_image[y:y+h,x:x+w]
+        np_image2 = np.array(ROI)
+        ROI = resize_image(np_image2,[224,224,3])
+        break
 
-def centering_superpixels(superpixel_image):
+    return ROI
+
+
+
+
+
+
+
+
+
+
+
+def centering_superpixels(superpixel_image,superpixel_color):
 
 
     # get the coordinates of the bounding box
 
-	imageBox = superpixel_image.getbbox()
+    x,y,w,h = cv2.boundingRect(superpixel_image)
+    
 
+    print([x,y,w,h])
     # image cropped to the size of the bounding box
 
-	cropped = superpixel_image.crop(imageBox)
-
-	np_image = np.array(cropped)
-
+    cropped = superpixel_color[x:x+w,y:y+h]
+    np_image = np.array(cropped)
+    print('Crop', len(superpixel_color), len(np_image))
     # output image resized to a shape of [224, 224, 3]
 
-	output_image_size = resize_image(np_image, [224, 224, 3])
+    output_image_size = resize_image(np_image, [224, 224, 3])
 
-	return output_image_size
+    return output_image_size
 
 ################################################################################
 
 # resizing image to the required [224,224,3] size
+def preprocess_image(pil_im, resize_im=True):
+    """
+        Processes image for CNNs
+
+    Args:
+        PIL_img (PIL_img): Image to process
+        resize_im (bool): Resize to 224 or not
+    returns:
+        im_as_var (torch variable): Variable that contains processed float tensor
+    """
+
+    # very inefficient code ahead. Will refactor later.
+    #calculate bounding box for superpixel
+
+    coord = contours[0]
+    x_min, y_min, x_max, y_max = 1000, 1000, 0, 0
+
+    for coord_points in coord:
+        coordinate = coord_points[0]
+        x = coordinate[0]
+        y = coordinate[1]
+
+        if (x < x_min):
+            x_min = x
+
+        elif (x > x_max):
+            x_max = x
+
+        else:
+            None
+
+        if (y < y_min):
+            y_min = y
+
+        elif (y > y_max):
+            y_max = y
+
+        else:
+            None
+
+    #print(x_min, y_min)
+    #print(x_max, y_max)
+
+    pil_im = pil_im[y_min:y_max, x_min:x_max]
+
+    #pil_im = cv2.cvtColor(pil_im, cv2.COLOR_BGR2RGB)
+    
+    # mean and std list for channels (Imagenet)
+    mean = [0.485, 0.456, 0.406]
+    std = [0.229, 0.224, 0.225]
+    # Resize image
+    print('---->>', pil_im.shape)
+    #pil_im = ImageOps.fit(pil_im, (448, 448), Image.ANTIALIAS)
+    pil_im = cv2.resize(pil_im, (224, 224))
+    return pil_im
+
+    #cv2.imshow("", pil_im)
+
+    #cv2.waitKey(0)
+
 
 def resize_image(image,target_shape, pad_value = 0):
 
@@ -186,13 +271,18 @@ if len(sys.argv) == 2:
             # containing an isolated superpixel with the rest of the image being zero/black.
 
             superpixel = cv2.bitwise_and(small_frame, small_frame, mask = mask)
-            superpixel_image = Image.fromarray(superpixel)
+            superpixel = cv2.cvtColor(superpixel, cv2.COLOR_BGR2RGB)
             
-            superpixels = centering_superpixels(superpixel_image)
+            #superpixels = centering_superpixels(thresh,superpixels_color)
+            superpixels = centering_sp2(superpixel)
+            np_image = Image.fromarray(superpixels)
+            #np_image.show()
+            #np_image.close()
+            #superpixels = preprocess_image(superpixel,contours)
 
             # use loaded model to make prediction on given superpixel segments
             output = model.predict([superpixels])
-            print(output)
+            print(output[0][0])
 
             # we know the green/red label seems back-to-front here (i.e.
             # green means fire, red means no fire) but this is how we did it
