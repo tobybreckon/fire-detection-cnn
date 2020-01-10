@@ -34,7 +34,7 @@ from inceptionV3OnFire import construct_inceptionv3onfire
 model = construct_inceptionv3onfire(224,224, training=False)
 print("Constructed SP-InceptionV3-OnFire ...")
 
-model.load('/home/capture/ganesh_new/weight_files/models_best_superpixels/inceptionv3_i/inceptionv3_i_bn_rmsprop_d_relu_150epoch.tflearn')
+model.load(os.path.join("models/superixels/InceptionV3-OnFire", "inceptiononv3onfire"),weights_only=True)
 print("Loaded CNN network weights ...")
 
 ################################################################################
@@ -200,7 +200,7 @@ if len(sys.argv) == 2:
             # (i.e. not black) region. CNN training/testing classification is performed using these
             # full frame size images, rather than isolated small superpixel images.
             # Using the approach, we re-use the same InceptionV3-OnFire architecture as described in
-            # the paper [Dunnings / Breckon, 2018] with no changes trained on full frame images each
+            # the paper with no changes trained on full frame images each
             # containing an isolated superpixel with the rest of the image being zero/black.
 
             superpixel = cv2.bitwise_and(small_frame, small_frame, mask = mask)
@@ -234,7 +234,7 @@ if len(sys.argv) == 2:
         # stop the timer and convert to ms. (to see how long processing and display takes)
 
         stop_t = ((cv2.getTickCount() - start_t)/cv2.getTickFrequency()) * 1000;
-        print(stop_t)
+
         stop_t_list.append(stop_t)
 
         # image display and key handling
