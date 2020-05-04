@@ -116,7 +116,7 @@ def construct_inceptionv3onfire(x,y, training=False):
     else:
         network=loss
 
-    model = tflearn.DNN(network, checkpoint_path='inceptionv3',
+    model = tflearn.DNN(network, checkpoint_path='inceptionv3onfire',
                         max_checkpoints=1, tensorboard_verbose=0)
 
     return model
@@ -133,8 +133,8 @@ if __name__ == '__main__':
     model = construct_inceptionv3onfire (224, 224, training=False)
     print("Constructed InceptionV3-OnFire ...")
 
-    
-    model.load(os.path.join("models/InceptionV3-OnFire", "inceptiononv3onfire"),weights_only=True)
+
+    model.load(os.path.join("models/InceptionV3-OnFire", "inceptionv3onfire"),weights_only=True)
     print("Loaded CNN network weights ...")
 
     ################################################################################

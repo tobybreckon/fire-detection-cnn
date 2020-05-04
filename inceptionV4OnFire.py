@@ -206,7 +206,7 @@ def construct_inceptionv4onfire(x,y, training=True):
     else:
         network=loss
 
-    model = tflearn.DNN(network, checkpoint_path='inceptionv4',
+    model = tflearn.DNN(network, checkpoint_path='inceptionv4onfire',
                         max_checkpoints=1, tensorboard_verbose=0)
 
     return model
@@ -225,7 +225,7 @@ if __name__ == '__main__':
     model = construct_inceptionv4onfire (224, 224, training=False)
     print("Constructed InceptionV4-OnFire ...")
 
-    model.load(os.path.join("models/InceptionV4-OnFire", "inceptiononv4onfire"),weights_only=True)
+    model.load(os.path.join("models/InceptionV4-OnFire", "inceptionv4onfire"),weights_only=True)
 
     print("Loaded CNN network weights ...")
 
@@ -238,7 +238,7 @@ if __name__ == '__main__':
 
     # display and loop settings
 
-    windowName = "Live Fire Detection - InceptionV1-OnFire";
+    windowName = "Live Fire Detection - InceptionV4-OnFire";
     keepProcessing = True;
 
     ################################################################################
