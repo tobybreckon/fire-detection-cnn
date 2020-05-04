@@ -32,51 +32,31 @@ from inceptionVxOnFire import construct_inceptionv1onfire, construct_inceptionv3
 
 ################################################################################
 
-# centering a superpixel image and pad it to [224,224,3]
+# extract non-zero region of interest (ROI) in an otherwise zero'd image
 
-def centering_superpixels(superpixel_image):
+def extract_bounded_nonzero(input):
 
-    # converting the image into grayscale
+    # take the first channel only (for speed)
 
-    gray = cv2.cvtColor(superpixel_image,cv2.COLOR_RGB2GRAY)
+    gray = input[:, :, 0];
 
-    # threshold the image and determine the contours
+    # find bounding rectangle of a non-zero region in an numpy array
+    # credit: https://stackoverflow.com/questions/31400769/bounding-box-of-numpy-array
 
-    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU + cv2.THRESH_BINARY)[1]
+    rows = np.any(gray, axis=1)
+    cols = np.any(gray, axis=0)
+    rmin, rmax = np.where(rows)[0][[0, -1]]
+    cmin, cmax = np.where(cols)[0][[0, -1]]
 
-    cnts = cv2.findContours(thresh, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-    cnts = cnts[0] if len(cnts) ==2 else cnts[1]
+    # cropping the superpixel image
 
-    cnts = sorted(cnts, key = cv2.contourArea, reverse = True)
-
-
-    for c in cnts:
-
-        # determining the coordinates of the bounding box rectangles
-
-        x, y, w, h = cv2.boundingRect(c)
-
-        # cropping the superpixel image
-
-        ROI = superpixel_image[y:y+h,x:x+w]
-
-        # converting the image into a numpy-array
-
-        np_image2 = np.array(ROI)
-
-        # padding the image into (224, 224, 3)
-
-        ROI = padding_image(np_image2,[224,224,3])
-        break
-
-    return ROI
-
+    return input[cmin:cmax,rmin:rmax]
 
 ################################################################################
 
-# pad a supplied image to the required [224,224,3] size
+# pad a supplied image to the required [X,Y,C] size
 
-def padding_image(image,target_shape, pad_value = 0):
+def pad_image(image, target_shape, pad_value = 0):
 
     assert isinstance(target_shape, list) or isinstance(target_shape, tuple)
     add_shape, subs_shape = [], []
@@ -236,9 +216,9 @@ while (keepProcessing):
 
             superpixel = cv2.cvtColor(superpixel, cv2.COLOR_BGR2RGB)
 
-            # centering the superpixels before testing
+            # center and re-scale the superpixels before testing
 
-            superpixels = centering_superpixels(superpixel)
+            superpixel = pad_image(extract_bounded_nonzero(superpixel), [224,224,3])
 
         # use loaded model to make prediction on given superpixel segment
         # which is now:
