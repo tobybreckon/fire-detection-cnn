@@ -470,7 +470,7 @@ if __name__ == '__main__':
 
         # label image based on prediction
 
-        if round(output[0][0]) == 1:
+        if round(output[0][0]) == 1: # equiv. to 0.5 threshold in [Dunnings / Breckon, 2018], [Samarth / Breckon, 2019] test code
             cv2.rectangle(frame, (0,0), (width,height), (0,0,255), 50)
             cv2.putText(frame,'FIRE',(int(width/16),int(height/4)),
                 cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
