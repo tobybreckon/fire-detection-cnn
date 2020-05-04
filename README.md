@@ -1,6 +1,7 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-Tested using Python 3.4.6, [TensorFlow 1.13.0](https://www.tensorflow.org/install/), [tflearn 0.3](http://tflearn.org/) and [OpenCV 3.3.1 / 4.0.x](http://www.opencv.org)
+[and subsequently follow on work _Experimental Exploration of CompactConvolutional Neural Network Architectures forNon-temporal Real-time Fire Detection_]
+Tested using Python 3.4.6, [TensorFlow 1.13.0](https://www.tensorflow.org/install/), [tflearn 0.3](http://tflearn.org/) and [OpenCV 3.3.1 / 4.x](http://www.opencv.org)
 
 (requires opencv extra modules - ximgproc module for superpixel segmentation)
 
@@ -30,30 +31,35 @@ benchmark datasets to illustrate maximally robust real-time fire region detectio
 
 (1) using InceptionV1-OnFire CNN model (2) using SP-InceptionV1-OnFire CNN model
 
-[[Dunnings and Breckon, In Proc. International Conference on Image Processing IEEE, 2018](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)]
+[[Dunnings, Breckon, In Proc. International Conference on Image Processing, IEEE, 2018](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)]
 
+_".... Contrary to contemporary trends in the field, our work illustrates a   maximum   overall   accuracy   of   0.96   for   full   frame   binary fire   detection (3)   and   0.94   for   superpixel   localization (4)  using   an experimentally  defined  reduced  CNN  architecture  based  on  the concept of InceptionV4. We notably achieve a lower false positive rate  of  0.06  compared  to  prior  work  in  the  field  presenting  an efficient, robust and real-time solution for fire region detection._
+
+(3) using InceptionV4-OnFire CNN model (4) using SP-InceptionV4-OnFire CNN model
+
+[[Samarth, Bhowmik, Breckon, In Proc. International Conference on Machine Learning Applications, IEEE, 2019](https://breckon.org/toby/publications/papers/samarth19fire.pdf)]
 
 
 ---
 
 ## Reference implementation:
-Our binary detection (FireNet / InceptionV1-OnFire) architectures determine whether an image frame contains fire globally, whereas the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment to provide in-frame localization.
+Our binary detection (FireNet, InceptionV1-OnFire, InceptionV3-OnFire, InceptionV4-OnFire) architectures determine whether an image frame contains fire globally, whereas the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment to provide in-frame localization.
 
-This respository contains the ```firenet.py``` and ```inceptionV1OnFire.py``` files corresponding to the two binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionV1OnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper.
+This respository contains the ```firenet.py``` and ```inceptionVxOnFire.py``` files corresponding to the binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionVxOnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper.
 
- To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data (on Linux/MacOS). Alternatively, you can manually download the pre-trained network models from [http://dx.doi.org/10.15128/r19880vq98m](http://dx.doi.org/10.15128/r19880vq98m) and unzip them to a directory called  ```models``` in the same place as the python files.
+ To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data (on Linux/MacOS). Alternatively, you can manually download the pre-trained network models from [http://dx.doi.org/10.15128/r19880vq98m](http://dx.doi.org/10.15128/r19880vq98m) [Dunnings, 2018] + [http://doi.org/10.15128/r25x21tf409](http://doi.org/10.15128/r25x21tf409) [Samarth, 2018] and unzip them to a directory called  ```models``` in the same place as the python files.
 
 The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
   * image frame is split into segments using SLIC superpixel segmentation technique.
-  * the SP-InceptionV1-OnFire convolutional architecture, trained to detect fire in a given superpixel segment, is used on each superpixel.
-  * at run-time, this SP-InceptionV1-OnFire, network is run on every superpixel from the SLIC segmentation output.
+  * s SP-InceptionVx-OnFire convolutional architecture (for _x = 1, 3, 4 for InceptionV1, InceptionV3, InceptionV4_), trained to detect fire in a given superpixel segment, is used on each superpixel.
+  * at run-time, the selected SP-InceptionVx-OnFire, network is run on every superpixel from the SLIC segmentation output.
 
-_Which model should I use ?_ : for the best detection performance (i.e. true positive rate) and throughtput (speed, frames per second) use the FireNet model (example: ```firenet.py```); for a slighly lower false alarm rate (i.e. false positive rate, but only by 1%) but much lower throughtput (speed, frames per second) use the InceptionV1-OnFire model (example: ```inceptionV1OnFire.py```); for localization of the fire within the image use the superpixel InceptionV1-OnFire model (example: ```superpixel-inceptionV1OnFire.py```). For full details see paper - [[Dunnings and Breckon, 2018](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)]
+**TODO UPDATE** _Which model should I use ?_ : for the best detection performance (i.e. true positive rate) and throughtput (speed, frames per second) use the FireNet model (example: ```firenet.py```); for a slighly lower false alarm rate (i.e. false positive rate, but only by 1%) but much lower throughtput (speed, frames per second) use the InceptionV1-OnFire model (example: ```inceptionV1OnFire.py```); for localization of the fire within the image use the superpixel InceptionV1-OnFire model (example: ```superpixel-inceptionV1OnFire.py```). For full details see paper - [[Dunnings, 2018](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)] **TODO UPDATE**
 
 Training datasets:
 
-* The custom dataset used for training and evaluation can be found on [Durham Collections](https://collections.durham.ac.uk/collections/r1ww72bb497) (together with the trained network models). A direct download link for the dataset is [https://collections.durham.ac.uk/downloads/r2d217qp536](https://collections.durham.ac.uk/downloads/r2d217qp536).
-Datsaet DOI - [http://doi.org/10.15128/r2d217qp536](http://doi.org/10.15128/r2d217qp536). A download script ```download-dataset.sh``` is also provided which will create an additional ```dataset``` directory containing the training dataset (10.5Gb in size, works on Linux/MacOS).
+* The custom dataset used for training and evaluation can be found on [Durham Collections - Dunnings/Breckon, 2018](https://collections.durham.ac.uk/collections/r1ww72bb497) and [Durham Collections - Samarth/Breckon, 2019](https://collections.durham.ac.uk/collections/r2jm214p16f) (together with the trained network models). A direct download link for the dataset is [Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536) and [Samarth, 2019 - additional data](https://collections.durham.ac.uk/downloads/r10r967374q)
+Dataset DOI - [http://doi.org/10.15128/r2d217qp536](http://doi.org/10.15128/r2d217qp536) and [http://doi.org/10.15128/r10r967374q](http://doi.org/10.15128/r10r967374q). A download script ```download-dataset.sh``` is also provided which will create an additional ```dataset``` directory containing the training dataset (10.5Gb in size, works on Linux/MacOS).
 
 * In addition, standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
@@ -70,16 +76,17 @@ $ git clone https://github.com/tobybreckon/fire-detection-cnn.git
 $ cd fire-detection-cnn
 $ sh ./download-models.sh
 $ python firenet.py models/test.mp4
-$ python inceptionV1OnFire.py models/test.mp4
-$ python superpixel-inceptionV1OnFire.py models/test.mp4
+$ python inceptionVxOnFire.py -m 1 models/test.mp4
+$ python superpixel-inceptionVxOnFire.py -m 1 models/test.mp4
 ```
+
+where ```-m x``` specifies the use of either of the _InceptionV1OnFire, InceptionV3OnFire, InceptionV4OnFire_ models for for _m = 1, 3, 4_. By default it used _InceptionV1OnFire_ if ```-m``` is not specified.
 
 ---
 
 ## Instructions to use pre-trained models with other frameworks:
 
-To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) and
-also tflite (used with [TensorFlow](https://www.tensorflow.org/)) do:
+**TODO UPDATE** To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) and also tflite (used with [TensorFlow](https://www.tensorflow.org/)) do: **TODO UPDATE**
 
 
 ```
@@ -117,11 +124,11 @@ Video Example - click image above to play.
 
 ## Reference:
 
-If making use of this work in any way (including our [pretrained models](http://dx.doi.org/10.15128/r19880vq98m) or [dataset](http://dx.doi.org/10.15128/r2d217qp536)), _you must_ reference the following article in any report, publication, presentation, software release
+If making use of this work in any way (including our pre-trained models or datasets, _you must_ reference the following articles in any report, publication, presentation, software release
 or any other materials:
 
 [Experimentally defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)
-(Dunnings and Breckon), In Proc. International Conference on Image Processing IEEE, 2018.
+(Dunnings, Breckon), In Proc. International Conference on Image Processing, IEEE, 2018.
 ```
 @InProceedings{dunnings18fire,
   author =     {Dunnings, A. and Breckon, T.P.},
@@ -136,10 +143,24 @@ or any other materials:
 }
 ```
 
+[Experimental Exploration of Compact Convolutional Neural Network Architectures for Non-temporal Real-time Fire Detection](https://breckon.org/toby/publications/papers/samarth19fire.pdf)
+(Samarth, Bhowmik, Breckon), In Proc. International Conference on Machine Learning Applications, IEEE, 2019.
+```
+@InProceedings{samarth19fire,
+  author = 	 {Samarth, G. and Bhowmik, N. and Breckon, T.P.},
+  title = 	 {Experimental Exploration of Compact Convolutional Neural Network Architectures for Non-temporal Real-time Fire Detection},
+  booktitle =   {Proc. International Conference on Machine Learning Applications},
+  year = 	 {2019},
+  month = 	 {December},
+  publisher =    {IEEE},
+  keywords =     {fire detection, CNN, deep-learning real-time, non-temporal},
+}
+```
+
 In addition the terms of the [LICENSE](LICENSE) must be adhered to.
 
 ### Acknowledgements:
 
-Atharva (Art) Deshmukh (Durham University, _github and data set collation for publication_).
+Atharva (Art) Deshmukh (Durham University, _github and data set collation for publication_ for [Dunnings/Breckon, 2018] work).
 
 ---
