@@ -5,8 +5,6 @@
 
 # License : https://github.com/tobybreckon/fire-detection-cnn/blob/master/LICENSE
 
-
-
 #################################################################################
 from __future__ import division, print_function, absolute_import
 
@@ -16,8 +14,6 @@ import sys
 import math
 
 #################################################################################
-
-
 
 import tflearn
 import h5py
@@ -95,7 +91,8 @@ def inception_block_b(input_b):
     inception_b_pool = avg_pool_2d(input_b, kernel_size=3, strides=1 )
     inception_b_pool_1_1 = conv_2d(inception_b_pool, 128, filter_size=1, activation='relu', name='inception_b_pool_1_1')
 
-    # merge the inception_b__
+    # merge the inception_b
+
     inception_b_output = merge([inception_b_1_1, inception_b_3_3, inception_b_5_5, inception_b_pool_1_1], mode='concat', axis=3)
 
     return inception_b_output
@@ -124,7 +121,7 @@ def reduction_block_b(reduction_input_b):
 
 ################################################################################
 
-# defintion og inception_block_c
+# defintion of inception_block_c
 
 def inception_block_c(input_c):
     inception_c_1_1 = conv_2d(input_c, 256, 1, activation='relu', name='inception_c_1_1')
@@ -145,7 +142,8 @@ def inception_block_c(input_c):
     inception_c_pool = avg_pool_2d(input_c, kernel_size=3, strides=1 )
     inception_c_pool_1_1 = conv_2d(inception_c_pool, 256, filter_size=1, activation='relu', name='inception_c_pool_1_1')
 
-    # merge the inception_c__
+    # merge the inception_c
+
     inception_c_output = merge([inception_c_1_1, inception_c_3_3, inception_c_5_5, inception_c_pool_1_1], mode='concat', axis=3)
 
     return inception_c_output
@@ -155,7 +153,8 @@ def inception_block_c(input_c):
 def construct_inceptionv4onfire(x,y, training=True):
 
     network = input_data(shape=[None, y, x, 3])
-    #stem of inceptionv4
+
+    #stem of inceptionV4
 
     conv1_3_3 = conv_2d(network,32,3,strides=2,activation='relu',name='conv1_3_3_s2',padding='valid')
     conv2_3_3 = conv_2d(conv1_3_3,32,3,activation='relu',name='conv2_3_3')
@@ -182,18 +181,11 @@ def construct_inceptionv4onfire(x,y, training=True):
 
     #inception modules
 
-    for idx in range(1):
-        net=inception_block_a(net)
+    net=inception_block_a(net)
 
-    #net=reduction_block_a(net)
+    net=inception_block_b(net)
 
-    for idx in range(1):
-        net=inception_block_b(net)
-
-    #net=reduction_block_b(net)
-
-    for idx in range(1):
-        net=inception_block_c(net)
+    net=inception_block_c(net)
 
     pool5_7_7=global_avg_pool(net)
     pool5_7_7=dropout(pool5_7_7,0.4)
@@ -210,9 +202,6 @@ def construct_inceptionv4onfire(x,y, training=True):
                         max_checkpoints=1, tensorboard_verbose=0)
 
     return model
-
-
-
 
 ################################################################################
 
