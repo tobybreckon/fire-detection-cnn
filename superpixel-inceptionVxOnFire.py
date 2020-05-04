@@ -54,38 +54,24 @@ def extract_bounded_nonzero(input):
 
 ################################################################################
 
-# pad a supplied image to the required [X,Y,C] size
+# pad a supplied multi-channel image to the required [X,Y,C] size
 
-def pad_image(image, target_shape, pad_value = 0):
+def pad_image(image, new_width, new_height, pad_value = 0):
 
-    assert isinstance(target_shape, list) or isinstance(target_shape, tuple)
-    add_shape, subs_shape = [], []
+    # create an image of zeros, the same size as padding target size
 
-    # obtain the current shape of the image
+    padded = np.zeros((new_width, new_height, image.shape[2]), dtype=np.uint8)
 
-    image_shape = image.shape
+    # compute where our input image will go to centre it within the padded image
 
-    # determine the difference in target shape and image shape
+    pos_x = int(np.round((new_width / 2) - (image.shape[1] / 2)))
+    pos_y = int(np.round((new_height / 2) - (image.shape[0] / 2)))
 
-    shape_difference = np.asarray(target_shape, dtype=int) - np.asarray(image_shape,dtype=int)
+    # copy across the data from the input to the position centred within the padded image
 
-    for diff in shape_difference:
+    padded[pos_y:image.shape[0]+pos_y,pos_x:image.shape[1]+pos_x] = image
 
-        # determine number of pixels to pad or remove based on difference
-
-        if diff < 0:
-            subs_shape.append(np.s_[int(np.abs(np.ceil(diff/2))):int(np.floor(diff/2))])
-            add_shape.append((0, 0))
-        else:
-            subs_shape.append(np.s_[:])
-            add_shape.append((int(np.ceil(1.0*diff/2)),int(np.floor(1.0*diff/2))))
-
-    # pad the image to fit the target shape
-
-    output = np.pad(image, tuple(add_shape), 'constant', constant_values=(pad_value, pad_value))
-
-    output = output[tuple(subs_shape)]
-    return output
+    return padded
 
 ################################################################################
 
@@ -212,13 +198,13 @@ while (keepProcessing):
 
         if ((args.model_to_use == 3) or (args.model_to_use == 4)):
 
-            # converting the superpixel_images from BGR to RGB space
+            # convert the superpixel from BGR to RGB space
 
             superpixel = cv2.cvtColor(superpixel, cv2.COLOR_BGR2RGB)
 
-            # center and re-scale the superpixels before testing
+            # center and pad the superpixel in the centre of a (224 x 244 x 3) RGB image
 
-            superpixel = pad_image(extract_bounded_nonzero(superpixel), [224,224,3])
+            superpixel = pad_image(extract_bounded_nonzero(superpixel), 224, 224)
 
         # use loaded model to make prediction on given superpixel segment
         # which is now:
@@ -234,7 +220,7 @@ while (keepProcessing):
         # in the paper (?!) so we'll just keep the same crazyness for
         # consistency with the paper figures
 
-        if round(output[0][0]) == 1:
+        if round(output[0][0]) == 1: # equiv. to 0.5 threshold in [Dunnings / Breckon, 2018], [Samarth / Breckon, 2019] test code
             # draw the contour
             # if prediction for FIRE was TRUE (round to 1), draw GREEN contour for superpixel
             cv2.drawContours(small_frame, contours, -1, (0,255,0), 1)
