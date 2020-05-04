@@ -34,7 +34,7 @@ from inceptionVxOnFire import construct_inceptionv3onfire
 model = construct_inceptionv3onfire(224,224, training=False)
 print("Constructed SP-InceptionV3-OnFire ...")
 
-model.load(os.path.join("models/superixels/InceptionV3-OnFire", "inceptiononv3onfire"),weights_only=True)
+model.load(os.path.join("models/InceptionV3-OnFire", "inceptionv3onfire"),weights_only=True)
 print("Loaded CNN network weights ...")
 
 ################################################################################
@@ -46,7 +46,7 @@ cols = 224
 
 # display and loop settings
 
-windowName = "Live Fire Detection - Superpixels with SP-InceptionV1-OnFire";
+windowName = "Live Fire Detection - Superpixels with SP-InceptionV3-OnFire";
 keepProcessing = True;
 
 
