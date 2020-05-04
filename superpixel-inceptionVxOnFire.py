@@ -5,6 +5,7 @@
 # InceptionV3-OnFire and InceptionV4-OnFire CNN models
 
 # Copyright (c) 2017/18 - Andrew Dunnings / Toby Breckon, Durham University, UK
+# Copyright (c) 2019/20 - Ganesh Samarth / Toby Breckon, Durham University, UK
 
 # License : https://github.com/tobybreckon/fire-detection-cnn/blob/master/LICENSE
 
