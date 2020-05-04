@@ -1,7 +1,7 @@
 
 #################################################################################
 
-# Example : perform live fire detection in video using InceptionV3-OnFire CNN
+# Example : perform live fire detection in video using InceptionV4-OnFire CNN
 
 # License : https://github.com/tobybreckon/fire-detection-cnn/blob/master/LICENSE
 
