@@ -25,8 +25,8 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 
-from inceptionV4OnFire import construct_inceptionv4onfire
-from inceptionV3OnFire import construct_inceptionv3onfire
+from inceptionVxOnFire import construct_inceptionv4onfire
+from inceptionVxOnFire import construct_inceptionv3onfire
 
 ################################################################################
 
