@@ -18,8 +18,8 @@ import math
 
 import tflearn
 from tflearn.layers.core import input_data, dropout, fully_connected
-from tflearn.layers.conv import conv_2d, max_pool_2d, avg_pool_2d
-from tflearn.layers.normalization import local_response_normalization
+from tflearn.layers.conv import conv_2d, max_pool_2d, avg_pool_2d, global_avg_pool
+from tflearn.layers.normalization import local_response_normalization, batch_normalization
 from tflearn.layers.merge_ops import merge
 from tflearn.layers.estimator import regression
 
@@ -189,7 +189,7 @@ def construct_inceptionv3onfire(x,y, training=False):
     model = tflearn.DNN(network, checkpoint_path='inceptionv3',
                         max_checkpoints=1, tensorboard_verbose=0)
 
-    return modelw
+    return model
 
 ################################################################################
 
@@ -347,7 +347,7 @@ def construct_inceptionv4onfire(x,y, training=True):
     b_conv_5 = merge([b_conv5_3_3,b_pool5_3_3],mode='concat',axis=3)
     net = b_conv_5
 
-    #inception modules
+    # inceptionV4 modules
 
     net=inception_block_a(net)
 
@@ -389,13 +389,24 @@ if __name__ == '__main__':
     print("Constructed InceptionV" + str(args.model_to_use) + "-OnFire ...")
 
     if (args.model_to_use == 1):
+
+        # use InceptionV1-OnFire CNN model - [Dunning/Breckon, 2018]
+
         model = construct_inceptionv1onfire (224, 224, training=False)
         # also work around typo in naming of original models for V1 models [Dunning/Breckon, 2018] "...iononv ..."
         model.load(os.path.join("models/InceptionV1-OnFire", "inceptiononv1onfire"),weights_only=True)
+
     elif (args.model_to_use == 3):
+
+        # use InceptionV3-OnFire CNN model - [Samarth/Breckon, 2019]
+
         model = construct_inceptionv3onfire (224, 224, training=False)
         model.load(os.path.join("models/InceptionV3-OnFire", "inceptionv3onfire"),weights_only=True)
+
     elif (args.model_to_use == 4):
+
+        # use InceptionV4-OnFire CNN model - [Samarth/Breckon, 2019]
+
         model = construct_inceptionv4onfire (224, 224, training=False)
         model.load(os.path.join("models/InceptionV4-OnFire", "inceptionv4onfire"),weights_only=True)
 
