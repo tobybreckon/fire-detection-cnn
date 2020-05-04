@@ -100,11 +100,11 @@ def padding_image(image,target_shape, pad_value = 0):
             subs_shape.append(np.s_[:])
             add_shape.append((int(np.ceil(1.0*diff/2)),int(np.floor(1.0*diff/2))))
 
-
     # pad the image to fit the target shape
 
     output = np.pad(image, tuple(add_shape), 'constant', constant_values=(pad_value, pad_value))
-    output = output[subs_shape]
+
+    output = output[tuple(subs_shape)]
     return output
 
 ################################################################################
