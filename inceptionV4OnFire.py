@@ -25,7 +25,7 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 
-# definition of inception_block_a
+# InceptionV4 : definition of inception_block_a
 
 def inception_block_a(input_a):
 
@@ -50,7 +50,7 @@ def inception_block_a(input_a):
 
 ################################################################################
 
-# definition of reduction_block_a
+# InceptionV4 : definition of reduction_block_a
 
 def reduction_block_a(reduction_input_a):
 
@@ -70,7 +70,7 @@ def reduction_block_a(reduction_input_a):
 
 ################################################################################
 
-# definition of inception_block_b
+# InceptionV4 : definition of inception_block_b
 
 def inception_block_b(input_b):
 
@@ -99,7 +99,7 @@ def inception_block_b(input_b):
 
 ################################################################################
 
-#definition of reduction_block_b
+# InceptionV4 : definition of reduction_block_b
 
 def reduction_block_b(reduction_input_b):
 
@@ -121,7 +121,7 @@ def reduction_block_b(reduction_input_b):
 
 ################################################################################
 
-# defintion of inception_block_c
+# InceptionV4 : defintion of inception_block_c
 
 def inception_block_c(input_c):
     inception_c_1_1 = conv_2d(input_c, 256, 1, activation='relu', name='inception_c_1_1')
