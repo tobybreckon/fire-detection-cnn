@@ -1,6 +1,6 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-[and subsequently follow on work _Experimental Exploration of Compact Convolutional Neural Network Architectures
+[and subsequently follow on work: _Experimental Exploration of Compact Convolutional Neural Network Architectures
 forNon-temporal Real-time Fire Detection_]
 
 Tested using Python 3.4.6, [TensorFlow 1.13.0](https://www.tensorflow.org/install/), [tflearn 0.3](http://tflearn.org/) and [OpenCV 3.3.1 / 4.x](http://www.opencv.org)
@@ -34,7 +34,7 @@ benchmark datasets to illustrate maximally robust real-time fire region detectio
 
 [[Dunnings, Breckon, In Proc. International Conference on Image Processing, IEEE, 2018](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)]
 
-_".... Contrary to contemporary trends in the field, our work illustrates a   maximum   overall   accuracy   of   0.96   for   full   frame   binary fire   detection (3)   and   0.94   for   superpixel   localization (4)  using   an experimentally  defined  reduced  CNN  architecture  based  on  the concept of InceptionV4. We notably achieve a lower false positive rate  of  0.06  compared  to  prior  work  in  the  field  presenting  an efficient, robust and real-time solution for fire region detection._
+_".... Contrary to contemporary trends in the field, our work illustrates a   maximum   overall   accuracy   of   0.96   for   full   frame   binary fire   detection (3)   and   0.94   for   superpixel   localization (4)  using   an experimentally  defined  reduced  CNN  architecture  based  on  the concept of InceptionV4. We notably achieve a lower false positive rate  of  0.06  compared  to  prior  work  in  the  field  presenting  an efficient, robust and real-time solution for fire region detection."_
 
 (3) using InceptionV4-OnFire CNN model (4) using SP-InceptionV4-OnFire CNN model
 
@@ -52,7 +52,7 @@ This respository contains the ```firenet.py``` and ```inceptionVxOnFire.py``` fi
 
 The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
   * image frame is split into segments using SLIC superpixel segmentation technique.
-  * use a SP-InceptionVx-OnFire convolutional architecture (for _x = 1, 3, 4 for InceptionV1, InceptionV3, InceptionV4_), trained to detect fire in a given superpixel segment, is used on each superpixel.
+  * a SP-InceptionVx-OnFire convolutional architecture (for _x = 1, 3, 4 for InceptionV1, InceptionV3, InceptionV4_), trained to detect fire in a given superpixel segment, is used on each superpixel.
   * at run-time, the selected SP-InceptionVx-OnFire, network is run on every superpixel from the SLIC segmentation output.
 
 **TODO UPDATE** _Which model should I use ?_ : for the best detection performance (i.e. true positive rate) and throughtput (speed, frames per second) use the FireNet model (example: ```firenet.py```); for a slighly lower false alarm rate (i.e. false positive rate, but only by 1%) but much lower throughtput (speed, frames per second) use the InceptionV1-OnFire model (example: ```inceptionV1OnFire.py```); for localization of the fire within the image use the superpixel InceptionV1-OnFire model (example: ```superpixel-inceptionV1OnFire.py```). For full details see paper - [[Dunnings, 2018](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)] **TODO UPDATE**
