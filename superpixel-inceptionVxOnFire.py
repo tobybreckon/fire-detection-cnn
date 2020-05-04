@@ -48,7 +48,7 @@ def extract_bounded_nonzero(input):
     rmin, rmax = np.where(rows)[0][[0, -1]]
     cmin, cmax = np.where(cols)[0][[0, -1]]
 
-    # cropping the superpixel image
+    # cropping the non zero image
 
     return input[cmin:cmax,rmin:rmax]
 
