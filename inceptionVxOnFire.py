@@ -377,6 +377,8 @@ if __name__ == '__main__':
 
 ################################################################################
 
+    # parse command line arguments
+
     import argparse
 
     parser = argparse.ArgumentParser(description='Perform InceptionV1/V3/V4 fire detection on incoming video')
@@ -386,7 +388,7 @@ if __name__ == '__main__':
 
     #   construct and display model
 
-    print("Constructed InceptionV" + str(args.model_to_use) + "-OnFire ...")
+    print("Constructing InceptionV" + str(args.model_to_use) + "-OnFire ...")
 
     if (args.model_to_use == 1):
 
