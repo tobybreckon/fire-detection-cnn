@@ -1,6 +1,6 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-[and subsequently follow on work _Experimental Exploration of Compact Convolutional Neural Network Architectures 
+[and subsequently follow on work _Experimental Exploration of Compact Convolutional Neural Network Architectures
 forNon-temporal Real-time Fire Detection_]
 
 Tested using Python 3.4.6, [TensorFlow 1.13.0](https://www.tensorflow.org/install/), [tflearn 0.3](http://tflearn.org/) and [OpenCV 3.3.1 / 4.x](http://www.opencv.org)
@@ -59,7 +59,7 @@ The superpixel based approach was trained to perform superpixel based fire detec
 
 Training datasets:
 
-* The custom dataset used for training and evaluation can be found on [Durham Collections - Dunnings/Breckon, 2018](https://collections.durham.ac.uk/collections/r1ww72bb497) and [Durham Collections - Samarth/Breckon, 2019](https://collections.durham.ac.uk/collections/r2jm214p16f) (together with the trained network models). A direct download link for the dataset is [Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536) and [Samarth, 2019 - additional data](https://collections.durham.ac.uk/downloads/r10r967374q)
+* The custom dataset used for training and evaluation can be found on [[Durham Collections - Dunnings/Breckon, 2018](https://collections.durham.ac.uk/collections/r1ww72bb497)] and [[Durham Collections - Samarth/Breckon, 2019](https://collections.durham.ac.uk/collections/r2jm214p16f)] (together with the trained network models). A direct download link for the dataset is [[Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536)] and [[Samarth, 2019 - additional data](https://collections.durham.ac.uk/downloads/r10r967374q)]
 Dataset DOI - [http://doi.org/10.15128/r2d217qp536](http://doi.org/10.15128/r2d217qp536) and [http://doi.org/10.15128/r10r967374q](http://doi.org/10.15128/r10r967374q). A download script ```download-dataset.sh``` is also provided which will create an additional ```dataset``` directory containing the training dataset (10.5Gb in size, works on Linux/MacOS).
 
 * In addition, standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
@@ -81,7 +81,7 @@ $ python inceptionVxOnFire.py -m 1 models/test.mp4
 $ python superpixel-inceptionVxOnFire.py -m 1 models/test.mp4
 ```
 
-where ```-m x``` specifies the use of either of the _InceptionV1OnFire, InceptionV3OnFire, InceptionV4OnFire_ 
+where ```-m x``` specifies the use of either of the _InceptionV1OnFire, InceptionV3OnFire, InceptionV4OnFire_
 models for for _m = 1, 3, 4_. By default it uses _InceptionV1OnFire_ if ```-m``` is not specified.
 
 ---
