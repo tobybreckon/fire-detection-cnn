@@ -103,9 +103,10 @@ def convert_to_pb(model, path, input_layer_name,  output_layer_name, pbfilename,
 #    input_layer_name = 'InputData/X'                  # input layer of network
 #    output_layer_name= 'FullyConnected_2/Softmax'     # output layer of network
 
-def convert_to_tflite(pbfilename, input_layer_name,  output_layer_name):
+def convert_to_tflite(pbfilename, input_layer_name,  output_layer_name,
+                        input_tensor_dim_x=224, input_tensor_dim_y=224, input_tensor_channels=3):
 
-  input_tensor={input_layer_name:[1,224,224,3]}
+  input_tensor={input_layer_name:[1,input_tensor_dim_x,input_tensor_dim_y,input_tensor_channels]}
 
   print("[INFO] tflite model to " +  pbfilename.replace(".pb",".tflite") + " ...")
 
