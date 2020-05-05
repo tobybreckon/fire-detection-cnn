@@ -40,7 +40,6 @@ _".... Contrary to contemporary trends in the field, our work illustrates a   ma
 
 [[Samarth, Bhowmik, Breckon, In Proc. International Conference on Machine Learning Applications, IEEE, 2019](https://breckon.org/toby/publications/papers/samarth19fire.pdf)]
 
-
 ---
 
 ## Reference implementation:
