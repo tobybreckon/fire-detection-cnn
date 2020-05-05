@@ -177,7 +177,8 @@ def construct_inceptionv3onfire(x,y, training=False):
 
 
     pool5_7_7=global_avg_pool(inception_7a_output)
-    pool5_7_7=dropout(pool5_7_7,0.4)
+    if(training):
+        pool5_7_7=dropout(pool5_7_7,0.4)
     loss = fully_connected(pool5_7_7, 2,activation='softmax')
 
     if(training):
@@ -357,7 +358,8 @@ def construct_inceptionv4onfire(x,y, training=True):
     net=inception_block_c(net)
 
     pool5_7_7=global_avg_pool(net)
-    pool5_7_7=dropout(pool5_7_7,0.4)
+    if(training):
+        pool5_7_7=dropout(pool5_7_7,0.4)
     loss = fully_connected(pool5_7_7, 2,activation='softmax')
 
     if(training):
