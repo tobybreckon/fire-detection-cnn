@@ -35,35 +35,41 @@ from inceptionVxOnFire import construct_inceptionv1onfire, construct_inceptionv3
 
 parser = argparse.ArgumentParser(description='Perform InceptionV1/V3/V4 model validation')
 parser.add_argument("-m", "--model_to_use", type=int, help="specify model to use", default=1, choices={1, 3, 4})
+parser.add_argument("-sp", "--superpixel_model", action='store_true', help="use superpixel version  of model")
 args = parser.parse_args()
 
 ################################################################################
 
-# perform conversion of the specified binary detection model
+# perform conversion of the specified binary or superpixel detection model
+
+if (args.superpixel_model):
+    pre_string = "SP-"
+else:
+    pre_string = ""
 
 if (args.model_to_use == 1):
 
     # use InceptionV1-OnFire CNN model - [Dunning/Breckon, 2018]
 
     model_tflearn = construct_inceptionv1onfire (224, 224, False)
-    print("[INFO] Constructed InceptionV1-OnFire (binary, full-frame)...")
-    path = "../models/InceptionV1-OnFire/inceptiononv1onfire"; # path to tflearn checkpoint including filestem
+    print("[INFO] Constructed " + pre_string + "InceptionV1-OnFire ...")
+    path = "../models/" + pre_string + "InceptionV1-OnFire/" + pre_string.lower() + "inceptiononv1onfire"; # path to tflearn checkpoint including filestem
 
 elif (args.model_to_use == 3):
 
     # use InceptionV3-OnFire CNN model -  [Samarth/Bhowmik/Breckon, 2019]
 
     model_tflearn = construct_inceptionv3onfire (224, 224, False)
-    print("[INFO] Constructed InceptionV3-OnFire (binary, full-frame)...")
-    path = "../models/InceptionV3-OnFire/inceptionv3onfire"; # path to tflearn checkpoint including filestem
+    print("[INFO] Constructed " + pre_string + "InceptionV3-OnFire ...")
+    path = "../models/" + pre_string + "InceptionV3-OnFire/" + pre_string.lower() + "inceptionv3onfire"; # path to tflearn checkpoint including filestem
 
 elif (args.model_to_use == 4):
 
     # use InceptionV4-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
 
     model_tflearn = construct_inceptionv4onfire (224, 224, False)
-    print("[INFO] Constructed InceptionV4-OnFire (binary, full-frame)...")
-    path = "../models/InceptionV4-OnFire/inceptionv4onfire"; # path to tflearn checkpoint including filestem
+    print("[INFO] Constructed " + pre_string + "InceptionV4-OnFire ...")
+    path = "../models/" + pre_string + "InceptionV4-OnFire/" + pre_string.lower() + "inceptionv4onfire"; # path to tflearn checkpoint including filestem
 
 ################################################################################
 
@@ -77,16 +83,21 @@ print("OK")
 
 # tf protocol buffer - load model (into opencv)
 
-print("Load protocolbuf (pb) model from: inceptiononv" + str(args.model_to_use) + "onfire.pb ...", end = '')
-tensorflow_pb_model = cv2.dnn.readNetFromTensorflow("inceptionv" + str(args.model_to_use) + "onfire.pb")
-print("OK")
+try:
+    print("Load protocolbuf (pb) model from: " + pre_string.lower() + "inceptiononv" + str(args.model_to_use) + "onfire.pb ...", end = '')
+    tensorflow_pb_model = cv2.dnn.readNetFromTensorflow(pre_string.lower() + "inceptionv" + str(args.model_to_use) + "onfire.pb")
+    print("OK")
+except:
+    print("FAIL")
+    print("ERROR: file " +  (pre_string.lower() + "inceptionv" + str(args.model_to_use) + "onfire.pb") + " missing, ensure you run the correct convertor to generate it first!")
+    exit(1)
 
 ################################################################################
 
 # tflite - load model
 
-print("Load tflite model from: inceptiononv" + str(args.model_to_use) + "onfire.tflite ...", end = '')
-tflife_model = tf.lite.Interpreter(model_path="inceptionv" + str(args.model_to_use) + "onfire.tflite")
+print("Load tflite model from: " + pre_string.lower() + "inceptiononv" + str(args.model_to_use) + "onfire.tflite ...", end = '')
+tflife_model = tf.lite.Interpreter(model_path=pre_string.lower() + "inceptionv" + str(args.model_to_use) + "onfire.tflite")
 tflife_model.allocate_tensors()
 print("OK")
 
