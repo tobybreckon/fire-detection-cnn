@@ -128,8 +128,8 @@ Video Example - click image above to play.
 
 ## Reference:
 
-If making use of this work in any way (including our pre-trained models or datasets), _you must please_ reference the following articles in any report, publication, presentation, software release
-or any other materials:
+If you are making use of this work in any way (including our pre-trained models or datasets), _you must please_ reference the following articles in any report, publication, presentation, software release
+or any other associated materials:
 
 [Experimentally defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)
 (Dunnings, Breckon), In Proc. International Conference on Image Processing, IEEE, 2018.
@@ -142,8 +142,8 @@ or any other materials:
   year =       {2018},
   month =      {September},
   publisher =  {IEEE},
-  doi = 	 {10.1109/ICIP.2018.8451657},
-  keywords =   {simplified CNN, deep learning, fire detection, real-time, non-temporal, non-stationary visual fire detection},
+  doi =        {10.1109/ICIP.2018.8451657},
+  keywords =   {simplified CNN, deep learning, fire detection, real-time, non-temporal, non-stationary visual fire detection, firenet, InceptionV1OnFire},
 }
 ```
 
@@ -151,13 +151,15 @@ or any other materials:
 (Samarth, Bhowmik, Breckon), In Proc. International Conference on Machine Learning Applications, IEEE, 2019.
 ```
 @InProceedings{samarth19fire,
-  author = 	 {Samarth, G. and Bhowmik, N. and Breckon, T.P.},
-  title = 	 {Experimental Exploration of Compact Convolutional Neural Network Architectures for Non-temporal Real-time Fire Detection},
-  booktitle =   {Proc. International Conference on Machine Learning Applications},
-  year = 	 {2019},
-  month = 	 {December},
-  publisher =    {IEEE},
-  keywords =     {fire detection, CNN, deep-learning real-time, non-temporal},
+  author =    {Samarth, G. and Bhowmik, N. and Breckon, T.P.},
+  title =     {Experimental Exploration of Compact Convolutional Neural Network Architectures for Non-temporal Real-time Fire Detection},
+  booktitle = {Proc. International Conference on Machine Learning Applications},
+  pages =     {653-658},
+  year =      {2019},
+  month =     {December},
+  publisher = {IEEE},
+  doi =       {10.1109/ICMLA.2019.00119},
+  keywords =  {fire detection, CNN, deep-learning real-time, non-temporal, InceptionV3OnFire, InceptionV4OnFire},
 }
 ```
 
