@@ -18,7 +18,7 @@ sys.path.append('..')
 
 ################################################################################
 
-from inceptionV1OnFire import construct_inceptionv1onfire
+from inceptionVxOnFire import construct_inceptionv1onfire
 from converter import convert_to_pb
 from converter import convert_to_tflite
 
