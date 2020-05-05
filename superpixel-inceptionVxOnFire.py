@@ -97,14 +97,14 @@ if (args.model_to_use == 1):
 
 elif (args.model_to_use == 3):
 
-    # use InceptionV3-OnFire CNN model - [Samarth/Breckon, 2019]
+    # use InceptionV3-OnFire CNN model -  [Samarth/Bhowmik/Breckon, 2019]
 
     model = construct_inceptionv3onfire (224, 224, training=False)
     model.load(os.path.join("models/SP-InceptionV3-OnFire", "sp-inceptionv3onfire"),weights_only=True)
 
 elif (args.model_to_use == 4):
 
-    # use InceptionV4-OnFire CNN model - [Samarth/Breckon, 2019]
+    # use InceptionV4-OnFire CNN model -  [Samarth/Bhowmik/Breckon, 2019]
 
     model = construct_inceptionv4onfire (224, 224, training=False)
     model.load(os.path.join("models/SP-InceptionV4-OnFire", "sp-inceptionv4onfire"),weights_only=True)
@@ -221,7 +221,7 @@ while (keepProcessing):
         # in the paper (?!) so we'll just keep the same crazyness for
         # consistency with the paper figures
 
-        if round(output[0][0]) == 1: # equiv. to 0.5 threshold in [Dunnings / Breckon, 2018], [Samarth / Breckon, 2019] test code
+        if round(output[0][0]) == 1: # equiv. to 0.5 threshold in [Dunnings / Breckon, 2018],  [Samarth/Bhowmik/Breckon, 2019] test code
             # draw the contour
             # if prediction for FIRE was TRUE (round to 1), draw GREEN contour for superpixel
             cv2.drawContours(small_frame, contours, -1, (0,255,0), 1)

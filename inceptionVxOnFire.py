@@ -401,14 +401,14 @@ if __name__ == '__main__':
 
     elif (args.model_to_use == 3):
 
-        # use InceptionV3-OnFire CNN model - [Samarth/Breckon, 2019]
+        # use InceptionV3-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
 
         model = construct_inceptionv3onfire (224, 224, training=False)
         model.load(os.path.join("models/InceptionV3-OnFire", "inceptionv3onfire"),weights_only=True)
 
     elif (args.model_to_use == 4):
 
-        # use InceptionV4-OnFire CNN model - [Samarth/Breckon, 2019]
+        # use InceptionV4-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
 
         model = construct_inceptionv4onfire (224, 224, training=False)
         model.load(os.path.join("models/InceptionV4-OnFire", "inceptionv4onfire"),weights_only=True)
@@ -471,7 +471,7 @@ if __name__ == '__main__':
 
         # label image based on prediction
 
-        if round(output[0][0]) == 1: # equiv. to 0.5 threshold in [Dunnings / Breckon, 2018], [Samarth / Breckon, 2019] test code
+        if round(output[0][0]) == 1: # equiv. to 0.5 threshold in [Dunnings / Breckon, 2018],  [Samarth/Bhowmik/Breckon, 2019] test code
             cv2.rectangle(frame, (0,0), (width,height), (0,0,255), 50)
             cv2.putText(frame,'FIRE',(int(width/16),int(height/4)),
                 cv2.FONT_HERSHEY_SIMPLEX, 4,(255,255,255),10,cv2.LINE_AA);
