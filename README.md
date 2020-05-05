@@ -90,16 +90,18 @@ models for for _m = 1, 3, 4_. By default it uses _InceptionV1OnFire_ if ```-m```
 
 ## Instructions to use pre-trained models with other frameworks:
 
-**TODO UPDATE** To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) and also tflite (used with [TensorFlow](https://www.tensorflow.org/)) do: **TODO UPDATE**
+To convert the supplied pre-trained models from TFLearn checkpoint format to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) and also tflite (used with [TensorFlow](https://www.tensorflow.org/)) do:
 
 
 ```
 $ cd converter
 $ python firenet-conversion.py
-$ python inceptionV1OnFire-conversion.py
+$ python inceptionVxOnFire-conversion.py -m 1
 ```
 
-This creates a set of six ```.pb``` and ```.tflite``` files inside the ```converter``` directory (```firenet.xxx``` / ```inceptionv1onfire.xxx```/```sp-inceptionv1onfire.xxx``` for ```xxx``` in ```[pb, tflite]```). These files can then be validated  with the [OpenCV](http://www.opencv.org) DNN module (OpenCV > 4.1.0-pre) and [TensorFlow](https://www.tensorflow.org/) against the original (tflearn) from within the same directory, as follows:
+This creates a set of six ```.pb``` and ```.tflite``` files inside the ```converter``` directory (```firenet.xxx``` / ```inceptionv1onfire.xxx```/```sp-inceptionv1onfire.xxx``` for ```xxx``` in ```[pb, tflite]```). The ```inceptionVxOnFire-conversion.py``` can be similarly run with ```-m 3``` and ```-m 4``` to generate the same conversions for the InceptionV3OnFire and InceptionV4OnFire models respectively.
+
+ **TODO UPDATE** These files can then be validated  with the [OpenCV](http://www.opencv.org) DNN module (OpenCV > 4.1.0-pre) and [TensorFlow](https://www.tensorflow.org/) against the original (tflearn) from within the same directory, as follows:
 
 ```
 $ python firenet-validation.py
@@ -114,7 +116,7 @@ frame: 3        : TFLearn (original): [[9.999968e-01 3.165212e-06]]     : Tensor
 ...
 ```
 
-This can be similarly repeated with the ```inceptionV1OnFire-validation.py``` and ```sp-inceptionV1OnFire-validation.py``` validation scripts (N.B. here the superpixel inceptionV1OnFire network is being validated against the whole image frame rather than superpixels just for simply showing consistent output between the original and converted models).
+This can be similarly repeated with the ```inceptionV1OnFire-validation.py``` and ```sp-inceptionV1OnFire-validation.py``` validation scripts (N.B. here the superpixel inceptionV1OnFire network is being validated against the whole image frame rather than superpixels just for simply showing consistent output between the original and converted models). **TODO UPDATE** 
 
 **To convert to to other frameworks** (such as PyTorch, MXNet, Keras, ...) from these tensorflow formats: - please see the extensive deep neural network model conversion tools offered by the [MMdnn](https://github.com/Microsoft/MMdnn) project.
 
