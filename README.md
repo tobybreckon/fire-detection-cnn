@@ -61,11 +61,11 @@ Training datasets:
 
 * The custom dataset used for training and evaluation can be found on [[Durham Collections - Dunnings/Breckon, 2018](https://collections.durham.ac.uk/collections/r1ww72bb497)] and [[Durham Collections - Samarth/Breckon, 2019](https://collections.durham.ac.uk/collections/r2jm214p16f)] (together with the trained network models). A direct download link for the dataset is [[Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536)] and [[Samarth, 2019 - additional data](https://collections.durham.ac.uk/downloads/r10r967374q)].
 
-Dataset DOI - [http://doi.org/10.15128/r2d217qp536](http://doi.org/10.15128/r2d217qp536) and [http://doi.org/10.15128/r10r967374q](http://doi.org/10.15128/r10r967374q).
+* In addition, standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation (and are included as a subset within the above datasets for [[Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536)]).
+
+DOI for datsets - [http://doi.org/10.15128/r2d217qp536](http://doi.org/10.15128/r2d217qp536) and [http://doi.org/10.15128/r10r967374q](http://doi.org/10.15128/r10r967374q).
 
 A download script ```download-dataset.sh``` is also provided which will create an additional ```dataset``` directory containing the training dataset (10.5Gb in size, works on Linux/MacOS).
-
-* In addition, standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation.
 
 ![](https://github.com/tobybreckon/fire-detection-cnn/blob/master/images/slic-stages.png)
 Original frame (left), Frame after superpixel segmentation (middle), Frame after superpixel fire prediction (right)
@@ -73,7 +73,7 @@ Original frame (left), Frame after superpixel segmentation (middle), Frame after
 ---
 ## Instructions to test pre-trained models:
 
-To download and test the supplied code and pre-trained models (with TFLean/OpenCV installed) do:
+To download and test the supplied code and pre-trained models (with TensorFlow/TFLean/OpenCV installed) do:
 
 ```
 $ git clone https://github.com/tobybreckon/fire-detection-cnn.git
@@ -129,7 +129,7 @@ Video Example - click image above to play.
 
 ## Reference:
 
-If making use of this work in any way (including our pre-trained models or datasets, _you must_ reference the following articles in any report, publication, presentation, software release
+If making use of this work in any way (including our pre-trained models or datasets), _you must please_ reference the following articles in any report, publication, presentation, software release
 or any other materials:
 
 [Experimentally defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)
