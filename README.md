@@ -43,26 +43,27 @@ _".... Contrary to contemporary trends in the field, our work illustrates a   ma
 ---
 
 ## Reference implementation:
-Our binary detection (FireNet, InceptionV1-OnFire, InceptionV3-OnFire, InceptionV4-OnFire) architectures determine whether an image frame contains fire globally, whereas the superpixel based approach breaks down the frame into segments and performs classification on each superpixel segment to provide in-frame localization.
+Put simply, our full-frame binary detection (_FireNet, InceptionV1-OnFire, InceptionV3-OnFire, InceptionV4-OnFire_) architectures determine whether an image frame contains fire globally, whereas the superpixel based approaches (_SP-InceptionV1-OnFire, SP-InceptionV3-OnFire, SP-InceptionV4-OnFire_)) breaks down the frame into segments and performs classification on each superpixel segment to provide in-frame localization.
 
-This respository contains the ```firenet.py``` and ```inceptionVxOnFire.py``` files corresponding to the binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionVxOnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper.
+This respository contains the ```firenet.py``` and ```inceptionVxOnFire.py``` files corresponding to the binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionVxOnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper(s).
 
  To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data (on Linux/MacOS). Alternatively, you can manually download the pre-trained network models from [http://dx.doi.org/10.15128/r19880vq98m](http://dx.doi.org/10.15128/r19880vq98m) [Dunnings, 2018] + [http://doi.org/10.15128/r25x21tf409](http://doi.org/10.15128/r25x21tf409) [Samarth, 2018] and unzip them to a directory called  ```models``` in the same place as the python files.
 
 The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
-  * image frame is split into segments using SLIC superpixel segmentation technique.
-  * a SP-InceptionVx-OnFire convolutional architecture (for _x = 1, 3, 4 for InceptionV1, InceptionV3, InceptionV4_), trained to detect fire in a given superpixel segment, is used on each superpixel.
-  * at run-time, the selected SP-InceptionVx-OnFire, network is run on every superpixel from the SLIC segmentation output.
+  * image frame is split into segments using SLIC superpixel segmentation
+  * a _SP-InceptionVx-OnFire_ convolutional architecture (for _x = 1, 3, 4 for InceptionV1, InceptionV3, InceptionV4_), trained to detect fire in a given superpixel segment, is used on each superpixel.
+  * at run-time (inference), the selected _SP-InceptionVx-OnFire_, network is run on every superpixel from the SLIC segmentation of the image
 
-**TODO UPDATE** _Which model should I use ?_ : for the best detection performance (i.e. true positive rate) and throughtput (speed, frames per second) use the FireNet model (example: ```firenet.py```); for a slighly lower false alarm rate (i.e. false positive rate, but only by 1%) but much lower throughtput (speed, frames per second) use the InceptionV1-OnFire model (example: ```inceptionV1OnFire.py```); for localization of the fire within the image use the superpixel InceptionV1-OnFire model (example: ```superpixel-inceptionV1OnFire.py```). For full details see paper - [[Dunnings, 2018](https://breckon.org/toby/publications/papers/dunnings18fire.pdf)] **TODO UPDATE**
+_Which model should I use ?_ : For the best detection performance (i.e. high true positive rate, low false positive rate) use _InceptionV4-OnFire_ (example: ```inceptionVxOnFire.py -m 4```) which operates at 12 frames per second (fps), for best throughtput (17 fps) use the _FireNet_ model (example: ```firenet.py```) which has slightly lesser performance (i.e. lower true positive rate, higher false positive rate). The _InceptionV1-OnFire_ and _InceptionV3-OnFire_ offer alternative performance characteristics in terms of detection, false alarm and throughput - (example: ```inceptionVxOnFire.py -m 1``` or ```inceptionVxOnFire.py -m 3```). For localization of the fire within the image the superpixel model, _SP-InceptionV4-OnFire_ model (example: ```superpixel-inceptionVxOnFire.py -m 4```) offers the best detection performance but at a lower throughput than the alternative, lesser performing _SP-InceptionV1-OnFire_ and _SP-InceptionV3-OnFire_ superpixel models (example: ```superpixel-inceptionVxOnFire.py -m 1``` or ```superpixel-inceptionVxOnFire.py -m 3```). For full comparison see most recent paper - [[Samath, 2019](https://breckon.org/toby/publications/papers/samarth19fire.pdf)]
 
-Training datasets:
+---
+## Fire Detection Datasets:
 
-* The custom dataset used for training and evaluation can be found on [[Durham Collections - Dunnings/Breckon, 2018](https://collections.durham.ac.uk/collections/r1ww72bb497)] and [[Durham Collections - Samarth/Breckon, 2019](https://collections.durham.ac.uk/collections/r2jm214p16f)] (together with the trained network models). A direct download link for the dataset is [[Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536)] and [[Samarth, 2019 - additional data](https://collections.durham.ac.uk/downloads/r10r967374q)].
+The custom dataset used for training and evaluation can be found on [[Durham Collections - Dunnings/Breckon, 2018](https://collections.durham.ac.uk/collections/r1ww72bb497)] and [[Durham Collections - Samarth/Breckon, 2019](https://collections.durham.ac.uk/collections/r2jm214p16f)] (together with the trained network models). A direct download link for the dataset is [[Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536)] and [[Samarth, 2019 - additional data](https://collections.durham.ac.uk/downloads/r10r967374q)].
 
-* In addition, standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation (and are included as a subset within the above datasets for [[Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536)]).
+In addition, standard datasets such as [furg-fire-dataset](https://github.com/steffensbola/furg-fire-dataset) were also used for training and evaluation (and are included as a subset within the above datasets for [[Dunnings, 2018 - original data](https://collections.durham.ac.uk/downloads/r2d217qp536)]).
 
-DOI for datsets - [http://doi.org/10.15128/r2d217qp536](http://doi.org/10.15128/r2d217qp536) and [http://doi.org/10.15128/r10r967374q](http://doi.org/10.15128/r10r967374q).
+* DOI for datsets - [http://doi.org/10.15128/r2d217qp536](http://doi.org/10.15128/r2d217qp536) and [http://doi.org/10.15128/r10r967374q](http://doi.org/10.15128/r10r967374q).
 
 A download script ```download-dataset.sh``` is also provided which will create an additional ```dataset``` directory containing the training dataset (10.5Gb in size, works on Linux/MacOS).
 
@@ -70,6 +71,7 @@ A download script ```download-dataset.sh``` is also provided which will create a
 Original frame (left), Frame after superpixel segmentation (middle), Frame after superpixel fire prediction (right)
 
 ---
+
 ## Instructions to test pre-trained models:
 
 To download and test the supplied code and pre-trained models (with TensorFlow/TFLean/OpenCV installed) do:
@@ -84,7 +86,7 @@ $ python superpixel-inceptionVxOnFire.py -m 1 models/test.mp4
 ```
 
 where ```-m x``` specifies the use of either of the _InceptionV1OnFire, InceptionV3OnFire, InceptionV4OnFire_
-models for for _m = 1, 3, 4_. By default it uses _InceptionV1OnFire_ if ```-m``` is not specified.
+models for ```x``` in ```[1,3,4]```. By default it uses _InceptionV1OnFire_ if ```-m``` is not specified.
 
 ---
 
@@ -99,9 +101,9 @@ $ python firenet-conversion.py
 $ python inceptionVxOnFire-conversion.py -m 1
 ```
 
-This creates a set of six ```.pb``` and ```.tflite``` files inside the ```converter``` directory (```firenet.xxx``` / ```inceptionv1onfire.xxx```/```sp-inceptionv1onfire.xxx``` for ```xxx``` in ```[pb, tflite]```). The ```inceptionVxOnFire-conversion.py``` can be similarly run with ```-m 3``` and ```-m 4``` to generate the same conversions for the InceptionV3OnFire and InceptionV4OnFire models respectively.
+This creates a set of six ```.pb``` and ```.tflite``` files inside the ```converter``` directory (```firenet.xxx``` / ```inceptionv1onfire.xxx```/```sp-inceptionv1onfire.xxx``` for ```xxx``` in ```[pb, tflite]```). The ```inceptionVxOnFire-conversion.py``` can be similarly run with ```-m 3``` and ```-m 4``` to generate the same conversions for the _InceptionV3OnFire_ and _InceptionV4OnFire_ models respectively.
 
- **TODO UPDATE** These files can then be validated  with the [OpenCV](http://www.opencv.org) DNN module (OpenCV > 4.1.0-pre) and [TensorFlow](https://www.tensorflow.org/) against the original (tflearn) from within the same directory, as follows:
+These alternative format files can then be validated  with the [OpenCV](http://www.opencv.org) DNN module (OpenCV > 4.1.0-pre) and [TensorFlow](https://www.tensorflow.org/) against the original (tflearn) version from within the same directory, in order to check that they all produce the same output (up to 5 decimal places) as follows:
 
 ```
 $ python firenet-validation.py
@@ -116,7 +118,7 @@ frame: 3        : TFLearn (original): [[9.999968e-01 3.165212e-06]]     : Tensor
 ...
 ```
 
-This can be similarly repeated with the ```inceptionV1OnFire-validation.py``` and ```sp-inceptionV1OnFire-validation.py``` validation scripts (N.B. here the superpixel inceptionV1OnFire network is being validated against the whole image frame rather than superpixels just for simply showing consistent output between the original and converted models). **TODO UPDATE** 
+This can be similarly repeated with the ```inceptionVxOnFire-validation.py``` scripts with the options ```-m x``` for ```x``` in ```[1,3,4]``` for each of the InceptionVxOnFire models and similarly with the additional option ```-sp``` for each of the superpixel InceptionVxOnFire models (e.g. ```inceptionVxOnFire-validation.py -m 3 -sp``` validates the _InceptionV3OnFire_ superpixel model and so on). N.B. here the superpixel inceptionVxOnFire models are being validated against the whole image frame rather than superpixels just for simply showing consistent output between the original and converted models.
 
 **To convert to to other frameworks** (such as PyTorch, MXNet, Keras, ...) from these tensorflow formats: - please see the extensive deep neural network model conversion tools offered by the [MMdnn](https://github.com/Microsoft/MMdnn) project.
 
@@ -128,7 +130,7 @@ Video Example - click image above to play.
 
 ---
 
-## Reference:
+## References:
 
 If you are making use of this work in any way (including our pre-trained models or datasets), _you must please_ reference the following articles in any report, publication, presentation, software release
 or any other associated materials:
