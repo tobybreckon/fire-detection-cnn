@@ -143,7 +143,7 @@ or any other associated materials:
   month =      {September},
   publisher =  {IEEE},
   doi =        {10.1109/ICIP.2018.8451657},
-  keywords =   {simplified CNN, deep learning, fire detection, real-time, non-temporal, non-stationary visual fire detection, firenet, InceptionV1OnFire},
+  keywords =   {simplified CNN, deep learning, fire detection, real-time, non-temporal, non-stationary visual fire detection, FireNet, InceptionV1OnFire},
 }
 ```
 
