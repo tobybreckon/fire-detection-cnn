@@ -69,7 +69,7 @@ elif (args.model_to_use == 4):
     output_layer_name= 'FullyConnected/Softmax' # output layer of network
     filename = "inceptionv4onfire.pb"           # output pb format filename
 
-convert_to_pb(model, path, input_layer_name,  output_layer_name, filename, verbose=True)
+convert_to_pb(model, path, input_layer_name,  output_layer_name, filename)
 convert_to_tflite(filename, input_layer_name,  output_layer_name)
 
 ################################################################################
