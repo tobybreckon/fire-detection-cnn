@@ -19,6 +19,18 @@ Tested using Python 3.4.6, [TensorFlow 1.13.0](https://www.tensorflow.org/instal
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InceptionV1-OnFire architecture (above)
+![InceptionV1-onFire](https://github.com/tobybreckon/fire-detection-cnn/blob/master/images/InceptionV3-OnFire.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InceptionV3-OnFire architecture (above)
+![InceptionV1-onFire](https://github.com/tobybreckon/fire-detection-cnn/blob/master/images/InceptionV4-OnFire.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InceptionV4-OnFire architecture (above)
 
 ## Abstract:
 
@@ -54,7 +66,13 @@ The superpixel based approach was trained to perform superpixel based fire detec
   * a _SP-InceptionVx-OnFire_ convolutional architecture (for _x = 1, 3, 4 for InceptionV1, InceptionV3, InceptionV4_), trained to detect fire in a given superpixel segment, is used on each superpixel.
   * at run-time (inference), the selected _SP-InceptionVx-OnFire_, network is run on every superpixel from the SLIC segmentation of the image
 
-_Which model should I use ?_ : For the best detection performance (i.e. high true positive rate, low false positive rate) use _InceptionV4-OnFire_ (example: ```inceptionVxOnFire.py -m 4```) which operates at 12 frames per second (fps), for best throughtput (17 fps) use the _FireNet_ model (example: ```firenet.py```) which has slightly lesser performance (i.e. lower true positive rate, higher false positive rate). The _InceptionV1-OnFire_ and _InceptionV3-OnFire_ offer alternative performance characteristics in terms of detection, false alarm and throughput - (example: ```inceptionVxOnFire.py -m 1``` or ```inceptionVxOnFire.py -m 3```). For localization of the fire within the image the superpixel model, _SP-InceptionV4-OnFire_ model (example: ```superpixel-inceptionVxOnFire.py -m 4```) offers the best detection performance but at a lower throughput than the alternative, lesser performing _SP-InceptionV1-OnFire_ and _SP-InceptionV3-OnFire_ superpixel models (example: ```superpixel-inceptionVxOnFire.py -m 1``` or ```superpixel-inceptionVxOnFire.py -m 3```). For full comparison see most recent paper - [[Samath, 2019](https://breckon.org/toby/publications/papers/samarth19fire.pdf)]
+#### _Which model should I use ?_
+
+For the **best detection performance (i.e. high true positive rate, low false positive rate) use _InceptionV4-OnFire_** (example: ```inceptionVxOnFire.py -m 4```) which operates at 12 frames per second (fps), for **best throughtput (17 fps) use _FireNet_** (example: ```firenet.py```) which has slightly lesser performance (i.e. lower true positive rate, higher false positive rate).
+
+The _InceptionV1-OnFire_ and _InceptionV3-OnFire_ offer alternative performance characteristics in terms of detection, false alarm and throughput - (example: ```inceptionVxOnFire.py -m 1``` or ```inceptionVxOnFire.py -m 3```).
+
+The **_SP-InceptionV4-OnFire_ model offers the best superpixel localization detection performance** of the fire within the image (example: ```superpixel-inceptionVxOnFire.py -m 4```) but at a lower throughput than the alternative, lesser detection performing _SP-InceptionV1-OnFire_ and _SP-InceptionV3-OnFire_ superpixel models (example: ```superpixel-inceptionVxOnFire.py -m 1``` or ```superpixel-inceptionVxOnFire.py -m 3```). For full comparison see most recent paper - [[Samath, 2019](https://breckon.org/toby/publications/papers/samarth19fire.pdf)]
 
 ---
 ## Fire Detection Datasets:
