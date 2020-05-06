@@ -1,6 +1,6 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
-[and subsequently follow on work: _Experimental Exploration of Compact Convolutional Neural Network Architectures
+[and subsequent follow on work: _Experimental Exploration of Compact Convolutional Neural Network Architectures
 forNon-temporal Real-time Fire Detection_]
 
 Tested using Python 3.4.6, [TensorFlow 1.13.0](https://www.tensorflow.org/install/), [tflearn 0.3](http://tflearn.org/) and [OpenCV 3.3.1 / 4.x](http://www.opencv.org)
@@ -59,7 +59,7 @@ Put simply, our full-frame binary detection (_FireNet, InceptionV1-OnFire, Incep
 
 This respository contains the ```firenet.py``` and ```inceptionVxOnFire.py``` files corresponding to the binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionVxOnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper(s).
 
- To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data (on Linux/MacOS). Alternatively, you can manually download the pre-trained network models from [http://dx.doi.org/10.15128/r19880vq98m](http://dx.doi.org/10.15128/r19880vq98m) [Dunnings, 2018] + [http://doi.org/10.15128/r25x21tf409](http://doi.org/10.15128/r25x21tf409) [Samarth, 2018] and unzip them to a directory called  ```models``` in the same place as the python files.
+ To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data (on Linux/MacOS). Alternatively, you can manually download the pre-trained network models from [http://dx.doi.org/10.15128/r19880vq98m](http://dx.doi.org/10.15128/r19880vq98m) [Dunnings, 2018] + [http://doi.org/10.15128/r25x21tf409](http://doi.org/10.15128/r25x21tf409) [Samarth, 2019] and unzip them to a directory called  ```models``` in the same place as the python files.
 
 The superpixel based approach was trained to perform superpixel based fire detection and localization within a given frame as follows:
   * image frame is split into segments using SLIC superpixel segmentation
