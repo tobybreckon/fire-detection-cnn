@@ -3,7 +3,7 @@
 [and subsequent follow on work: _Experimental Exploration of Compact Convolutional Neural Network Architectures
 forNon-temporal Real-time Fire Detection_]
 
-Tested using Python 3.4.6, [TensorFlow 1.13.0](https://www.tensorflow.org/install/), [tflearn 0.3](http://tflearn.org/) and [OpenCV 3.3.1 / 4.x](http://www.opencv.org)
+Tested using Python 3.4.6, [TensorFlow 1.14.0](https://www.tensorflow.org/install/), [tflearn 0.3](http://tflearn.org/) and [OpenCV 3.3.1 / 4.x](http://www.opencv.org)
 (requires opencv extra modules - ximgproc module for superpixel segmentation)
 
 ## Architectures:
@@ -74,6 +74,8 @@ The _InceptionV1-OnFire_ and _InceptionV3-OnFire_ offer alternative performance 
 
 The **_SP-InceptionV4-OnFire_ model offers the best superpixel localization detection performance** of the fire within the image (example: ```superpixel-inceptionVxOnFire.py -m 4```) but at a lower throughput than the alternative, lesser detection performing _SP-InceptionV1-OnFire_ and _SP-InceptionV3-OnFire_ superpixel models (example: ```superpixel-inceptionVxOnFire.py -m 1``` or ```superpixel-inceptionVxOnFire.py -m 3```). For full comparison see most recent paper - [[Samath, 2019](https://breckon.org/toby/publications/papers/samarth19fire.pdf)]
 
+_Caveat:_ **if you need to convert the models** to protocol buffer (.pb) format (used by [OpenCV](http://www.opencv.org) DNN, [TensorFlow](https://www.tensorflow.org/), ...) and also tflite (used with [TensorFlow](https://www.tensorflow.org/)) then use the **_FireNet_** or **_InceptionV1-OnFire_ / _SP-InceptionV1-OnFire_** versions at the moment as, due to a long-standing [issue](https://github.com/tensorflow/tensorflow/issues/3628) in TensorFlow with the export (freezing) of the Batch Normalization layers, the protocol buffer (.pb) format and .tflite versions of the _...V3-OnFire_ and _...V4-OnFire_ have significantly lesser performance it appears.
+
 ---
 ## Fire Detection Datasets:
 
@@ -121,7 +123,7 @@ $ python inceptionVxOnFire-conversion.py -m 1
 
 This creates a set of six ```.pb``` and ```.tflite``` files inside the ```converter``` directory (```firenet.xxx``` / ```inceptionv1onfire.xxx```/```sp-inceptionv1onfire.xxx``` for ```xxx``` in ```[pb, tflite]```). The ```inceptionVxOnFire-conversion.py``` can be similarly run with ```-m 3``` and ```-m 4``` to generate the same conversions for the _InceptionV3OnFire_ and _InceptionV4OnFire_ models respectively.
 
-These alternative format files can then be validated  with the [OpenCV](http://www.opencv.org) DNN module (OpenCV > 4.1.0-pre) and [TensorFlow](https://www.tensorflow.org/) against the original (tflearn) version from within the same directory, in order to check that they all produce the same output (up to 5 decimal places) as follows:
+These alternative format files can then be validated  with the [OpenCV](http://www.opencv.org) DNN module (OpenCV > 4.1.0-pre) and [TensorFlow](https://www.tensorflow.org/) against the original (tflearn) version from within the same directory, in order to check that they all produce the same output (up to 3 decimal places) as follows:
 
 ```
 $ python firenet-validation.py
@@ -136,7 +138,7 @@ frame: 3        : TFLearn (original): [[9.999968e-01 3.165212e-06]]     : Tensor
 ...
 ```
 
-This can be similarly repeated with the ```inceptionVxOnFire-validation.py``` scripts with the options ```-m x``` for ```x``` in ```[1,3,4]``` for each of the InceptionVxOnFire models and similarly with the additional option ```-sp``` for each of the superpixel InceptionVxOnFire models (e.g. ```inceptionVxOnFire-validation.py -m 3 -sp``` validates the _InceptionV3OnFire_ superpixel model and so on). N.B. here the superpixel inceptionVxOnFire models are being validated against the whole image frame rather than superpixels just for simply showing consistent output between the original and converted models.
+This can be similarly repeated with the ```inceptionVxOnFire-validation.py``` scripts with the options ```-m x``` for ```x``` in ```[1,3,4]``` for each of the InceptionVxOnFire models and similarly with the additional option ```-sp``` for each of the superpixel InceptionVxOnFire models (e.g. ```inceptionVxOnFire-validation.py -m 3 -sp``` validates the _InceptionV3OnFire_ superpixel model and so on). N.B. here the superpixel inceptionVxOnFire models are being validated against the whole image frame rather than superpixels just for simply showing consistent output between the original and converted models. Some ```FAIL```cases will be reported against this strict 3 decimal place criteria, but inspection often reveals a mildly larger ~0.1 difference (with the exception of the _...V3-OnFire_ and _...V4-OnFire_ caveat discussed above).
 
 **To convert to to other frameworks** (such as PyTorch, MXNet, Keras, ...) from these tensorflow formats: - please see the extensive deep neural network model conversion tools offered by the [MMdnn](https://github.com/Microsoft/MMdnn) project.
 
