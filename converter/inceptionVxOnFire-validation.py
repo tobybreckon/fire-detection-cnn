@@ -24,7 +24,7 @@ from tflearn.layers.estimator import regression
 
 ################################################################################
 
-VALIDATE_TO_PRECISION_N = 5
+VALIDATE_TO_PRECISION_N = 3
 
 ################################################################################
 
@@ -36,6 +36,8 @@ from inceptionVxOnFire import construct_inceptionv1onfire, construct_inceptionv3
 parser = argparse.ArgumentParser(description='Perform InceptionV1/V3/V4 model validation')
 parser.add_argument("-m", "--model_to_use", type=int, help="specify model to use", default=1, choices={1, 3, 4})
 parser.add_argument("-sp", "--superpixel_model", action='store_true', help="use superpixel version  of model")
+parser.add_argument("-i", "--input_video", type=str, help="specify test video to use", default="../models/test.mp4")
+parser.add_argument("-d", "--display", action='store_true', help="use superpixel version  of model")
 args = parser.parse_args()
 
 ################################################################################
@@ -51,23 +53,25 @@ if (args.model_to_use == 1):
 
     # use InceptionV1-OnFire CNN model - [Dunning/Breckon, 2018]
 
-    model_tflearn = construct_inceptionv1onfire (224, 224, False)
+    model_tflearn = construct_inceptionv1onfire (224, 224, training=False)
     print("[INFO] Constructed " + pre_string + "InceptionV1-OnFire ...")
     path = "../models/" + pre_string + "InceptionV1-OnFire/" + pre_string.lower() + "inceptiononv1onfire"; # path to tflearn checkpoint including filestem
 
 elif (args.model_to_use == 3):
 
     # use InceptionV3-OnFire CNN model -  [Samarth/Bhowmik/Breckon, 2019]
+    # N.B. here we enable batch norm as this is for the TFLearn model only, which needs it activated to work
 
-    model_tflearn = construct_inceptionv3onfire (224, 224, False)
+    model_tflearn = construct_inceptionv3onfire (224, 224, training=False, enable_batch_norm=True)
     print("[INFO] Constructed " + pre_string + "InceptionV3-OnFire ...")
     path = "../models/" + pre_string + "InceptionV3-OnFire/" + pre_string.lower() + "inceptionv3onfire"; # path to tflearn checkpoint including filestem
 
 elif (args.model_to_use == 4):
 
     # use InceptionV4-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
+    # N.B. here we enable batch norm as this is for the TFLearn model only, which needs it activated to work
 
-    model_tflearn = construct_inceptionv4onfire (224, 224, False)
+    model_tflearn = construct_inceptionv4onfire (224, 224, training=False, enable_batch_norm=True)
     print("[INFO] Constructed " + pre_string + "InceptionV4-OnFire ...")
     path = "../models/" + pre_string + "InceptionV4-OnFire/" + pre_string.lower() + "inceptionv4onfire"; # path to tflearn checkpoint including filestem
 
@@ -76,7 +80,10 @@ elif (args.model_to_use == 4):
 # tflearn - load model
 
 print("Load tflearn model from: " + path + " ...", end = '')
-model_tflearn.load(path,weights_only=True)
+
+# only use wieghts_only for V1 model, due to use of batch norm
+model_tflearn.load(path,weights_only=(args.model_to_use == 1))
+
 print("OK")
 
 ################################################################################
@@ -109,8 +116,8 @@ tflife_output_details = tflife_model.get_output_details()
 
 # load video file
 
-video = cv2.VideoCapture("../models/test.mp4")
-print("Load test video from ../models/test.mp4 ...")
+video = cv2.VideoCapture(args.input_video)
+print("Load test video from " + args.input_video + " ...")
 
 # get video properties
 
@@ -128,6 +135,10 @@ while (True):
     if not ret:
         print("... end of video file reached")
         break
+
+    if (args.display):
+        cv2.imshow("Validation Image", frame)
+        cv2.waitKey(40)
 
     print("frame: " + str(frame_counter),  end = '')
     frame_counter = frame_counter + 1
@@ -167,7 +178,7 @@ while (True):
 
     try:
         np.testing.assert_almost_equal(output_tflearn, output_tensorflow_pb, VALIDATE_TO_PRECISION_N)
-        np.testing.assert_almost_equal(output_tflearn, output_tflite, 3)
+        np.testing.assert_almost_equal(output_tflearn, output_tflite, VALIDATE_TO_PRECISION_N)
         print(": all equal test - PASS")
     except AssertionError:
         print(" all equal test - FAIL")

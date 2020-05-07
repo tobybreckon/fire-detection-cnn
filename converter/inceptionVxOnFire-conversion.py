@@ -48,8 +48,10 @@ if (args.model_to_use == 1):
 elif (args.model_to_use == 3):
 
     # use InceptionV3-OnFire CNN model -  [Samarth/Bhowmik/Breckon, 2019]
+    # N.B. for conversion to .pb + .tflite format we disable batch norm, which is a hack but seems to work
+    # (if we don't then this issue occurs - https://github.com/tensorflow/tensorflow/issues/3628)
 
-    model = construct_inceptionv3onfire (224, 224, False)
+    model = construct_inceptionv3onfire (224, 224, training=False, enable_batch_norm=False)
     print("[INFO] Constructed InceptionV3-OnFire (binary, full-frame)...")
 
     path = "../models/InceptionV3-OnFire/inceptionv3onfire"; # path to tflearn checkpoint including filestem
@@ -60,8 +62,10 @@ elif (args.model_to_use == 3):
 elif (args.model_to_use == 4):
 
     # use InceptionV4-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
+    # N.B. for conversion to .pb + .tflite format we disable batch norm, which is a hack but seems to work
+    # (if we don't then this issue occurs - https://github.com/tensorflow/tensorflow/issues/3628)
 
-    model = construct_inceptionv4onfire (224, 224, False)
+    model = construct_inceptionv4onfire (224, 224, training=False, enable_batch_norm=False)
     print("[INFO] Constructed InceptionV4-OnFire (binary, full-frame)...")
 
     path = "../models/InceptionV4-OnFire/inceptionv4onfire"; # path to tflearn checkpoint including filestem
@@ -97,8 +101,10 @@ if (args.model_to_use == 1):
 elif (args.model_to_use == 3):
 
     # use InceptionV3-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
+    # N.B. for conversion to .pb + .tflite format we disable batch norm, which is a hack but seems to work
+    # (if we don't then this issue occurs - https://github.com/tensorflow/tensorflow/issues/3628)
 
-    model_sp = construct_inceptionv3onfire (224, 224, False)
+    model_sp = construct_inceptionv3onfire (224, 224, training=False, enable_batch_norm=False)
     print("[INFO] Constructed InceptionV3-OnFire (superpixel)...")
 
     input_layer_name = 'InputData/X'            # input layer of network
@@ -109,8 +115,10 @@ elif (args.model_to_use == 3):
 elif (args.model_to_use == 4):
 
     # use InceptionV4-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
+    # N.B. for conversion to .pb + .tflite format we disable batch norm, which is a hack but seems to work
+    # (if we don't then this issue occurs - https://github.com/tensorflow/tensorflow/issues/3628)
 
-    model_sp = construct_inceptionv4onfire (224, 224, False)
+    model_sp = construct_inceptionv4onfire (224, 224, training=False, enable_batch_norm=False)
     print("[INFO] Constructed InceptionV4-OnFire (superpixel)...")
 
     input_layer_name = 'InputData/X'            # input layer of network
