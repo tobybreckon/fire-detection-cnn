@@ -98,7 +98,7 @@ def construct_inceptionv1onfire (x,y, training=False):
 
 ################################################################################
 
-def construct_inceptionv3onfire(x,y, training=False):
+def construct_inceptionv3onfire(x,y, training=False, enable_batch_norm=True):
 
     # build network as per architecture
 
@@ -109,7 +109,8 @@ def construct_inceptionv3onfire(x,y, training=False):
     conv3_3_3 = conv_2d(conv2_3_3, 64, 3, strides=2, activation='relu', name = 'conv3_3_3')
 
     pool1_3_3 = max_pool_2d(conv3_3_3, 3,strides=2)
-    pool1_3_3 = batch_normalization(pool1_3_3)
+    if enable_batch_norm:
+        pool1_3_3 = batch_normalization(pool1_3_3)
     conv1_7_7 = conv_2d(pool1_3_3, 80,3, strides=1, activation='relu', name='conv2_7_7_s2',padding='valid')
     conv2_7_7 = conv_2d(conv1_7_7, 96,3, strides=1, activation='relu', name='conv2_7_7_s2',padding='valid')
     pool2_3_3= max_pool_2d(conv2_7_7,3,strides=2)
@@ -320,7 +321,7 @@ def inception_block_c(input_c):
 
 ################################################################################
 
-def construct_inceptionv4onfire(x,y, training=True):
+def construct_inceptionv4onfire(x,y, training=True, enable_batch_norm=True):
 
     network = input_data(shape=[None, y, x, 3])
 
@@ -330,7 +331,8 @@ def construct_inceptionv4onfire(x,y, training=True):
     conv2_3_3 = conv_2d(conv1_3_3,32,3,activation='relu',name='conv2_3_3')
     conv3_3_3 = conv_2d(conv2_3_3,64,3,activation='relu',name='conv3_3_3')
     b_conv_1_pool = max_pool_2d(conv3_3_3,kernel_size=3,strides=2,padding='valid',name='b_conv_1_pool')
-    b_conv_1_pool = batch_normalization(b_conv_1_pool)
+    if enable_batch_norm:
+        b_conv_1_pool = batch_normalization(b_conv_1_pool)
     b_conv_1_conv = conv_2d(conv3_3_3,96,3,strides=2,padding='valid',activation='relu',name='b_conv_1_conv')
     b_conv_1 = merge([b_conv_1_conv,b_conv_1_pool],mode='concat',axis=3)
 
@@ -345,7 +347,8 @@ def construct_inceptionv4onfire(x,y, training=True):
 
     b_conv5_3_3 = conv_2d(b_conv_4,192,3,padding='valid',activation='relu',name='b_conv5_3_3',strides=2)
     b_pool5_3_3 = max_pool_2d(b_conv_4,kernel_size=3,padding='valid',strides=2,name='b_pool5_3_3')
-    b_pool5_3_3 = batch_normalization(b_pool5_3_3)
+    if enable_batch_norm:
+        b_pool5_3_3 = batch_normalization(b_pool5_3_3)
     b_conv_5 = merge([b_conv5_3_3,b_pool5_3_3],mode='concat',axis=3)
     net = b_conv_5
 
