@@ -98,16 +98,18 @@ if (args.model_to_use == 1):
 elif (args.model_to_use == 3):
 
     # use InceptionV3-OnFire CNN model -  [Samarth/Bhowmik/Breckon, 2019]
+    # N.B. weights_only=False as we are using Batch Normalization, and need those weights loaded also
 
     model = construct_inceptionv3onfire (224, 224, training=False)
-    model.load(os.path.join("models/SP-InceptionV3-OnFire", "sp-inceptionv3onfire"),weights_only=True)
+    model.load(os.path.join("models/SP-InceptionV3-OnFire", "sp-inceptionv3onfire"),weights_only=False)
 
 elif (args.model_to_use == 4):
 
     # use InceptionV4-OnFire CNN model -  [Samarth/Bhowmik/Breckon, 2019]
+    # N.B. weights_only=False as we are using Batch Normalization, and need those weights loaded also
 
     model = construct_inceptionv4onfire (224, 224, training=False)
-    model.load(os.path.join("models/SP-InceptionV4-OnFire", "sp-inceptionv4onfire"),weights_only=True)
+    model.load(os.path.join("models/SP-InceptionV4-OnFire", "sp-inceptionv4onfire"),weights_only=False)
 
 print("Loaded CNN network weights ...")
 

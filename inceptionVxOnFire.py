@@ -109,8 +109,7 @@ def construct_inceptionv3onfire(x,y, training=False):
     conv3_3_3 = conv_2d(conv2_3_3, 64, 3, strides=2, activation='relu', name = 'conv3_3_3')
 
     pool1_3_3 = max_pool_2d(conv3_3_3, 3,strides=2)
-    if(training):
-        pool1_3_3 = batch_normalization(pool1_3_3)
+    pool1_3_3 = batch_normalization(pool1_3_3)
     conv1_7_7 = conv_2d(pool1_3_3, 80,3, strides=1, activation='relu', name='conv2_7_7_s2',padding='valid')
     conv2_7_7 = conv_2d(conv1_7_7, 96,3, strides=1, activation='relu', name='conv2_7_7_s2',padding='valid')
     pool2_3_3= max_pool_2d(conv2_7_7,3,strides=2)
@@ -331,8 +330,7 @@ def construct_inceptionv4onfire(x,y, training=True):
     conv2_3_3 = conv_2d(conv1_3_3,32,3,activation='relu',name='conv2_3_3')
     conv3_3_3 = conv_2d(conv2_3_3,64,3,activation='relu',name='conv3_3_3')
     b_conv_1_pool = max_pool_2d(conv3_3_3,kernel_size=3,strides=2,padding='valid',name='b_conv_1_pool')
-    if(training):
-        b_conv_1_pool = batch_normalization(b_conv_1_pool)
+    b_conv_1_pool = batch_normalization(b_conv_1_pool)
     b_conv_1_conv = conv_2d(conv3_3_3,96,3,strides=2,padding='valid',activation='relu',name='b_conv_1_conv')
     b_conv_1 = merge([b_conv_1_conv,b_conv_1_pool],mode='concat',axis=3)
 
@@ -347,8 +345,7 @@ def construct_inceptionv4onfire(x,y, training=True):
 
     b_conv5_3_3 = conv_2d(b_conv_4,192,3,padding='valid',activation='relu',name='b_conv5_3_3',strides=2)
     b_pool5_3_3 = max_pool_2d(b_conv_4,kernel_size=3,padding='valid',strides=2,name='b_pool5_3_3')
-    if(training):
-        b_pool5_3_3 = batch_normalization(b_pool5_3_3)
+    b_pool5_3_3 = batch_normalization(b_pool5_3_3)
     b_conv_5 = merge([b_conv5_3_3,b_pool5_3_3],mode='concat',axis=3)
     net = b_conv_5
 
@@ -407,16 +404,18 @@ if __name__ == '__main__':
     elif (args.model_to_use == 3):
 
         # use InceptionV3-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
+        # N.B. weights_only=False as we are using Batch Normalization, and need those weights loaded also
 
         model = construct_inceptionv3onfire (224, 224, training=False)
-        model.load(os.path.join("models/InceptionV3-OnFire", "inceptionv3onfire"),weights_only=True)
+        model.load(os.path.join("models/InceptionV3-OnFire", "inceptionv3onfire"),weights_only=False)
 
     elif (args.model_to_use == 4):
 
         # use InceptionV4-OnFire CNN model - [Samarth/Bhowmik/Breckon, 2019]
+        # N.B. weights_only=False as we are using Batch Normalization, and need those weights loaded also
 
         model = construct_inceptionv4onfire (224, 224, training=False)
-        model.load(os.path.join("models/InceptionV4-OnFire", "inceptionv4onfire"),weights_only=True)
+        model.load(os.path.join("models/InceptionV4-OnFire", "inceptionv4onfire"),weights_only=False)
 
     print("Loaded CNN network weights ...")
 
