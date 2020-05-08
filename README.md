@@ -57,7 +57,7 @@ _".... Contrary to contemporary trends in the field, our work illustrates a   ma
 ## Reference implementation:
 Put simply, our full-frame binary detection (_FireNet, InceptionV1-OnFire, InceptionV3-OnFire, InceptionV4-OnFire_) architectures determine whether an image frame contains fire globally, whereas the superpixel based approaches (_SP-InceptionV1-OnFire, SP-InceptionV3-OnFire, SP-InceptionV4-OnFire_) breaks down the frame into segments and performs classification on each superpixel segment to provide in-frame localization.
 
-This respository contains the ```firenet.py``` and ```inceptionVxOnFire.py``` files corresponding to the binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionVxOnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper(s).
+This respository contains the ```firenet.py``` and ```inceptionVxOnFire.py``` files corresponding to the binary (full-frame) detection models from the paper(s). In addition the ```superpixel-inceptionVxOnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper(s).
 
  To use these scripts the pre-trained network models must be downloaded using the shell script ```download-models.sh``` which will create an additional ```models``` directory containing the network weight data (on Linux/MacOS). Alternatively, you can manually download the pre-trained network models from [http://dx.doi.org/10.15128/r19880vq98m](http://dx.doi.org/10.15128/r19880vq98m) [Dunnings, 2018] + [http://doi.org/10.15128/r25x21tf409](http://doi.org/10.15128/r25x21tf409) [Samarth, 2019] and unzip them to a directory called  ```models``` in the same place as the python files.
 
