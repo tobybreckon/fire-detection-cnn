@@ -55,7 +55,7 @@ _".... Contrary to contemporary trends in the field, our work illustrates a   ma
 ---
 
 ## Reference implementation:
-Put simply, our full-frame binary detection (_FireNet, InceptionV1-OnFire, InceptionV3-OnFire, InceptionV4-OnFire_) architectures determine whether an image frame contains fire globally, whereas the superpixel based approaches (_SP-InceptionV1-OnFire, SP-InceptionV3-OnFire, SP-InceptionV4-OnFire_)) breaks down the frame into segments and performs classification on each superpixel segment to provide in-frame localization.
+Put simply, our full-frame binary detection (_FireNet, InceptionV1-OnFire, InceptionV3-OnFire, InceptionV4-OnFire_) architectures determine whether an image frame contains fire globally, whereas the superpixel based approaches (_SP-InceptionV1-OnFire, SP-InceptionV3-OnFire, SP-InceptionV4-OnFire_) breaks down the frame into segments and performs classification on each superpixel segment to provide in-frame localization.
 
 This respository contains the ```firenet.py``` and ```inceptionVxOnFire.py``` files corresponding to the binary (full-frame) detection models from the paper. In addition the ```superpixel-inceptionVxOnFire.py``` file corresponds to the superpixel based in-frame fire localization from the paper(s).
 
@@ -187,7 +187,7 @@ or any other associated materials:
 }
 ```
 
-In addition the terms of the [LICENSE](LICENSE) must be adhered to.
+In addition the (very permissive) terms of the [LICENSE](LICENSE) must be adhered to.
 
 ### Acknowledgements:
 
