@@ -130,6 +130,12 @@ if __name__ == '__main__':
             # re-size image to network input size and perform prediction
 
             small_frame = cv2.resize(frame, (rows, cols), cv2.INTER_AREA)
+
+            # perform prediction on the image frame which is:
+            # - an image (tensor) of dimension 224 x 224 x 3
+            # - a 3 channel colour image with channel ordering BGR (not RGB)
+            # - un-normalised (i.e. pixel range going into network is 0->255)
+
             output = model.predict([small_frame])
 
             # label image based on prediction
