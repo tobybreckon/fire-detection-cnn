@@ -94,7 +94,7 @@ Original frame (left), Frame after superpixel segmentation (middle), Frame after
 
 ## Instructions to test pre-trained models:
 
-To download and test the supplied code and pre-trained models (with TensorFlow/TFLean/OpenCV installed) do:
+To download and test the supplied code and pre-trained models (with **TensorFlow 1.x / TFLean 0.32 / OpenCV 4.x** installed) do:
 
 ```
 $ git clone https://github.com/tobybreckon/fire-detection-cnn.git
@@ -107,6 +107,19 @@ $ python superpixel-inceptionVxOnFire.py -m 1 models/test.mp4
 
 where ```-m x``` specifies the use of either of the _InceptionV1OnFire, InceptionV3OnFire, InceptionV4OnFire_
 models for ```x``` in ```[1,3,4]```. By default it uses _InceptionV1OnFire_ if ```-m``` is not specified.
+
+
+If by default you have **TensorFlow 2.x** installed on your system, then a workflow to make this repo work on your system is via a Tensorflow 1.x virtual environment (as TFLearn is not supported in TensorFlow 2.0 - this [issue](https://github.com/tflearn/tflearn/issues/1121)) is as follows:
+
+```
+$ virtualenv -p python3 ~/venv/tf-1.1.5-gpu
+$ source ~/venv/tf-1.1.5-gpu/bin/activate
+$ pip install tensorflow-gpu==1.15
+$ pip install tflearn
+$ pip install opencv-contrib-python
+....
+$ python3 firenet.py models/test.mp4
+```
 
 ---
 
