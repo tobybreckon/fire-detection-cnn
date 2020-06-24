@@ -1,7 +1,7 @@
 # Experimentally Defined Convolutional Neural Network Architecture Variants for Non-temporal Real-time Fire Detection
 
 [and subsequent follow on work: _Experimental Exploration of Compact Convolutional Neural Network Architectures
-forNon-temporal Real-time Fire Detection_]
+for Non-temporal Real-time Fire Detection_]
 
 ![Python Build/Test](https://github.com/tobybreckon/fire-detection-cnn/workflows/Python%20Build/Test/badge.svg) Tested using Python 3.7.x, [TensorFlow 1.15](https://www.tensorflow.org/install/), [tflearn 0.32](http://tflearn.org/) and [OpenCV 3.x / 4.x](http://www.opencv.org) (requires opencv extra modules - ximgproc module for superpixel segmentation)
 
