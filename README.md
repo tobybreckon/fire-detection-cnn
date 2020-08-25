@@ -93,7 +93,7 @@ Original frame (left), Frame after superpixel segmentation (middle), Frame after
 
 ## Instructions to test pre-trained models:
 
-To download and test the supplied code and pre-trained models (with **TensorFlow 1.x / TFLean 0.32 / OpenCV 4.x** installed) do:
+To download and test the supplied code and pre-trained models (with **TensorFlow 1.x / TFLearn 0.3.2 / OpenCV 4.x** installed) do:
 
 ```
 $ git clone https://github.com/tobybreckon/fire-detection-cnn.git
