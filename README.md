@@ -32,7 +32,7 @@ for Non-temporal Real-time Fire Detection_]
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InceptionV4-OnFire architecture (above)
 
 
-## New Updated Architecture and Pytorch Models for Fire Detection available ![HERE](https://github.com/NeelBhowmik/efficient-compact-fire-detection-cnn)
+## New Updated Architecture and Pytorch Models for Fire Detection available -- ![HERE](https://github.com/NeelBhowmik/efficient-compact-fire-detection-cnn)
 
 ## Abstract:
 
